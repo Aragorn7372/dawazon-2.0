@@ -38,6 +38,7 @@ public class Cart
         }
         return (long)(DateTime.UtcNow - CheckoutStartedAt.Value).TotalMinutes;
     }
+
     
 
 }
