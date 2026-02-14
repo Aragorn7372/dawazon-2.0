@@ -11,7 +11,7 @@ public interface ICartRepository
 
     Task<bool> AddCartLineAsync(string cartId, CartLine cartLine);
     
-    Task<long> RemoveCartLineAsync(string cartId, CartLine cartLine);
+    Task<bool> RemoveCartLineAsync(string cartId, CartLine cartLine);
     
     Task<Models.Cart?> FindByUserIdAndPurchasedAsync(long userId, bool purchased);
     
@@ -19,7 +19,7 @@ public interface ICartRepository
     
     Task<Models.Cart> CreateCartAsync(Models.Cart cart);
     
-    Task<Models.Cart> UpdateCartAsync(string id, Models.Cart cart);
+    Task<Models.Cart?> UpdateCartAsync(string id, Models.Cart cart);
     
     Task DeleteCartAsync(string id);
 }
