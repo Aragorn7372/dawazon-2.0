@@ -1,6 +1,8 @@
-﻿using dawazonBackend.Cart.Dto;
+﻿using System.Linq.Expressions;
+using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Models;
 using dawazonBackend.Common.Database;
+using dawazonBackend.Products.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace dawazonBackend.Cart.Repository;
@@ -52,33 +54,83 @@ public class CartRepository(
         return true;
     }
 
-    public Task<long> RemoveCartLineAsync(string cartId, CartLine cartLine)
+    public async Task<bool> RemoveCartLineAsync(string cartId, CartLine cartLine)
     {
-        throw new NotImplementedException();
+        logger.LogInformation($"Deletando linea de carrito {cartId}");
+        var cart = await context.Carts.Include(c => c.CartLines)
+            .FirstOrDefaultAsync(c => c.Id == cartId);
+        if(cart == null) return false;
+        cart.CartLines.Remove(cartLine);
+        context.Carts.Update(cart);
+        await context.SaveChangesAsync();
+        return true;
     }
 
-    public Task<Models.Cart?> FindByUserIdAndPurchasedAsync(long userId, bool purchased)
+    public async Task<Models.Cart?> FindByUserIdAndPurchasedAsync(long userId, bool purchased)
     {
-        throw new NotImplementedException();
+        logger.LogInformation($"bucando carrito con  ID: {userId} y estatus {purchased}");
+        return await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
+            .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.UserId == userId && c.Purchased == purchased);
     }
 
-    public Task<Models.Cart?> FindCartByIdAsync(string cartId)
+    public async Task<Models.Cart?> FindCartByIdAsync(string cartId)
     {
-        throw new NotImplementedException();
+        logger.LogInformation($"cartId: {cartId}");
+        return await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
+            .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.Id == cartId);
     }
 
-    public Task<Models.Cart> CreateCartAsync(Models.Cart cart)
+    public async Task<Models.Cart> CreateCartAsync(Models.Cart cart)
     {
-        throw new NotImplementedException();
+        logger.LogInformation($"creando carrito");
+        var saved=await context.Carts.AddAsync(cart);
+        await context.SaveChangesAsync();
+        await context.Carts.Entry(cart).Reference(c=> c.Client).LoadAsync();
+        await context.Carts.Entry(cart).Collection(c => c.CartLines).LoadAsync();
+        await context.Entry(cart.Client).Reference(cl => cl.Address).LoadAsync();
+        return saved.Entity;
     }
 
-    public Task<Models.Cart> UpdateCartAsync(string id, Models.Cart cart)
+    public async Task<Models.Cart?> UpdateCartAsync(string id, Models.Cart cart)
     {
-        throw new NotImplementedException();
+        var oldCart = await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
+            .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.Id == id);
+        if (oldCart == null) return null;
+        oldCart.Client=cart.Client;
+        oldCart.CartLines=cart.CartLines;
+        oldCart.Total=cart.Total;
+        oldCart.TotalItems=cart.TotalItems;
+        oldCart.Purchased=cart.Purchased;
+        oldCart.CheckoutInProgress=cart.CheckoutInProgress;
+        oldCart.CheckoutStartedAt=cart.CheckoutStartedAt;
+        oldCart.UploadAt= DateTime.UtcNow;
+        var saved=context.Carts.Update(oldCart);
+        await context.SaveChangesAsync();
+        return saved.Entity;
     }
 
-    public Task DeleteCartAsync(string id)
+    public async Task DeleteCartAsync(string id)
     {
-        throw new NotImplementedException();
+        var cart = await context.Carts.FindAsync(id);
+
+        if (cart == null)
+            throw new Exception("No se encontro carrito");
+
+        context.Carts.Remove(cart);
+
+        await context.SaveChangesAsync();
+    }
+    private static IQueryable<Models.Cart> ApplySorting(IQueryable<Models.Cart> query, string sortBy, string direction)
+    {
+        var isDescending = direction.Equals("desc", StringComparison.OrdinalIgnoreCase);
+        Expression<Func<Models.Cart,object>> keySelector = sortBy.ToLower() switch
+        {
+            "Comprado" => p => p.Purchased,
+            "precio" => p => p.Total,
+            "createdat" => p => p.CreatedAt,
+            "ultima modificacion" => p => p.UploadAt,
+            _ => p => p.Id!
+        };
+        return isDescending ? query.OrderByDescending(keySelector) : query.OrderBy(keySelector);
     }
 }
