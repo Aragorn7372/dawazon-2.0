@@ -1,4 +1,5 @@
 ﻿using dawazonBackend.Products.Models;
+using dawazonBackend.Cart.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace dawazonBackend.Common.Database;
@@ -51,6 +52,9 @@ public class DawazonDbContext : DbContext
         modelBuilder.Entity<Product>()
             .Property(p => p.Version)
             .IsConcurrencyToken();
+
+        modelBuilder.Entity<Cart>()
+            .OwnsMany(c =>  c.CartLines)
     }
     
     
