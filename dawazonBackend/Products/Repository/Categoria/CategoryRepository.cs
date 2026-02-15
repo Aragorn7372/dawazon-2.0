@@ -17,4 +17,11 @@ public class CategoryRepository(ILogger<CategoryRepository> logger,DawazonDbCont
         logger.LogDebug($"Getting categorie with id {id}");
         return await db.Categorias.FirstOrDefaultAsync(c => c.Id == id);
     }
+    
+    public async Task<Category?> GetByNameAsync(string name)
+    {
+        logger.LogDebug($"Getting category by name: {name}");
+        return await db.Categorias
+            .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
+    }
 }
