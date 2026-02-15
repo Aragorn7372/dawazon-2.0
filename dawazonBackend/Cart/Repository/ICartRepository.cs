@@ -5,7 +5,7 @@ namespace dawazonBackend.Cart.Repository;
 
 public interface ICartRepository
 {
-    Task<IEnumerable<Models.Cart>> GetAllAsync(FilterCartDto filter);
+    Task<(IEnumerable<Models.Cart> Items, int TotalCount)> GetAllAsync(FilterCartDto filter);    
     Task<bool> UpdateCartLineStatusAsync(string id, string productId, Status status);
     
     Task<IEnumerable<Models.Cart>> FindByUserIdAsync(long userId, FilterCartDto filter);
@@ -23,4 +23,5 @@ public interface ICartRepository
     Task<Models.Cart?> UpdateCartAsync(string id, Models.Cart cart);
     
     Task DeleteCartAsync(string id);
+    Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin);
 }

@@ -40,6 +40,51 @@ public static class EmailTemplates
 </html>";
     }
     
+    public static string PedidoConfirmado(dawazonBackend.Cart.Models.Cart cart)
+{
+    // Generamos las filas de la tabla para los productos
+    var lineasHtml = string.Join("", cart.CartLines.Select(line => $@"
+        <tr>
+            <td style='padding: 10px; border-bottom: 1px solid #eee;'>{line.ProductId}</td>
+            <td style='padding: 10px; border-bottom: 1px solid #eee; text-align: center;'>{line.Quantity}</td>
+            <td style='padding: 10px; border-bottom: 1px solid #eee; text-align: right;'>{line.ProductPrice:N2}€</td>
+            <td style='padding: 10px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;'>{line.TotalPrice:N2}€</td>
+        </tr>
+    "));
+
+    return $@"
+        <div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
+            <h3 style='margin-top: 0; color: #1a1a2e;'>Datos del Cliente</h3>
+            <p style='margin: 5px 0;'><strong>Nombre:</strong> {cart.Client.Name}</p>
+            <p style='margin: 5px 0;'><strong>Dirección:</strong> {cart.Client.Address.Street} {cart.Client.Address.Number}, {cart.Client.Address.City}</p>
+        </div>
+
+        <h3 style='color: #1a1a2e;'>Resumen de tu pedido</h3>
+        <table style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
+            <thead>
+                <tr style='background-color: #667eea; color: white;'>
+                    <th style='padding: 10px; text-align: left;'>Producto ID</th>
+                    <th style='padding: 10px; text-align: center;'>Cant.</th>
+                    <th style='padding: 10px; text-align: right;'>Precio</th>
+                    <th style='padding: 10px; text-align: right;'>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {lineasHtml}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan='3' style='padding: 10px; text-align: right; font-weight: bold;'>Total Items: {cart.TotalItems}</td>
+                    <td style='padding: 10px; text-align: right; font-weight: bold; font-size: 18px; color: #28a745;'>{cart.Total:N2}€</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <p style='margin-top: 20px; padding: 15px; background-color: #e7f3ff; border-left: 4px solid #667eea; border-radius: 4px;'>
+            ✅ ¡Gracias por tu compra! Estamos preparando tu pedido para enviarlo lo antes posible.
+        </p>";
+}
+    
     public static string ProductoCreado(string nombre, double precio, string categoria, long id)
     {
         return $@"

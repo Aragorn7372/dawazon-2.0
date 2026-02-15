@@ -1,9 +1,8 @@
-﻿namespace dawazonBackend.Products.Errors;
+﻿using dawazonBackend.Common;
 
-public record ProductError (string Message)
-{
-    public string Message { get; set; } = Message;
-}
+namespace dawazonBackend.Products.Errors;
+
+public record ProductError (string Message) : DomainError (Message);
 
 public record ProductNotFoundError (string Message) : ProductError (Message);
 
@@ -14,3 +13,5 @@ public record ProductBadRequestError (string Message) : ProductError (Message);
 public record ProductConflictError (string Message) : ProductError (Message);
 
 public record ProductStorageError (string Message) : ProductError (Message);
+
+public record InsufficientStockError(string Message) : ProductError(Message);
