@@ -111,7 +111,7 @@ public class ProductRepository(ILogger<ProductRepository> logger, DawazonDbConte
 
     public async Task<Product?> CreateProductAsync(Product product)
     {
-        logger.LogInformation("Adding Funko");
+        logger.LogInformation("Adding Product");
         var saved=await db.Products.AddAsync(product);
         await db.SaveChangesAsync();
         await db.Products.Entry(product).Reference(p => p.Category).LoadAsync();
