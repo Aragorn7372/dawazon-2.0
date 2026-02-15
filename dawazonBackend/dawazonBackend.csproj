@@ -47,7 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Cart\Service\" />
       <Folder Include="Products\Exceptions\" />
       <Folder Include="Stripe\" />
       <Folder Include="Users\" />

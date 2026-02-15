@@ -12,36 +12,66 @@ public class CartRepository(
     ILogger<CartRepository> logger
     ): ICartRepository
 {
-    public async Task<IEnumerable<Models.Cart>> GetAllAsync(FilterCartDto filter)
+    public async Task<(IEnumerable<Models.Cart> Items, int TotalCount)> GetAllAsync(FilterCartDto filter)
     {
-        //Iniciamos la query sobre el DbSet de Carts
         var query = context.Carts.AsQueryable();
 
-        //Aplicar filtros si vienen en el DTO
+        // Aplicar filtros si vienen en el DTO
         if (!string.IsNullOrEmpty(filter.purchased) && bool.TryParse(filter.purchased, out bool isPurchased))
         {
             query = query.Where(c => c.Purchased == isPurchased);
         }
 
-        // Ordenación basada en las propiedades del DTO
+        // OBTENEMOS EL TOTAL ANTES DE PAGINAR
+        var totalCount = await query.CountAsync();
+
+        // Ordenación
         bool isDesc = filter.Direction.ToLower() == "desc";
-    
+
         query = filter.SortBy.ToLower() switch
         {
             "total" => isDesc ? query.OrderByDescending(c => c.Total) : query.OrderBy(c => c.Total),
             "createdat" => isDesc ? query.OrderByDescending(c => c.CreatedAt) : query.OrderBy(c => c.CreatedAt),
             "userid" => isDesc ? query.OrderByDescending(c => c.UserId) : query.OrderBy(c => c.UserId),
-            // Por defecto ordenamos por Id
             _ => isDesc ? query.OrderByDescending(c => c.Id) : query.OrderBy(c => c.Id)
         };
 
         // Paginación
         int skip = filter.Page * filter.Size;
 
-        return await query
+        var items = await query
             .Skip(skip)
             .Take(filter.Size)
             .ToListAsync();
+
+        return (items, totalCount);
+    }
+    
+    public async Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin)
+    {
+        logger.LogInformation($"Calculando ganancias totales - Manager: {managerId}, isAdmin: {isAdmin}");
+
+        // Si no es admin y no manda managerId, no debe ver nada
+        if (!isAdmin && !managerId.HasValue)
+        {
+            return 0;
+        }
+
+        // Navegamos de Carritos Comprados -> Líneas de Carrito
+        var query = context.Carts
+            .Where(c => c.Purchased == true)
+            .SelectMany(c => c.CartLines)
+            .AsQueryable();
+
+        // Si hay managerId, filtramos por sus productos
+        if (managerId.HasValue)
+        {
+            query = query.Where(cl => cl.Product != null && cl.Product.CreatorId == managerId.Value);
+        }
+
+        // Sumamos calculando Precio * Cantidad directamente en la BBDD. 
+        // No usamos la propiedad calculada TotalPrice porque EF Core no la puede traducir a SQL.
+        return await query.SumAsync(cl => cl.ProductPrice * cl.Quantity);
     }
     public async Task<bool> UpdateCartLineStatusAsync(string id, string productId, Status status)
     {
