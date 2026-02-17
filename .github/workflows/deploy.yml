@@ -1,6 +1,7 @@
-name: Playwright CI
+name: CI Pipeline
 
 on:
+  # ramas en las que se ejecuta el workflow tanto en push como en pull request
   push:
     branches:
       - main
@@ -11,14 +12,14 @@ on:
       - dev
 
 jobs:
-
+  # primer trabajo ejecuta los test unitarios y realiza el build y lo guarda en una cache para que tarde menos
   build:
-    name: Build Project
+    name: Build & Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Caché de NuGet
+      # Cache NuGet
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
@@ -27,25 +28,41 @@ jobs:
           restore-keys: |
             nuget-
 
+      # descarga .net
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
 
+      # Restore & Build
       - name: Restore Dependencies
         run: dotnet restore
-
       - name: Build Solution
         run: dotnet build --configuration Release --no-restore
 
-  test:
-    name: Run Playwright Tests
+      # Run Unit Tests
+      - name: Run Unit Tests
+        run: |
+          mkdir -p UnitTestResults
+          dotnet test ./dawazonTest/dawazonTest.csproj \
+            --configuration Release --no-build \
+            --logger "nunit;LogFilePath=UnitTestResults/UnitTestResults.xml"
+
+      # Upload Unit Test Artifacts
+      - name: Upload Unit Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: UnitTestResults
+  # segundo trabajo depende de build y realiza los test e2e
+  e2e:
+    name: Playwright E2E Tests
     runs-on: ubuntu-latest
-    needs: build  
+    needs: build
     steps:
       - uses: actions/checkout@v4
 
-      # Caché de NuGet
+      # Cache NuGet
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
@@ -54,7 +71,7 @@ jobs:
           restore-keys: |
             nuget-
 
-      # Caché de Playwright
+      # Cache Playwright Browsers
       - name: Cache Playwright Browsers
         uses: actions/cache@v4
         with:
@@ -63,32 +80,39 @@ jobs:
           restore-keys: |
             playwright-
 
+      # Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
 
+      # Install Playwright CLI & Browsers
+      - name: Install Playwright CLI
+        run: dotnet tool install --global Microsoft.Playwright.CLI
+
       - name: Install Playwright Browsers
         run: |
-          dotnet tool install --global Microsoft.Playwright.CLI
-          playwright install --with-deps
+          PLAYWRIGHT_PROJECT_PATH=./dawazonPlayWrite
+          mkdir -p $PLAYWRIGHT_PROJECT_PATH
+          playwright install --with-deps -p $PLAYWRIGHT_PROJECT_PATH
 
-      # Ejecutar tests y generar reporte en NUnit XML
-      - name: Run Tests
+      # Run Playwright Tests
+      - name: Run Playwright Tests
         run: |
-          mkdir -p TestResults
-          dotnet test --configuration Release --no-build \
-            --logger "nunit;LogFilePath=TestResults/TestResults.xml"
+          mkdir -p E2ETestResults
+          dotnet test ./dawazonPlayWrite/dawazonPlayWrite.csproj \
+            --configuration Release --no-build \
+            --logger "nunit;LogFilePath=E2ETestResults/PlaywrightResults.xml"
 
-      # Convertir NUnit XML a HTML usando ReportUnit (opcional)
+      # Generate HTML Report
       - name: Generate HTML Report
         run: |
           dotnet tool install --global ReportUnit
-          ReportUnit TestResults/TestResults.xml TestResults/TestResults.html
+          ReportUnit E2ETestResults/PlaywrightResults.xml E2ETestResults/PlaywrightResults.html
 
-      # Subir artefactos (XML + HTML) para descargar desde GitHub
-      - name: Upload Test Results
+      # Upload E2E Artifacts
+      - name: Upload Playwright Test Results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: TestResults
+          name: e2e-test-results
+          path: E2ETestResults
