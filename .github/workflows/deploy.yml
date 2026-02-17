@@ -45,8 +45,8 @@ jobs:
         run: |
           mkdir -p UnitTestResults
           dotnet test ./dawazonTest/dawazonTest.csproj \
-            --configuration Release --no-build \
-            --logger "nunit;LogFilePath=UnitTestResults/UnitTestResults.xml"
+          --configuration Release --no-build \
+          --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx"
 
       # Upload Unit Test Artifacts
       - name: Upload Unit Test Results
