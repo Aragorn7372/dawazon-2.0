@@ -9,19 +9,19 @@ public interface ICartService
 {
     Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin);
 
-    Task<PageResponseDto<Models.Cart>> FindAllAsync(long? userId, string purchased, FilterCartDto filter);
+    Task<PageResponseDto<CartResponseDto>> FindAllAsync(long? userId, string purchased, FilterCartDto filter);
 
-    Task<Result<Models.Cart, DomainError>> AddProductAsync(string cartId, string productId);
+    Task<Result<CartResponseDto, DomainError>> AddProductAsync(string cartId, string productId);
 
-    Task<Models.Cart> RemoveProductAsync(string cartId, string productId);
+    Task<CartResponseDto> RemoveProductAsync(string cartId, string productId);
 
-    Task<Result<Models.Cart, DomainError>> GetByIdAsync(string id);
+    Task<Result<CartResponseDto, DomainError>> GetByIdAsync(string id);
 
-    Task<Models.Cart> SaveAsync(Models.Cart entity);
+    Task<CartResponseDto> SaveAsync(Models.Cart entity);
 
     Task SendConfirmationEmailAsync(Models.Cart pedido);
 
-    Task<Result<Models.Cart, DomainError>> UpdateStockWithValidationAsync(string cartId, string productId, int quantity);
+    Task<Result<CartResponseDto, DomainError>> UpdateStockWithValidationAsync(string cartId, string productId, int quantity);
 
     Task<Result<string, DomainError>> CheckoutAsync(string id);
 
@@ -29,7 +29,7 @@ public interface ICartService
 
     Task DeleteByIdAsync(string id);
 
-    Task<Result<Models.Cart, DomainError>> GetCartByUserIdAsync(long userId);
+    Task<Result<CartResponseDto, DomainError>> GetCartByUserIdAsync(long userId);
 
     Task<DomainError?> CancelSaleAsync(string ventaId, string productId, long managerId, bool isAdmin);
 }

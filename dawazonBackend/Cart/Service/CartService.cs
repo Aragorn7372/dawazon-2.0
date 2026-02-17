@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Errors;
+using dawazonBackend.Cart.Mapper;
 using dawazonBackend.Cart.Models;
 using dawazonBackend.Cart.Repository;
 using dawazonBackend.Common;
@@ -11,7 +12,7 @@ using dawazonBackend.Products.Repository.Productos;
 
 namespace dawazonBackend.Cart.Service
 {
-    public class CartService : ICartService // Asumo que tienes esta interfaz
+    public class CartService : ICartService
     {
         private readonly IProductRepository _productRepository;
         private readonly ICartRepository _cartRepository;
@@ -41,16 +42,18 @@ namespace dawazonBackend.Cart.Service
             return await _cartRepository.CalculateTotalEarningsAsync(managerId, isAdmin);
         }
 
-        public async Task<PageResponseDto<Models.Cart>> FindAllAsync(long? userId, string purchased, FilterCartDto filter)
+        public async Task<PageResponseDto<CartResponseDto>> FindAllAsync(long? userId, string purchased, FilterCartDto filter)
         {
             // Deconstruimos la tupla devuelta por el repositorio
             var (itemsEnumerable, totalCount) = await _cartRepository.GetAllAsync(filter);
-            var items = itemsEnumerable.ToList();
+            var items = itemsEnumerable
+                .Select(c => c.ToDto())
+                .ToList();
     
             // Calculamos el total de páginas (redondeando hacia arriba)
             int totalPages = filter.Size > 0 ? (int)Math.Ceiling(totalCount / (double)filter.Size) : 0;
 
-            return new PageResponseDto<Models.Cart>(
+            return new PageResponseDto<CartResponseDto>(
                 Content: items,
                 TotalPages: totalPages,
                 TotalElements: totalCount,
@@ -62,13 +65,13 @@ namespace dawazonBackend.Cart.Service
             );
         }
 
-        public async Task<Result<Models.Cart, DomainError>> AddProductAsync(string cartId, string productId)
+        public async Task<Result<CartResponseDto, DomainError>> AddProductAsync(string cartId, string productId)
         {
             _logger.LogInformation($"Añadiendo producto {productId} a {cartId}");
             
             var product = await _productRepository.GetProductAsync(productId);
             if (product == null)
-                return Result.Failure<Models.Cart, DomainError>(
+                return Result.Failure<CartResponseDto, DomainError>(
                     new ProductNotFoundError($"No se encontró el Product con id: {productId}."));
 
             var line = new CartLine
@@ -85,10 +88,10 @@ namespace dawazonBackend.Cart.Service
             // Recuperar y recalcular
             var newCart = await RecalculateCartTotalsAsync(cartId);
 
-            return newCart.Value;
+            return newCart.Value.ToDto();
         }
 
-        public async Task<Models.Cart> RemoveProductAsync(string cartId, string productId)
+        public async Task<CartResponseDto> RemoveProductAsync(string cartId, string productId)
         {
             _logger.LogInformation($"Eliminando producto del carrito, con ID: {productId}");
             
@@ -97,19 +100,19 @@ namespace dawazonBackend.Cart.Service
 
             var newCart = await RecalculateCartTotalsAsync(cartId);
 
-            return newCart.Value;
+            return newCart.Value.ToDto();
         }
 
-        public async Task<Result<Models.Cart, DomainError>> GetByIdAsync(string id)
+        public async Task<Result<CartResponseDto, DomainError>> GetByIdAsync(string id)
         {
             var cart = await _cartRepository.FindCartByIdAsync(id);
             if (cart == null)
-                return Result.Failure<Models.Cart, DomainError>(
+                return Result.Failure<CartResponseDto, DomainError>(
                     new CartNotFoundError($"No se encontró el Carrito con id: {id}."));
-            return cart;
+            return cart.ToDto();
         }
 
-        public async Task<Models.Cart> SaveAsync(Models.Cart entity)
+        public async Task<CartResponseDto> SaveAsync(Models.Cart entity)
         {
             foreach (var line in entity.CartLines)
             {
@@ -124,7 +127,7 @@ namespace dawazonBackend.Cart.Service
             
             // TODO: createNewCart(entity.UserId); -> Pendiente de IUserRepository
 
-            return savedCart!;
+            return savedCart!.ToDto();
         }
 
         public async Task SendConfirmationEmailAsync(Models.Cart pedido)
@@ -157,20 +160,23 @@ namespace dawazonBackend.Cart.Service
             }
         }
 
-        public async Task<Result<Models.Cart, DomainError>> UpdateStockWithValidationAsync(string cartId, string productId, int quantity)
+        public async Task<Result<CartResponseDto, DomainError>> UpdateStockWithValidationAsync(string cartId, string productId, int quantity)
         {
-            if (quantity < 1) throw new ArgumentException("La cantidad mínima es 1");
+            if (quantity < 1) return Result.Failure<CartResponseDto, DomainError>(
+                new CartMinQuantityError("La cantidad mínima es 1"));
 
-            var cart = await GetByIdAsync(cartId);
+            var cart = await _cartRepository.FindCartByIdAsync(cartId);
+            if (cart == null) return Result.Failure<CartResponseDto, DomainError>(
+                new CartNotFoundError($"No se encontró el carrito con id: {cartId}."));
+            
             var product = await _productRepository.GetProductAsync(productId);
-
-            if (product == null) return Result.Failure<Models.Cart, DomainError>(
+            if (product == null) return Result.Failure<CartResponseDto, DomainError>(
                 new ProductNotFoundError($"No se encontró el producto con id: {productId}."));
             
-            if (product.Stock < quantity) return Result.Failure<Models.Cart, DomainError>(
-                new InsufficientStockError($"Stock insuficiente. Solo hay {product.Stock}"));
+            if (product.Stock < quantity) return Result.Failure<CartResponseDto, DomainError>(
+                new CartProductQuantityExceededError($"Stock insuficiente. Solo hay {product.Stock}"));
 
-            var line = cart.Value.CartLines.FirstOrDefault(l => l.ProductId == productId);
+            var line = cart.CartLines.FirstOrDefault(l => l.ProductId == productId);
             if (line != null)
             {
                 line.Quantity = quantity;
@@ -179,76 +185,90 @@ namespace dawazonBackend.Cart.Service
             // Actualizamos en la BBDD
             await _cartRepository.AddCartLineAsync(cartId, line!); // AddCartLineAsync también actualiza cantidad si existe
             
-            return await RecalculateCartTotalsAsync(cartId);
+            var updatedStockCart = await RecalculateCartTotalsAsync(cartId);
+            
+            return updatedStockCart.Value.ToDto();
         }
 
         public async Task<Result<string, DomainError>> CheckoutAsync(string id)
         {
-            var entity = await GetByIdAsync(id);
-            entity.Value.CheckoutInProgress = true;
-            entity.Value.CheckoutStartedAt = DateTime.UtcNow;
+            var entity = await _cartRepository.FindCartByIdAsync(id);
 
-            // TODO: Buscar cliente del User y asignarlo en el campo Cliente -> Pendiente de UserRepository
-            
-            await _cartRepository.UpdateCartAsync(id, entity.Value);
-
-            // Control de concurrencia optimista ajustado al repositorio de C#
-            foreach (var line in entity.Value.CartLines)
+            if (entity != null)
             {
-                int intentos = 0;
-                bool success = false;
+                entity.CheckoutInProgress = true;
+                entity.CheckoutStartedAt = DateTime.UtcNow;
 
-                while (!success)
+                // TODO: Buscar cliente del User y asignarlo en el campo Cliente -> Pendiente de UserRepository
+
+                await _cartRepository.UpdateCartAsync(id, entity);
+
+                // Control de concurrencia optimista ajustado al repositorio de C#
+                foreach (var line in entity.CartLines)
                 {
-                    var product = await _productRepository.GetProductAsync(line.ProductId);
-                    if (product == null) return Result.Failure<string, DomainError>(
-                        new ProductNotFoundError($"No se encontró el producto con id: {line.ProductId}."));
+                    int intentos = 0;
+                    bool success = false;
 
-                    if (product.Stock < line.Quantity)
-                        return Result.Failure<string, DomainError>(
-                            new InsufficientStockError($"Stock insuficiente. Solo hay {product.Stock}"));
+                    while (!success)
+                    {
+                        var product = await _productRepository.GetProductAsync(line.ProductId);
+                        if (product == null)
+                            return Result.Failure<string, DomainError>(
+                                new ProductNotFoundError($"No se encontró el producto con id: {line.ProductId}."));
 
-                    // SubstractStockAsync maneja la versión y devuelve 1 si tuvo éxito, 0 si falló (concurrencia)
-                    var result = await _productRepository.SubstractStockAsync(line.ProductId, line.Quantity, product.Version);
-                    
-                    if (result == 1)
-                    {
-                        success = true;
-                    }
-                    else
-                    {
-                        intentos++;
-                        if (intentos >= 3) return Result.Failure<string, DomainError>(
-                            new CartAttemptAmountExceededError());
+                        if (product.Stock < line.Quantity)
+                            return Result.Failure<string, DomainError>(
+                                new CartProductQuantityExceededError($"Stock insuficiente. Solo hay {product.Stock}"));
+
+                        // SubstractStockAsync maneja la versión y devuelve 1 si tuvo éxito, 0 si falló (concurrencia)
+                        var result =
+                            await _productRepository.SubstractStockAsync(line.ProductId, line.Quantity,
+                                product.Version);
+
+                        if (result == 1)
+                        {
+                            success = true;
+                        }
+                        else
+                        {
+                            intentos++;
+                            if (intentos >= 3)
+                                return Result.Failure<string, DomainError>(
+                                    new CartAttemptAmountExceededError());
+                        }
                     }
                 }
-            }
 
-            // TODO: Lógica de Stripe
-            return "url_de_stripe_simulada";
+                // TODO: Lógica de Stripe
+                return "url_de_stripe_simulada";
+            }
+            return Result.Failure<string, DomainError>(
+                new CartNotFoundError($"No se encontró el Carrito con id: {id}."));
         }
 
         public async Task RestoreStockAsync(string cartId)
         {
-            var cart = await GetByIdAsync(cartId);
-
-            if (!cart.Value.Purchased)
-            {
-                foreach (var line in cart.Value.CartLines)
-                {
-                    var product = await _productRepository.GetProductAsync(line.ProductId);
-                    if (product != null)
-                    {
-                        product.Stock += line.Quantity;
-                        await _productRepository.UpdateProductAsync(product, product.Id!);
+            var cart = await _cartRepository.FindCartByIdAsync(cartId);
+            if (cart != null) {
+            
+                if (!cart.Purchased)
+                { 
+                    foreach (var line in cart.CartLines) 
+                    { 
+                        var product = await _productRepository.GetProductAsync(line.ProductId);
+                        if (product != null)
+                        {
+                            product.Stock += line.Quantity;
+                            await _productRepository.UpdateProductAsync(product, product.Id!);
+                        }
                     }
+                
+                    cart.CheckoutInProgress = false;
+                    cart.CheckoutStartedAt = null;
+                    await _cartRepository.UpdateCartAsync(cartId, cart);
+                
+                    _logger.LogInformation($"Stock restaurado para el carrito: {cartId}");
                 }
-                
-                cart.Value.CheckoutInProgress = false;
-                cart.Value.CheckoutStartedAt = null;
-                await _cartRepository.UpdateCartAsync(cartId, cart.Value);
-                
-                _logger.LogInformation($"Stock restaurado para el carrito: {cartId}");
             }
         }
 
@@ -257,14 +277,14 @@ namespace dawazonBackend.Cart.Service
             await _cartRepository.DeleteCartAsync(id);
         }
 
-        public async Task<Result<Models.Cart, DomainError>> GetCartByUserIdAsync(long userId)
+        public async Task<Result<CartResponseDto, DomainError>> GetCartByUserIdAsync(long userId)
         {
             var cart = await _cartRepository.FindByUserIdAndPurchasedAsync(userId, false);
             
-            if (cart == null) return Result.Failure<Models.Cart, DomainError>(
+            if (cart == null) return Result.Failure<CartResponseDto, DomainError>(
                 new CartNotFoundError($"No se encontró carrito perteneciente al usuario con id: {userId}."));
             
-            return cart;
+            return cart.ToDto();
         }
 
         public async Task<DomainError?> CancelSaleAsync(string ventaId, string productId, long managerId, bool isAdmin)

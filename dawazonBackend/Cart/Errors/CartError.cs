@@ -32,3 +32,8 @@ public record CartAttemptAmountExceededError(
 /// </summary>
 public record CartUnauthorizedError(string Message) : CartError(Message);
 
+public record CartMinQuantityError(string Message) : CartError(Message);
+
+
+
+

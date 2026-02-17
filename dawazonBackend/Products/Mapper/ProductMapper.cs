@@ -49,13 +49,9 @@ public static class ProductMapper
     /// </summary>
     public static CommentDto ToDto(this Comment model)
     {
-        // Nota: Asumiendo que Comment tiene una propiedad o forma de obtener el userName.
-        // Si tu modelo Comment solo tiene UserId, necesitarías buscar el usuario en el servicio
-        // antes de mapear, o bien aceptar que aquí solo pones el ID o un placeholder.
-        // Aquí asumo que podrías tener acceso al nombre, o lo dejamos como string vacío/UserId temporalmente.
         
         return new CommentDto(
-            userName: model.UserId.ToString(), // Placeholder: Deberías resolver el nombre de usuario real si es necesario
+            userName: model.UserId.ToString(),
             comment: model.Content,
             recommended: model.recommended,
             verified: model.verified

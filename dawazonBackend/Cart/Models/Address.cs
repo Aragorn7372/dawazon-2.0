@@ -15,6 +15,6 @@ public class Address
     [Required]
     public string Country {get; set;} = string.Empty;
     [Range(0,63000)]
-    private int PostalCode { get; set; } 
+    public int PostalCode { get; set; } 
     
 }
