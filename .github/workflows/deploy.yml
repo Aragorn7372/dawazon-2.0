@@ -1,117 +1,59 @@
-name: CI Pipeline
-
-on:
-  # ramas en las que se ejecuta el workflow tanto en push como en pull request
-  push:
-    branches:
-      - main
-      - dev
-  pull_request:
-    branches:
-      - main
-      - dev
-
 jobs:
-  # primer trabajo ejecuta los test unitarios y realiza el build y lo guarda en una cache para que tarde menos
   build:
-    name: Build & Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Cache NuGet
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-
-
-      # descarga .net
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
+      - name: Restore & Build
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
 
-      # Restore & Build
-      - name: Restore Dependencies
-        run: dotnet restore
-      - name: Build Solution
-        run: dotnet build --configuration Release --no-restore
-
-      # Run Unit Tests
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.102
       - name: Run Unit Tests
         run: |
           mkdir -p UnitTestResults
           dotnet test ./dawazonTest/dawazonTest.csproj \
-          --configuration Release --no-build \
-          --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx"
-
-      # Upload Unit Test Artifacts
+            --configuration Release \
+            --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx"
       - name: Upload Unit Test Results
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
           path: UnitTestResults
-  # segundo trabajo depende de build y realiza los test e2e
-  e2e:
-    name: Playwright E2E Tests
+
+  e2e-tests:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - uses: actions/checkout@v4
-
-      # Cache NuGet
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-
-
-      # Cache Playwright Browsers
-      - name: Cache Playwright Browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            playwright-
-
-      # Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
-
-      # Install Playwright CLI & Browsers
-      - name: Install Playwright CLI
-        run: dotnet tool install --global Microsoft.Playwright.CLI
-
-      - name: Install Playwright Browsers
+      - name: Install Playwright CLI & Browsers
         run: |
-          PLAYWRIGHT_PROJECT_PATH=./dawazonPlayWrite
-          mkdir -p $PLAYWRIGHT_PROJECT_PATH
-          playwright install --with-deps -p $PLAYWRIGHT_PROJECT_PATH
-
-      # Run Playwright Tests
+          dotnet tool install --global Microsoft.Playwright.CLI
+          cd dawazonPlayWrite
+          playwright install --with-deps
       - name: Run Playwright Tests
         run: |
           mkdir -p E2ETestResults
           dotnet test ./dawazonPlayWrite/dawazonPlayWrite.csproj \
-            --configuration Release --no-build \
-            --logger "nunit;LogFilePath=E2ETestResults/PlaywrightResults.xml"
-
-      # Generate HTML Report
-      - name: Generate HTML Report
-        run: |
-          dotnet tool install --global ReportUnit
-          ReportUnit E2ETestResults/PlaywrightResults.xml E2ETestResults/PlaywrightResults.html
-
-      # Upload E2E Artifacts
-      - name: Upload Playwright Test Results
+            --configuration Release \
+            --logger "trx;LogFileName=E2ETestResults/PlaywrightResults.trx"
+      - name: Upload E2E Test Results
         uses: actions/upload-artifact@v4
         with:
           name: e2e-test-results
