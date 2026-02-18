@@ -6,6 +6,7 @@ using dawazonBackend.Cart.Models;
 using dawazonBackend.Cart.Repository;
 using dawazonBackend.Common;
 using dawazonBackend.Common.Dto;
+using dawazonBackend.Common.Error;
 using dawazonBackend.Common.Mail;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Repository.Productos;

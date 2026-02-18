@@ -11,7 +11,6 @@ public class Client
     [Required]
     [RegularExpression("^\\d{9}$")]
     public string Phone {get; set;} = string.Empty;
-
     [Required] 
     public Address Address { get; set; } = new();
 }

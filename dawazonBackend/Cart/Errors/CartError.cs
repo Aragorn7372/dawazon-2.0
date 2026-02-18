@@ -1,4 +1,5 @@
 ﻿using dawazonBackend.Common;
+using dawazonBackend.Common.Error;
 
 namespace dawazonBackend.Cart.Errors;
 
