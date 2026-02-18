@@ -22,6 +22,12 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
     {
         base.OnModelCreating(modelBuilder);
         SeedData(modelBuilder); 
+        modelBuilder.Entity<User>()
+            .OwnsOne(u => u.Client, clientBuilder =>
+            {
+                clientBuilder.OwnsOne(c => c.Address);
+            });
+        
         modelBuilder.Entity<Product>()
             .OwnsMany(p => p.Images, builder =>
             {
@@ -57,25 +63,34 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             .Property(p => p.Version)
             .IsConcurrencyToken();
 
-        modelBuilder.Entity<Cart.Models.Cart>()
-            .OwnsMany(c => c.CartLines, builder =>
-                {
-                    builder.ToTable("CartLines");
-                    builder.WithOwner()
-                        .HasForeignKey("CartId");
-                    builder.Property<string>("CartId");
-                    builder.Property<string>("ProductId");
-                    
-                    builder.HasOne(cl => cl.Product)
-                        .WithMany()
-                        .HasForeignKey(cl => cl.ProductId);
-                    
-                    builder.Property<int>("Quantity");
-                    builder.Property<double>("ProductPrice");
-                    builder.Property<string>("Status");
-                    builder.HasKey("CartId", "ProductId");
-                }
-            );
+        modelBuilder.Entity<Cart.Models.Cart>(entity =>
+        {
+            // Configuramos el cliente dentro del carrito
+            entity.OwnsOne(c => c.Client, clientBuilder =>
+            {
+                clientBuilder.OwnsOne(c => c.Address);
+            });
+
+            // Configuramos las líneas del carrito
+            entity.OwnsMany(c => c.CartLines, builder =>
+            {
+                builder.ToTable("CartLines");
+                builder.WithOwner().HasForeignKey("CartId");
+            
+                builder.HasOne(cl => cl.Product)
+                    .WithMany()
+                    .HasForeignKey(cl => cl.ProductId);
+            
+                builder.HasKey("CartId", "ProductId");
+            
+                // LA CORRECCIÓN DEL ENUM: Así EF Core lo guarda como string automáticamente
+                builder.Property(cl => cl.Status)
+                    .HasConversion<string>()
+                    .IsRequired();
+            });
+        });
+        
+        
 
     }
     

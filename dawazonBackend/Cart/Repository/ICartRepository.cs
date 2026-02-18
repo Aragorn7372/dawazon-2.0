@@ -1,5 +1,6 @@
 ﻿using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Models;
+using dawazonBackend.Common.Dto;
 
 namespace dawazonBackend.Cart.Repository;
 
@@ -24,4 +25,6 @@ public interface ICartRepository
     
     Task DeleteCartAsync(string id);
     Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin);
+
+    Task<(List<SaleLineDto> Items, int TotalCount)> GetSalesAsLinesAsync(long? managerId, bool isAdmin, FilterDto filter);
 }

@@ -17,8 +17,7 @@ public interface ICartService
 
     Task<Result<CartResponseDto, DomainError>> GetByIdAsync(string id);
 
-    Task<CartResponseDto> SaveAsync(Models.Cart entity);
-
+    Task<Result<CartResponseDto, DomainError>> SaveAsync(Models.Cart entity);
     Task SendConfirmationEmailAsync(Models.Cart pedido);
 
     Task<Result<CartResponseDto, DomainError>> UpdateStockWithValidationAsync(string cartId, string productId, int quantity);

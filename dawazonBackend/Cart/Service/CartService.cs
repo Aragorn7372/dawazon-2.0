@@ -9,6 +9,9 @@ using dawazonBackend.Common.Dto;
 using dawazonBackend.Common.Mail;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Repository.Productos;
+using dawazonBackend.Users.Errors;
+using dawazonBackend.Users.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace dawazonBackend.Cart.Service
 {
@@ -16,26 +19,49 @@ namespace dawazonBackend.Cart.Service
     {
         private readonly IProductRepository _productRepository;
         private readonly ICartRepository _cartRepository;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<CartService> _logger;
         // Dependencias faltantes comentadas por ahora:
-        // private readonly IUserRepository _userRepository;
         // private readonly IStripeService _stripeService;
         private readonly IEmailService _mailService;
 
         public CartService(
             IProductRepository productRepository,
             ICartRepository cartRepository,
+            UserManager<User> userManager,
             IEmailService mailService,
             ILogger<CartService> logger
             )
         {
             _productRepository = productRepository;
             _cartRepository = cartRepository;
+            _userManager = userManager;
             _mailService = mailService;
             _logger = logger;
         }
 
-        // TODO: findAllSalesAsLines CUANDO TENGAMOS LA PARTE DE USUARIOS. 
+        public async Task<PageResponseDto<SaleLineDto>> FindAllSalesAsLinesAsync(long? managerId, bool isAdmin, FilterDto filter)
+        {
+            _logger.LogInformation($"Buscando ventas - Manager: {managerId}, isAdmin: {isAdmin}");
+
+            var (items, totalElements) = await _cartRepository.GetSalesAsLinesAsync(managerId, isAdmin, filter);
+
+            _logger.LogInformation($"Ventas filtradas devueltas: {items.Count}");
+
+            // Calculamos el total de páginas
+            int totalPages = filter.Size > 0 ? (int)Math.Ceiling(totalElements / (double)filter.Size) : 0;
+
+            return new PageResponseDto<SaleLineDto>(
+                Content: items,
+                TotalPages: totalPages,
+                TotalElements: totalElements,
+                PageSize: filter.Size,
+                PageNumber: filter.Page,
+                TotalPageElements: items.Count,
+                SortBy: filter.SortBy,
+                Direction: filter.Direction
+            );
+        }
         
         public async Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin)
         {
@@ -112,7 +138,7 @@ namespace dawazonBackend.Cart.Service
             return cart.ToDto();
         }
 
-        public async Task<CartResponseDto> SaveAsync(Models.Cart entity)
+        public async Task<Result<CartResponseDto, DomainError>> SaveAsync(Models.Cart entity)
         {
             foreach (var line in entity.CartLines)
             {
@@ -123,11 +149,11 @@ namespace dawazonBackend.Cart.Service
             entity.CheckoutInProgress = false;
             entity.CheckoutStartedAt = null;
             
-            var savedCart = await _cartRepository.UpdateCartAsync(entity.Id, entity);
-            
-            // TODO: createNewCart(entity.UserId); -> Pendiente de IUserRepository
+            await _cartRepository.UpdateCartAsync(entity.Id, entity);
 
-            return savedCart!.ToDto();
+            var newCart = await CreateNewCartAsync(entity.UserId);
+
+            return newCart.IsSuccess? newCart.Value.ToDto(): newCart.Error;
         }
 
         public async Task SendConfirmationEmailAsync(Models.Cart pedido)
@@ -187,7 +213,7 @@ namespace dawazonBackend.Cart.Service
             
             var updatedStockCart = await RecalculateCartTotalsAsync(cartId);
             
-            return updatedStockCart.Value.ToDto();
+            return updatedStockCart.IsSuccess? updatedStockCart.Value.ToDto() : updatedStockCart.Error;
         }
 
         public async Task<Result<string, DomainError>> CheckoutAsync(string id)
@@ -199,8 +225,17 @@ namespace dawazonBackend.Cart.Service
                 entity.CheckoutInProgress = true;
                 entity.CheckoutStartedAt = DateTime.UtcNow;
 
-                // TODO: Buscar cliente del User y asignarlo en el campo Cliente -> Pendiente de UserRepository
+                //Buscar cliente del User y asignarlo
+                var user = await _userManager.FindByIdAsync(entity.UserId.ToString());
+                if (user == null)
+                {
+                    _logger.LogWarning($"User no encontrado con id: {entity.UserId}");
+                    return Result.Failure<string, DomainError>(
+                        new UserNotFoundError($"Usuario no encontrado para el carrito con id: {id}.")); 
+                }
 
+                entity.Client = user.Client;
+                
                 await _cartRepository.UpdateCartAsync(id, entity);
 
                 // Control de concurrencia optimista ajustado al repositorio de C#
@@ -291,7 +326,7 @@ namespace dawazonBackend.Cart.Service
         {
             var cartResult = await GetByIdAsync(ventaId);
     
-            if (cartResult.Value == null) 
+            if (cartResult.IsFailure) 
                 return new CartNotFoundError($"Carrito no encontrado con id: {ventaId}");
 
             var line = cartResult.Value.CartLines.FirstOrDefault(l => l.ProductId == productId);
@@ -330,6 +365,30 @@ namespace dawazonBackend.Cart.Service
             cart.Total = cart.CartLines.Sum(l => l.TotalPrice);
 
             return await _cartRepository.UpdateCartAsync(cart.Id, cart) ?? cart;
+        }
+        private async Task<Result<Models.Cart, DomainError>> CreateNewCartAsync(long userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                _logger.LogWarning($"Usuario no encontrado con id: {userId}");
+                return Result.Failure<Models.Cart, DomainError>(
+                    new UserNotFoundError($"No se encontró usuario con id: {userId}."));
+            }
+
+            var cart = new Models.Cart
+            {
+                // El Id se generará por GenerateCustomIdAtribute
+                UserId = userId,
+                Client = user.Client,
+                CartLines = new List<CartLine>(),
+                Purchased = false,
+                TotalItems = 0,
+                Total = 0,
+                CreatedAt = DateTime.UtcNow,
+                UploadAt = DateTime.UtcNow
+            };
+            return await _cartRepository.CreateCartAsync(cart); 
         }
     }
 }
