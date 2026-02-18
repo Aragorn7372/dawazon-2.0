@@ -2,6 +2,7 @@
 using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Models;
 using dawazonBackend.Common.Database;
+using dawazonBackend.Common.Dto;
 using dawazonBackend.Products.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -196,4 +197,83 @@ public class CartRepository(
         };
         return isDescending ? query.OrderByDescending(keySelector) : query.OrderBy(keySelector);
     }
+    
+    public async Task<(List<SaleLineDto> Items, int TotalCount)> GetSalesAsLinesAsync(
+    long? managerId, 
+    bool isAdmin, 
+    FilterDto filter)
+{
+    // Aplanamos las líneas de los carritos comprados (SQL INNER JOIN implícito)
+    var query = context.Carts
+        .Where(c => c.Purchased)
+        .SelectMany(
+            cart => cart.CartLines,
+            (cart, line) => new { cart, line, product = line.Product }
+        )
+        // Unimos con la tabla Users para obtener al Manager (Creador del producto)
+        .Join(
+            context.Users,
+            x => x.product!.CreatorId,
+            u => u.Id,
+            (x, manager) => new { x.cart, x.line, x.product, manager }
+        );
+
+    // Filtramos por permisos directamente en la consulta a la BBDD
+    if (!isAdmin && managerId.HasValue)
+    {
+        query = query.Where(x => x.product!.CreatorId == managerId.Value);
+    }
+
+    // Proyectamos a un tipo anónimo temporal. 
+    // Hacemos esto porque Entity Framework no sabe traducir el Enum 'Status' a SQL de forma nativa si está guardado como string.
+    var projection = query.Select(x => new 
+    {
+        SaleId = x.cart.Id,
+        ProductId = x.product!.Id,
+        ProductName = x.product.Name,
+        Quantity = x.line.Quantity,
+        ProductPrice = x.line.ProductPrice,
+        StatusStr = x.line.Status, // Extraemos el string tal cual de la BBDD
+        ManagerId = x.product.CreatorId,
+        ManagerName = x.manager.Name,
+        Client = x.cart.Client,
+        UserId = x.cart.UserId,
+        CreateAt = x.cart.CreatedAt,
+        UpdateAt = x.cart.UploadAt
+    });
+
+    // Contamos el total de elementos ANTES de paginar
+    var totalCount = await projection.CountAsync();
+
+    // Ordenación dinámica simple
+    projection = filter.Direction.ToLower() == "desc" 
+        ? projection.OrderByDescending(x => x.CreateAt)
+        : projection.OrderBy(x => x.CreateAt);
+
+    // Paginación y ejecución de la consulta (aquí es donde realmente ataca a la BBDD)
+    var dbItems = await projection
+        .Skip(filter.Page * filter.Size)
+        .Take(filter.Size)
+        .ToListAsync();
+
+    // Por último, mapeamos en memoria al DTO final parseando el Enum
+    var finalItems = dbItems.Select(x => new SaleLineDto
+    {
+        SaleId = x.SaleId,
+        ProductId = x.ProductId!,
+        ProductName = x.ProductName,
+        Quantity = x.Quantity,
+        ProductPrice = x.ProductPrice,
+        TotalPrice = x.Quantity * x.ProductPrice,
+        Status = x.StatusStr,
+        ManagerId = x.ManagerId,
+        ManagerName = x.ManagerName,
+        Client = x.Client,
+        UserId = x.UserId,
+        CreateAt = x.CreateAt,
+        UpdateAt = x.UpdateAt
+    }).ToList();
+
+    return (finalItems, totalCount);
+}
 }
