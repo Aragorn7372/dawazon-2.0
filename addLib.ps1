@@ -28,7 +28,8 @@ $packages = @(
     @{ Name="coverlet.msbuild"; Version="6.0.4";  },
     @{ Name="CSharpFunctionalExtensions"; Version="3.6.0" },
     @{ Name="GreenDonut"; Version="15.1.12" },
-    @{ Name="Microsoft.AspNetCore.Identity.EntityFrameworkCore"}
+    @{ Name="Microsoft.AspNetCore.Identity.EntityFrameworkCore"},
+    @{ Name="Stripe.net"; Version="43.14.0" },
     @{ Name="HotChocolate.AspNetCore"; Version="15.1.12" },
     @{ Name="HotChocolate.AspNetCore.Authorization"; Version="15.1.12" },
     @{ Name="HotChocolate.Data.EntityFramework"; Version="15.1.12" },

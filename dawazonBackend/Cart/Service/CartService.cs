@@ -10,6 +10,7 @@ using dawazonBackend.Common.Error;
 using dawazonBackend.Common.Mail;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Repository.Productos;
+using dawazonBackend.Stripe;
 using dawazonBackend.Users.Errors;
 using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Identity;
@@ -22,14 +23,14 @@ namespace dawazonBackend.Cart.Service
         private readonly ICartRepository _cartRepository;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<CartService> _logger;
-        // Dependencias faltantes comentadas por ahora:
-        // private readonly IStripeService _stripeService;
+        private readonly IStripeService _stripeService;
         private readonly IEmailService _mailService;
 
         public CartService(
             IProductRepository productRepository,
             ICartRepository cartRepository,
             UserManager<User> userManager,
+            IStripeService stripeService,
             IEmailService mailService,
             ILogger<CartService> logger
             )
@@ -37,6 +38,7 @@ namespace dawazonBackend.Cart.Service
             _productRepository = productRepository;
             _cartRepository = cartRepository;
             _userManager = userManager;
+            _stripeService = stripeService;
             _mailService = mailService;
             _logger = logger;
         }
@@ -232,11 +234,11 @@ namespace dawazonBackend.Cart.Service
                 {
                     _logger.LogWarning($"User no encontrado con id: {entity.UserId}");
                     return Result.Failure<string, DomainError>(
-                        new UserNotFoundError($"Usuario no encontrado para el carrito con id: {id}.")); 
+                        new UserNotFoundError($"Usuario no encontrado para el carrito con id: {id}."));
                 }
 
                 entity.Client = user.Client;
-                
+
                 await _cartRepository.UpdateCartAsync(id, entity);
 
                 // Control de concurrencia optimista ajustado al repositorio de C#
@@ -275,9 +277,19 @@ namespace dawazonBackend.Cart.Service
                     }
                 }
 
-                // TODO: Lógica de Stripe
-                return "url_de_stripe_simulada";
+                //STRIPE
+                var stripeResult = await _stripeService.CreateCheckoutSessionAsync(entity);
+
+                if (stripeResult.IsFailure)
+                {
+                    // Si falla, propagamos el error de dominio hacia el controlador
+                    return Result.Failure<string, DomainError>(stripeResult.Error);
+                }
+
+                // Devolvemos la URL en caso de éxito
+                return stripeResult.Value; 
             }
+
             return Result.Failure<string, DomainError>(
                 new CartNotFoundError($"No se encontró el Carrito con id: {id}."));
         }
