@@ -2,6 +2,7 @@
 using dawazonBackend.Cart.Dto;
 using dawazonBackend.Common;
 using dawazonBackend.Common.Dto;
+using dawazonBackend.Common.Error;
 
 namespace dawazonBackend.Cart.Service;
 

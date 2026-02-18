@@ -2,7 +2,6 @@
 using dawazonBackend.Common.Database;
 using dawazonBackend.Common.Dto;
 using dawazonBackend.Products.Models;
-using HotChocolate.Data.Sorting.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace dawazonBackend.Products.Repository.Productos;
@@ -46,7 +45,7 @@ public class ProductRepository(ILogger<ProductRepository> logger, DawazonDbConte
                 // cambiar mas adelante
                 throw new Exception($"Producto {id} no puede tener stock negativo");
             }
-            var updated = db.Products.Update(product);
+            db.Products.Update(product);
             await db.SaveChangesAsync();
             await db.Products.Entry(product).Reference(p => p.Category).LoadAsync();
             return 1;
@@ -74,7 +73,7 @@ public class ProductRepository(ILogger<ProductRepository> logger, DawazonDbConte
         {
             var product = found.First();
             product.IsDeleted = true;
-            var updated = db.Products.Update(product);
+            db.Products.Update(product);
             await db.SaveChangesAsync();
             await db.Products.Entry(product).Reference(p => p.Category).LoadAsync();
         }

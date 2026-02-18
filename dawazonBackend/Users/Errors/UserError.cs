@@ -1,4 +1,5 @@
 ﻿using dawazonBackend.Common;
+using dawazonBackend.Common.Error;
 
 namespace dawazonBackend.Users.Errors;
 
@@ -12,4 +13,5 @@ public record UserError(string Message) : DomainError (Message);
 /// Error devuelto cuando no se encuentra un usuario.
 /// </summary>
 public record UserNotFoundError(string Message) : UserError(Message);
+public record UserUpdateError(string Message):UserError(Message);
 

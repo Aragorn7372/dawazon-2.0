@@ -205,7 +205,7 @@ public class CartRepository(
 {
     // Aplanamos las líneas de los carritos comprados (SQL INNER JOIN implícito)
     var query = context.Carts
-        .Where(c => c.Purchased)
+        .Where(c => c.Purchased==true)
         .SelectMany(
             cart => cart.CartLines,
             (cart, line) => new { cart, line, product = line.Product }
@@ -213,9 +213,9 @@ public class CartRepository(
         // Unimos con la tabla Users para obtener al Manager (Creador del producto)
         .Join(
             context.Users,
-            x => x.product!.CreatorId,
+            objetoAnonimo => objetoAnonimo.product!.CreatorId,
             u => u.Id,
-            (x, manager) => new { x.cart, x.line, x.product, manager }
+            (objetoAnonimo, manager) => new { objetoAnonimo.cart, objetoAnonimo.line, objetoAnonimo.product, manager }
         );
 
     // Filtramos por permisos directamente en la consulta a la BBDD
@@ -226,20 +226,20 @@ public class CartRepository(
 
     // Proyectamos a un tipo anónimo temporal. 
     // Hacemos esto porque Entity Framework no sabe traducir el Enum 'Status' a SQL de forma nativa si está guardado como string.
-    var projection = query.Select(x => new 
+    var projection = query.Select(objetoAnonimo => new 
     {
-        SaleId = x.cart.Id,
-        ProductId = x.product!.Id,
-        ProductName = x.product.Name,
-        Quantity = x.line.Quantity,
-        ProductPrice = x.line.ProductPrice,
-        StatusStr = x.line.Status, // Extraemos el string tal cual de la BBDD
-        ManagerId = x.product.CreatorId,
-        ManagerName = x.manager.Name,
-        Client = x.cart.Client,
-        UserId = x.cart.UserId,
-        CreateAt = x.cart.CreatedAt,
-        UpdateAt = x.cart.UploadAt
+        SaleId = objetoAnonimo.cart.Id,
+        ProductId = objetoAnonimo.product!.Id,
+        ProductName = objetoAnonimo.product.Name,
+        Quantity = objetoAnonimo.line.Quantity,
+        ProductPrice = objetoAnonimo.line.ProductPrice,
+        StatusStr = objetoAnonimo.line.Status, // Extraemos el string tal cual de la BBDD
+        ManagerId = objetoAnonimo.product.CreatorId,
+        ManagerName = objetoAnonimo.manager.Name,
+        Client = objetoAnonimo.cart.Client,
+        UserId = objetoAnonimo.cart.UserId,
+        CreateAt = objetoAnonimo.cart.CreatedAt,
+        UpdateAt = objetoAnonimo.cart.UploadAt
     });
 
     // Contamos el total de elementos ANTES de paginar
