@@ -19,7 +19,7 @@ public static class DbConfig
             {
                 var connectionString = configuration["DATABASE_URL"] 
                                        ?? configuration.GetConnectionString("DefaultConnection") 
-                                       ?? "Host=localhost;Port=5432;Database=funko_db;Username=funko_user;Password=funko_password";
+                                       ?? "Host=localhost;Port=5432;Database=dawazon_db;Username=dawazon_user;Password=dawazon_password;";
                 options.UseNpgsql(connectionString);
                 options.EnableSensitiveDataLogging(); // Para producción
                 options.EnableDetailedErrors(); // Para producción

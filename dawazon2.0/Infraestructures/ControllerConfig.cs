@@ -1,0 +1,27 @@
+﻿using System.Text.Json;
+using Serilog;
+
+namespace dawazon2._0.Infraestructures;
+
+public static class ControllerConfig
+{
+    /// <summary>
+    /// Configura los controladores MVC con negociación de contenido.
+    /// </summary>
+    public static IMvcBuilder AddMvcControllers(this IServiceCollection services)
+    {
+        Log.Information("📦 Configurando controladores MVC...");
+        return services.AddControllers(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.ReturnHttpNotAcceptable = true;
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            })
+            .AddXmlSerializerFormatters()
+            .AddXmlDataContractSerializerFormatters();
+    }
+}

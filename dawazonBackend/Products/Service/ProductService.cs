@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using dawazonBackend.Common.Cache;
 using dawazonBackend.Common.Dto;
 using dawazonBackend.Common.Storage;
 using dawazonBackend.Products.Errors;
@@ -7,12 +8,11 @@ using dawazonBackend.Products.Models;
 using dawazonBackend.Products.Models.Dto;
 using dawazonBackend.Products.Repository.Categoria;
 using dawazonBackend.Products.Repository.Productos;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace dawazonBackend.Products.Service;
 
 public class ProductService(
-    IMemoryCache cache,
+    ICacheService cache,
     IProductRepository repository,
     ICategoriaRepository categoryRepository,
     IStorage storageService,
@@ -28,13 +28,10 @@ public class ProductService(
         logger.LogDebug("Buscando Product con id: {Id}", id);
         var cacheKey = CacheKeyPrefix + id;
 
-        if (cache.TryGetValue(cacheKey, out Product? cachedProduct))
+        if (await cache.GetAsync<Product>(cacheKey) is { }  cachedProduct)
         {
-            if (cachedProduct != null)
-            {
                 logger.LogDebug("Product con id {Id} encontrado en caché", id);
                 return cachedProduct.ToDto();
-            }
         }
 
         var product = await repository.GetProductAsync(id);
@@ -45,7 +42,7 @@ public class ProductService(
                 new ProductNotFoundError($"No se encontró el Product con id: {id}."));
         }
 
-        cache.Set(cacheKey, product, _cacheDuration);
+        await cache.SetAsync(cacheKey, product, _cacheDuration);
         return product.ToDto();
     }
 
@@ -138,7 +135,7 @@ public class ProductService(
                 new ProductNotFoundError($"No se encontró el Product con id: {id}."));
         }
 
-        cache.Remove(CacheKeyPrefix + id);
+        await cache.RemoveAsync(CacheKeyPrefix + id);
         return updatedProduct.ToDto();
     }
 
@@ -166,7 +163,7 @@ public class ProductService(
         }
 
         await repository.UpdateProductAsync(foundProduct, id);
-        cache.Remove(CacheKeyPrefix + id);
+        await cache.RemoveAsync(CacheKeyPrefix + id);
         return foundProduct.ToDto();
     }
 
@@ -192,7 +189,7 @@ public class ProductService(
         }
 
         // Eliminar imágenes antiguas del almacenamiento
-        if (foundProduct.Images != null && foundProduct.Images.Count > 0)
+        if (foundProduct.Images.Count > 0)
         {
             foreach (var imagePath in foundProduct.Images)
             {
@@ -239,13 +236,11 @@ public class ProductService(
                 new ProductNotFoundError($"No se encontró el Product con id: {id}."));
         }
 
-        if (foundProduct.Comments == null) foundProduct.Comments = [];
-
         foundProduct.Comments.Add(comment);
 
         await repository.UpdateProductAsync(foundProduct, id);
 
-        cache.Remove(CacheKeyPrefix + id);
+        await cache.RemoveAsync(CacheKeyPrefix + id);
         return foundProduct.ToDto();
     }
 
@@ -275,7 +270,7 @@ public class ProductService(
         }
     
         // BORRAR IMÁGENES
-        if (productToDelete.Images != null && productToDelete.Images.Count > 0)
+        if (productToDelete.Images.Count > 0)
         {
             foreach (var imagePath in productToDelete.Images)
             {
@@ -283,7 +278,7 @@ public class ProductService(
             }
         }
 
-        cache.Remove(CacheKeyPrefix + id);
+        await cache.RemoveAsync(CacheKeyPrefix + id);
     
         return productToDelete.ToDto();
     }
