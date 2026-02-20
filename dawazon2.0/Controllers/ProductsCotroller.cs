@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Security.Claims;
+using CSharpFunctionalExtensions;
 using dawazonBackend.Common.Dto;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Mapper;
@@ -109,13 +110,15 @@ public class ProductsController(IProductService service) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    [Authorize(Roles = UserRoles.ADMIN)]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<IActionResult> PostAsync(
         [FromForm] ProductRequestDto request,
         [FromForm] List<IFormFile> file)
     {
 
-        var saved = await service.CreateAsync(request);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var requestUserId= request.Copy(CreatorId:long.Parse(userId!));
+        var saved = await service.CreateAsync(requestUserId);
         if (saved.IsSuccess)
             return await service.UpdateImageAsync(saved.Value.Id, file).Match(
                 onSuccess: IActionResult (response) => Created($"/api/Products/{response.Id}", response),
@@ -136,6 +139,7 @@ public class ProductsController(IProductService service) : ControllerBase
     /// <param name="price">El precio actualizado del producto.</param>
     /// <param name="categoria">La categoría actualizada del producto Funko.</param>
     /// <param name="file">Archivo de imagen opcional para reemplazar la imagen actual. Formatos aceptados: JPG, PNG, GIF.</param>
+    /// <param name="request"></param>
     /// <returns>
     /// Un objeto <see cref="FunkoResponseDto"/> que representa el producto Funko actualizado.
     /// </returns>
@@ -161,32 +165,45 @@ public class ProductsController(IProductService service) : ControllerBase
     [Consumes("multipart/form-data")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize(Roles = UserRoles.ADMIN)]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<IActionResult> PutAsync(
         string id,
         [FromForm] ProductRequestDto request,
         [FromForm] List<IFormFile> files)
     {
-        var images= await service.UpdateImageAsync(id, files);
-        if (images.IsFailure)
+        var creatorId = await service.GetUserProductIdAsync(id);
+        if (creatorId.IsFailure)
         {
-            return images.Error switch
-            {
-                ProductNotFoundError => NotFound(new { message = images.Error.Message }),
-                _ => BadRequest(new { message = images.Error.Message })
-            };
+            return NotFound(new {error = creatorId.Error.Message});
         }
-        var copied= request.Copy(Images:images.Value.Images);
-        return await service.UpdateAsync(id,copied).Match(
-            onSuccess: response => Ok(response),
-            onFailure: error => error switch
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (creatorId.Value==long.Parse(userId!))
+        {
+            var images = await service.UpdateImageAsync(id, files);
+            if (images.IsFailure)
             {
-                ProductValidationError => BadRequest(new { message = error.Message }),
-                ProductNotFoundError => NotFound(new { message = error.Message }),
-                _ => StatusCode(500, new { message = error.Message })
-            });
+                return images.Error switch
+                {
+                    ProductNotFoundError => NotFound(new { message = images.Error.Message }),
+                    _ => BadRequest(new { message = images.Error.Message })
+                };
+            }
+
+            var copied = request.Copy(Images: images.Value.Images);
+            return await service.UpdateAsync(id, copied).Match(
+                onSuccess: response => Ok(response),
+                onFailure: error => error switch
+                {
+                    ProductValidationError => BadRequest(new { message = error.Message }),
+                    ProductNotFoundError => NotFound(new { message = error.Message }),
+                    _ => StatusCode(500, new { message = error.Message })
+                });
+        }
+
+        return Forbid();
     }
 
     /// <summary>
@@ -210,9 +227,16 @@ public class ProductsController(IProductService service) : ControllerBase
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize(Roles = UserRoles.ADMIN)]
+    [Authorize(Roles = UserRoles.ADMIN + "," + UserRoles.MANAGER)]
     public async Task<IActionResult> DeleteAsync(string id)
     {
+        if (User.IsInRole(UserRoles.MANAGER))
+        {
+            var creatorId = await service.GetUserProductIdAsync(id);
+            if (creatorId.IsFailure) return NotFound(new {error = creatorId.Error.Message});
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (creatorId.Value != long.Parse(userId!)) return Forbid();
+        }
         return await service.DeleteAsync(id).Match(
             onSuccess: response => Ok(response),
             onFailure: error => error switch

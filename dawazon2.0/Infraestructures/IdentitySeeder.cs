@@ -31,6 +31,11 @@ public static class IdentitySeeder
                 await roleManager.CreateAsync(new IdentityRole<long>("User"));
                 logger.LogInformation("Rol 'User' creado");
             }
+            if (!await roleManager.RoleExistsAsync("Manager"))
+            {
+                await roleManager.CreateAsync(new IdentityRole<long>("Manager"));
+                logger.LogInformation("Rol 'Manager' creado");
+            }
             
             var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
             if (adminUser == null)
