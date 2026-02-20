@@ -50,7 +50,6 @@ public class ProductsController(IProductService service) : ControllerBase
         return Ok(await service.GetAllAsync(filter));
     }
     
-
     /// <summary>
     /// Obtiene un producto Funko específico por su identificador único.
     /// </summary>

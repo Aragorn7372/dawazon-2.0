@@ -124,6 +124,4 @@ public class UserService(ILogger<UserService> logger,UserManager<User> userManag
         found.IsDeleted = true;
         await userManager.UpdateAsync(found);
     }
-
-
 }
