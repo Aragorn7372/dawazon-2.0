@@ -14,4 +14,5 @@ public record UserError(string Message) : DomainError (Message);
 /// </summary>
 public record UserNotFoundError(string Message) : UserError(Message);
 public record UserUpdateError(string Message):UserError(Message);
-
+public record UserConflictError(string Message):UserError(Message);
+public record UnauthorizedError(string Message):UserError(Message);

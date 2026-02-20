@@ -15,12 +15,13 @@ public record ProductRequestDto(
     [Required(ErrorMessage = "La categoría no puede estar vacía")]
     string Category,
 
-    string? Description,
+    [Required(ErrorMessage = "La descripción no puede estar vacía")]
+    string Description,
 
     List<string>? Images,
 
     [Range(0, int.MaxValue, ErrorMessage = "La cantidad no puede ser inferior a 0")]
-    int? Stock,
+    int Stock,
 
     long? CreatorId
 );

@@ -10,7 +10,7 @@ public static class StorageConfig
     /// </summary>
     public static IServiceCollection AddStorage(this IServiceCollection services)
     {
-        Log.Information("🖼️ Configurando servicio de almacenamiento...");
+        Log.Information("Configurando servicio de almacenamiento...");
         return services.AddScoped<IStorage, Storage>();
     }
 }

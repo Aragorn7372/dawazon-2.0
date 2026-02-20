@@ -1,26 +1,19 @@
 ﻿@model dawazon2._0.Models.Product
 
 @{
+    ViewData["Title"] = $"Product View {Model.Name}";
     // Mapeo de variables de sesión o ViewBag para roles y estados
     bool isUser = User.IsInRole("User");
     bool isAdmin = User.IsInRole("Admin");
     bool isManager = User.IsInRole("Manager");
-    
+   
     // Estas variables deben venir del Controller via ViewBag/ViewData
     bool isMine = ViewBag.IsMine ?? false;
     bool isCart = ViewBag.IsInCart ?? false;
     bool isFav = ViewBag.IsInFav ?? false;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>@Model.Name - dawazon2.0</title>
-    @* Importante para que el script de Fetch funcione con el antiforgery de .NET *@
-    @Html.AntiForgeryToken()
-</head>
-<body>
+@Html.AntiForgeryToken()
 <div class="container col-12">
 
     <h1 class="product-title">@Model.Name</h1>
@@ -28,14 +21,12 @@
     <div class="product-main-grid">
         <div class="carousel-container">
             <button class="carousel-arrow left">&#10094;</button>
-            @if (Model.Images != null)
+            @for (int i = 0; i < Model.Images.Count; i++)
             {
-                @for (int i = 0; i < Model.Images.Count; i++)
-                {
-                    <img src="@Model.Images[i]" 
-                         class="product-img @(i == 0 ? "active" : "")" 
-                         alt="@Model.Name">
-                }
+                <text>
+                    <img src="@Model.Images[i]"
+                         class="product-img @(i == 0 ? "active" : "")"
+                         alt="@Model.Name"></text>
             }
             <button class="carousel-arrow right">&#10095;</button>
         </div>
@@ -54,13 +45,13 @@
     @if (isUser)
     {
         <div class="action-buttons">
-            <button onclick="añadirAlCarrito(this, '@Model.Id')"
-                class="@(isCart ? "btn btn-danger" : "btn btn-gradient")">
+            <button onclick="addCart(this, '@Model.Id')"
+                    class="@(isCart ? "btn btn-danger" : "btn btn-gradient")">
                 @(isCart ? "Quitar del carrito" : "Añadir al carrito")
             </button>
-            <button onclick="añadirAFav(this, '@Model.Id')"
-                class="@(isFav ? "btn btn-danger" : "btn btn-gradient")"
-                data-fav="@(isFav ? "true" : "false")">
+            <button onclick="addFav(this, '@Model.Id')"
+                    class="@(isFav ? "btn btn-danger" : "btn btn-gradient")"
+                    data-fav="@(isFav ? "true" : "false")">
                 @(isFav ? "no fav" : "fav")
             </button>
         </div>
@@ -83,55 +74,64 @@
 
     <section class="comments-section">
         <h3>comentarios: </h3>
-        
+@*
         @if (isUser)
         {
-            <form id="ratingForm" onsubmit="event.preventDefault(); submitRating('@Model.Id');">
-                @* .NET inyecta el token automáticamente si usas Tag Helpers, pero aquí lo usamos JS para el Fetch *@
+            <form asp-action="SubmitRating" asp-controller="Product" method="post">
+    
+                <input type="hidden" asp-for="Id" />
+
                 <div class="comment-card">
                     <div class="d-block">
-                        <label class="form-label col-12" for="comment">comentario: </label>
-                        <textarea class="form-control col-12" name="comment" id="comment" rows="4"></textarea>
+                        <label class="form-label col-12" asp-for="Comment"></label>
+                        <textarea class="form-control col-12" asp-for="Comment" rows="4"></textarea>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
 
                         <div class="mt-3">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="recomended" id="recomended" value="true" required />
-                                <label class="form-check-label recommendation positive" for="recomended">recomendado</label>
+                                <input class="form-check-input" asp-for="Recommended" type="radio" value="true" />
+                                <label class="form-check-label">Recomendado</label>
                             </div>
+
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="recomended" id="noRecomended" value="false" required />
-                                <label class="form-check-label recommendation negative" for="noRecomended">no recomendado</label>
+                                <input class="form-check-input" asp-for="Recommended" type="radio" value="false" />
+                                <label class="form-check-label">No recomendado</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary text-light mt-3">enviar</button>
+
+                        <span asp-validation-for="Recommended" class="text-danger"></span>
+
+                        <button type="submit" class="btn btn-primary text-light mt-3">
+                            Enviar
+                        </button>
                     </div>
                 </div>
             </form>
         }
-
-        @* @if (Model.Comments != null && Model.Comments.Any())
+*@
+        @if (Model.Comments.Any())
         {
-        @foreach (var comment in Model.Comments) 
+            @foreach (var comment in Model.Comments)
             {
                 <div class="comment-card">
                     <div class="comment-header">
                         <div>
-                            <span class="user-name">@comment.UserName</span>
-                            <span class="@(comment.Verified ? "badge-verified" : "badge-")">
-                                @(comment.Verified ? "compra verificada" : "compra no verificada")
+                            <span class="user-name">@comment.userName</span>
+                            <span class="@(comment.verified ? "badge-verified" : "badge-")">
+                                @(comment.verified ? "compra verificada" : "compra no verificada")
                             </span>
                         </div>
-                        <span class="recommendation @(comment.Recommended ? "positive" : "negative")">
-                            @(comment.Recommended ? "recomendado" : "no recomendado")
+                        <span class="recommendation @(comment.recommended ? "positive" : "negative")">
+                            @(comment.recommended ? "recomendado" : "no recomendado")
                         </span>
                     </div>
                     <div class="comment-body">
-                        <p>@comment.CommentText</p>
+                        <p>@comment.comment</p>
                     </div>
                     <hr>
                 </div>
             }
-        } *@
+        }
 
         @* Notificaciones Toast *@
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -183,22 +183,23 @@
         new bootstrap.Toast(toastEl).show();
     }
 
-    @if (isUser) {
+    @if (isUser)
+    {
         <text>
-        function añadirAlCarrito(element, productoId) {
+        function addCart(element, productoId) {
             const action = element.textContent.trim() === "Añadir al carrito" ? "add" : "remove";
             window.location.href = `/auth/me/carrito/${action}/${productoId}`;
         }
 
-        function añadirAFav(element, productoId) {
+        function addFav(element, productoId) {
             const action = element.textContent.trim() === "fav" ? "add" : "remove";
             window.location.href = `/auth/me/fav/${action}/${productoId}`;
         }
 
         function submitRating(productoId) {
             const rating = document.querySelector('input[name="recomended"]:checked');
-            const comentario = document.getElementById('comment').value;
-
+            const comment = document.getElementById('comment');
+            const comentario = comment.value;
             if (!rating) {
                 showNotification('Seleccione una recomendación', 'warning');
                 return;
@@ -228,7 +229,8 @@
         </text>
     }
 
-    @if (isManager && isMine) {
+    @if (isManager && isMine)
+    {
         <text>
         function edit(element, productoId) {
             window.location.href = `/auth/me/products/edit/${productoId}`;
@@ -241,5 +243,3 @@
         </text>
     }
 </script>
-</body>
-</html>

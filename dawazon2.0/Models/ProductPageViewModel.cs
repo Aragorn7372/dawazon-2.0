@@ -1,4 +1,7 @@
-﻿namespace dawazon2._0.Models
+﻿using System.Collections;
+using dawazonBackend.Products.Models.Dto;
+
+namespace dawazon2._0.Models
 {
     public class ProductPageViewModel
     {
@@ -20,5 +23,6 @@
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public List<string> Images { get; set; } = new();
+        public List<CommentDto> Comments { get; set; } = new();
     }
 }

@@ -18,7 +18,7 @@
     </div>
 
     <div id="grid-productos" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @if (Model.Content == null || !Model.Content.Any())
+        @if (!Model.Content.Any())
         {
             <div class="alert alert-warning">No se encontraron productos. </div>
         }
@@ -29,7 +29,7 @@
                 <div class="col">
                     <div class="card h-100 p-3 bg-white">
                         <div class="img-container">
-                            @if (product.Images != null && product.Images.Any())
+                            @if (product.Images.Any())
                             {
                                 <img src="/files/@product.Images[0]" alt="@product.Name">
                             }
@@ -60,7 +60,7 @@
     </div>
 
     @* Seccion de Paginación *@
-    @if (Model.Content != null && Model.TotalPages > 1)
+    @if (Model.TotalPages > 1)
     {
         <div class="row mt-4">
             <div class="col-12">

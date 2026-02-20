@@ -33,8 +33,8 @@ public static class ProductMapper
             Id = dto.Id,
             Name = dto.Name,
             Price = dto.Price,
-            Stock = dto.Stock ?? 0,
-            Description = dto.Description ?? string.Empty,
+            Stock = dto.Stock,
+            Description = dto.Description,
             // La categoría se resuelve en el servicio buscando por nombre
             CategoryId = string.Empty, 
             CreatorId = dto.CreatorId ?? 0,
@@ -55,6 +55,29 @@ public static class ProductMapper
             comment: model.Content,
             recommended: model.recommended,
             verified: model.verified
+        );
+    }
+
+    public static ProductRequestDto Copy(
+        this ProductRequestDto original,
+        string? Id = null,
+        string? Name = null,
+        double? Price = null,
+        string? Category = null,
+        string? Description = null,
+        List<string>? Images = null,
+        int? Stock = null,
+        long? CreatorId = null)
+    {
+        return new ProductRequestDto(
+            Id: Id ?? original.Id,
+            Name: Name ?? original.Name,
+            Price: Price ?? original.Price,
+            Category: Category ?? original.Category,
+            Description: Description ?? original.Description,
+            Images: Images ?? original.Images, // Nota: Si envías null, mantendrá la lista original
+            Stock: Stock ?? original.Stock,
+            CreatorId: CreatorId ?? original.CreatorId
         );
     }
 }
