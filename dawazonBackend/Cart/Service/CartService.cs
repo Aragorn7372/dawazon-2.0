@@ -71,11 +71,12 @@ namespace dawazonBackend.Cart.Service
             return await _cartRepository.CalculateTotalEarningsAsync(managerId, isAdmin);
         }
 
-        public async Task<PageResponseDto<CartResponseDto>> FindAllAsync(long? userId, string purchased, FilterCartDto filter)
+        public async Task<PageResponseDto<CartResponseDto>> FindAllAsync(long? userId, bool purchased, FilterCartDto filter)
         {
             // Deconstruimos la tupla devuelta por el repositorio
             var (itemsEnumerable, totalCount) = await _cartRepository.GetAllAsync(filter);
             var items = itemsEnumerable
+                .Where(p => p.Purchased == purchased)
                 .Select(c => c.ToDto())
                 .ToList();
     
@@ -335,7 +336,7 @@ namespace dawazonBackend.Cart.Service
             return cart.ToDto();
         }
 
-        public async Task<DomainError?> CancelSaleAsync(string ventaId, string productId, long managerId, bool isAdmin)
+        public async Task<DomainError?> CancelSaleAsync(string ventaId, string productId, long? managerId, bool isAdmin)
         {
             var cartResult = await GetByIdAsync(ventaId);
     

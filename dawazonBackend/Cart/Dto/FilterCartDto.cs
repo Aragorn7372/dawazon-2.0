@@ -3,7 +3,7 @@
 public record FilterCartDto(
     long? managerId,
     bool? isAdmin,
-    string? purchased,
+    bool? purchased,
     int Page = 0,
     int Size = 10,
     string SortBy = "id",

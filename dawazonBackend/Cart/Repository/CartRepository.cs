@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using dawazonBackend.Cart.Dto;
+using dawazonBackend.Cart.Exceptions;
 using dawazonBackend.Cart.Models;
 using dawazonBackend.Common.Database;
 using dawazonBackend.Common.Dto;
@@ -18,9 +19,9 @@ public class CartRepository(
         var query = context.Carts.AsQueryable();
 
         // Aplicar filtros si vienen en el DTO
-        if (!string.IsNullOrEmpty(filter.purchased) && bool.TryParse(filter.purchased, out bool isPurchased))
+        if (filter.purchased != null)
         {
-            query = query.Where(c => c.Purchased == isPurchased);
+            query = query.Where(c => c.Purchased == filter.purchased);
         }
 
         // OBTENEMOS EL TOTAL ANTES DE PAGINAR
@@ -178,7 +179,7 @@ public class CartRepository(
         var cart = await context.Carts.FindAsync(id);
 
         if (cart == null)
-            throw new Exception("No se encontro carrito");
+            throw new CartNotFoundException("No se encontro carrito");
 
         context.Carts.Remove(cart);
 
