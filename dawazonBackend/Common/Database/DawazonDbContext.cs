@@ -154,8 +154,8 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
         );
 
         modelBuilder.Entity<Cart.Models.Cart>().OwnsOne(c => c.Client).OwnsOne(c => c.Address).HasData(
-            new { ClientCartId = "CART00000001", Street = "Calle Falsa 123", City = "Soria", State = "Soria", Country = "España", ZipCode = "42001" },
-            new { ClientCartId = "CART00000002", Street = "Calle Falsa 123", City = "Soria", State = "Soria", Country = "España", ZipCode = "42001" }
+            new { ClientCartId = "CART00000001", Number = (short)123, Street = "Calle Falsa", City = "Soria", Province = "Soria", Country = "España", PostalCode = 42001 },
+            new { ClientCartId = "CART00000002", Number = (short)123, Street = "Calle Falsa", City = "Soria", Province = "Soria", Country = "España", PostalCode = 42001 }
         );
 
         modelBuilder.Entity<Cart.Models.Cart>().OwnsMany(c => c.CartLines).HasData(

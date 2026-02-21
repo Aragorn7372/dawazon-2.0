@@ -19,15 +19,15 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:40 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:17 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiMDBkZjZjY2MtZGU2MS00NWNmLTkwM2MtN2Y3M2RhMjAwZmI1IiwiZXhwIjoxNzcxNjk2NjAxLCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.mKjtUMfETRBC8zRid1z4vzHqr7_Gqc3z7nIocZiiUHc"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJqdGkiOiIxN2FiOTM1MC1kMjMxLTQ0YjUtODYxMy0xNTcxNjZiN2E3ZWMiLCJleHAiOjE3NzE2OTk4NzcsImlzcyI6IkpXVF9JU1NVRVIiLCJhdWQiOiJKV1RfQVVESUVOQ0UifQ.63quSIQLZXpysvlAff1jLu5ZF1bicBw_HDAlO8XhkSo"
           },
           "url": "http://localhost/api/auth/login",
-          "responseTime": 211
+          "responseTime": 62
         },
         "error": null,
         "status": "pass",
@@ -36,13 +36,13 @@
           {
             "description": "Setup: Login admin OK",
             "status": "pass",
-            "uid": "XdoUg_g4yVsqj5rg9ZE5h"
+            "uid": "ABRn5Tkaf5auEHp-NBJdU"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.6345895,
+        "runDuration": 0.2699167,
         "name": "00-Login-Setup",
         "path": "ControladorAdmin\\00-Login-Setup",
         "iterationIndex": 0
@@ -64,7 +64,7 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:17 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -98,6 +98,19 @@
               },
               {
                 "id": 3,
+                "nombre": "",
+                "email": "manager@manager.com",
+                "telefono": "",
+                "roles": [
+                  "Manager"
+                ],
+                "calle": "",
+                "ciudad": "",
+                "codigoPostal": "0",
+                "provincia": ""
+              },
+              {
+                "id": 4,
                 "nombre": "testuser",
                 "email": "testuser@dawazon.test",
                 "telefono": "",
@@ -111,10 +124,10 @@
               }
             ],
             "totalPages": 1,
-            "totalElements": 3,
+            "totalElements": 4,
             "pageSize": 10,
             "pageNumber": 0,
-            "totalPageElements": 3,
+            "totalPageElements": 4,
             "sortBy": "id",
             "direction": "asc",
             "empty": false,
@@ -122,7 +135,7 @@
             "last": true
           },
           "url": "http://localhost/api/users",
-          "responseTime": 156
+          "responseTime": 46
         },
         "error": null,
         "status": "pass",
@@ -131,18 +144,18 @@
           {
             "description": "GET usuarios como admin devuelve 200",
             "status": "pass",
-            "uid": "slf7tCVhlPyZeRNvGB1dS"
+            "uid": "PsfOUelzn-igCU992gBCP"
           },
           {
             "description": "Respuesta contiene campo content paginado",
             "status": "pass",
-            "uid": "nwfJnIADuixfhp24Cvz3s"
+            "uid": "hFPBH9aS_UUrhTbS4wWh4"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.4281315,
+        "runDuration": 0.1538756,
         "name": "01-GetAll-Usuarios-Admin",
         "path": "ControladorAdmin\\01-GetAll-Usuarios-Admin",
         "iterationIndex": 0
@@ -163,13 +176,13 @@
           "statusText": "Unauthorized",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:17 GMT",
             "server": "Kestrel",
             "www-authenticate": "********"
           },
           "data": "",
           "url": "http://localhost/api/users",
-          "responseTime": 7
+          "responseTime": 2
         },
         "error": null,
         "status": "pass",
@@ -178,13 +191,13 @@
           {
             "description": "GET usuarios sin auth devuelve 401",
             "status": "pass",
-            "uid": "js3fc750COE3Ib2tiy76s"
+            "uid": "4ZD6RtQAlQiaMLLugC6hB"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1801773,
+        "runDuration": 0.0476232,
         "name": "02-GetAll-Usuarios-SinAuth",
         "path": "ControladorAdmin\\02-GetAll-Usuarios-SinAuth",
         "iterationIndex": 0
@@ -206,7 +219,7 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:17 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -224,7 +237,7 @@
             "provincia": ""
           },
           "url": "http://localhost/api/users/1",
-          "responseTime": 71
+          "responseTime": 26
         },
         "error": null,
         "status": "pass",
@@ -233,18 +246,18 @@
           {
             "description": "GET usuario por ID como admin devuelve 200",
             "status": "pass",
-            "uid": "Xj5iQgkUwbm1Atwfp9sKS"
+            "uid": "k7jJx4TdQQYq2BruR40Pv"
           },
           {
             "description": "Respuesta contiene id del usuario",
             "status": "pass",
-            "uid": "8A0fy_r0im1J5Zfo_aihO"
+            "uid": "l61rFLb1uxLHKMrF82cYB"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1633571,
+        "runDuration": 0.0758803,
         "name": "03-GetById-Usuario-Admin",
         "path": "ControladorAdmin\\03-GetById-Usuario-Admin",
         "iterationIndex": 0
@@ -255,34 +268,26 @@
         },
         "request": {
           "method": "GET",
-          "url": "http://localhost:5041/api/users/ID_INEXISTENTE_999999",
+          "url": "http://localhost:5041/api/users/99999999",
           "headers": {
             "Authorization": "Bearer ********",
             "content-type": null
           }
         },
         "response": {
-          "status": 400,
-          "statusText": "Bad Request",
+          "status": 404,
+          "statusText": "Not Found",
           "headers": {
-            "content-type": "application/json",
-            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 17:51:18 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "errorId": "74dd2da4",
-            "message": "ID_INEXISTENTE_999999 is not a valid value for Int64. (Parameter 'value')",
-            "errorType": "ValidationError",
-            "timestamp": "2026-02-21T16:56:42.4995678Z",
-            "path": {
-              "value": "/api/users/ID_INEXISTENTE_999999",
-              "hasValue": true
-            },
-            "method": "GET"
+            "message": "No se encontro usuario con id 99999999"
           },
-          "url": "http://localhost/api/users/ID_INEXISTENTE_999999",
-          "responseTime": 25
+          "url": "http://localhost/api/users/99999999",
+          "responseTime": 6
         },
         "error": null,
         "status": "pass",
@@ -290,20 +295,19 @@
         "testResults": [
           {
             "description": "GET usuario inexistente devuelve 404",
-            "status": "fail",
-            "error": "expected 400 to equal 404",
-            "uid": "Yic4kFxNeYS6YyVPZIl9u"
+            "status": "pass",
+            "uid": "-DGhnFXphbMrwotLW01Wq"
           },
           {
             "description": "Respuesta contiene mensaje de error",
             "status": "pass",
-            "uid": "wGt3v8z9v7QS8XrLsOgLx"
+            "uid": "WHBpIieWnNCJ5U6Xq7pCz"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1889207,
+        "runDuration": 0.093645,
         "name": "04-GetById-Usuario-NotFound",
         "path": "ControladorAdmin\\04-GetById-Usuario-NotFound",
         "iterationIndex": 0
@@ -319,42 +323,32 @@
             "Authorization": "Bearer ********",
             "content-type": "application/json"
           },
-          "data": "{\n  \"username\": \"testuser_updated\",\n  \"email\": \"testuser_updated@dawazon.test\"\n}"
+          "data": "{\n  \"Nombre\": \"testuser_updated\",\n  \"Email\": \"testuser_updated@dawazon.test\",\n  \"Telefono\": \"612345678\",\n  \"Calle\": \"Calle Falsa\",\n  \"Ciudad\": \"Soria\",\n  \"CodigoPostal\": \"42001\",\n  \"Provincia\": \"Soria\"\n}"
         },
         "response": {
-          "status": 400,
-          "statusText": "Bad Request",
+          "status": 200,
+          "statusText": "OK",
           "headers": {
-            "content-type": "application/problem+json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 17:51:18 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-            "title": "One or more validation errors occurred.",
-            "status": 400,
-            "errors": {
-              "Calle": [
-                "The Calle field is required."
-              ],
-              "Ciudad": [
-                "The Ciudad field is required."
-              ],
-              "Nombre": [
-                "The Nombre field is required."
-              ],
-              "Provincia": [
-                "The Provincia field is required."
-              ],
-              "CodigoPostal": [
-                "The CodigoPostal field is required."
-              ]
-            },
-            "traceId": "00-17ad5eba729b874793057332e7b32705-fb401b249af4a123-00"
+            "id": 1,
+            "nombre": "testuser_updated",
+            "email": "testuser_updated@dawazon.test",
+            "telefono": "612345678",
+            "roles": [
+              "Admin"
+            ],
+            "calle": "Calle Falsa",
+            "ciudad": "Soria",
+            "codigoPostal": "42001",
+            "provincia": "Soria"
           },
           "url": "http://localhost/api/users/1",
-          "responseTime": 50
+          "responseTime": 40
         },
         "error": null,
         "status": "pass",
@@ -362,20 +356,19 @@
         "testResults": [
           {
             "description": "PUT usuario como admin devuelve 200 o 404",
-            "status": "fail",
-            "error": "expected [ 200, 404 ] to include 400",
-            "uid": "4e5WweT1PMkmkWsoW5wZ1"
+            "status": "pass",
+            "uid": "RD1_fhHd3t1EC27ExZ5-8"
           },
           {
             "description": "Si OK, respuesta contiene id del usuario actualizado",
             "status": "pass",
-            "uid": "xs2LXuuOADvqOXh_IPapA"
+            "uid": "WvSwJyDxSRPB1lDluNupx"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.2300113,
+        "runDuration": 0.1245057,
         "name": "05-UpdateById-Usuario-Admin",
         "path": "ControladorAdmin\\05-UpdateById-Usuario-Admin",
         "iterationIndex": 0
@@ -396,12 +389,12 @@
           "status": 204,
           "statusText": "No Content",
           "headers": {
-            "date": "Sat, 21 Feb 2026 16:56:42 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:18 GMT",
             "server": "Kestrel"
           },
           "data": "",
           "url": "http://localhost/api/users/1",
-          "responseTime": 33
+          "responseTime": 9
         },
         "error": null,
         "status": "pass",
@@ -410,13 +403,13 @@
           {
             "description": "DELETE (ban) usuario como admin devuelve 204 o 404",
             "status": "pass",
-            "uid": "uan8Ix8WMEExKHLIpVrhc"
+            "uid": "9jQztwMkFtKLqg04BvsTl"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.2310157,
+        "runDuration": 0.1229069,
         "name": "06-BanUser-Admin",
         "path": "ControladorAdmin\\06-BanUser-Admin",
         "iterationIndex": 0
@@ -424,16 +417,16 @@
     ],
     "summary": {
       "totalRequests": 7,
-      "passedRequests": 5,
-      "failedRequests": 2,
+      "passedRequests": 7,
+      "failedRequests": 0,
       "errorRequests": 0,
       "skippedRequests": 0,
       "totalAssertions": 0,
       "passedAssertions": 0,
       "failedAssertions": 0,
       "totalTests": 11,
-      "passedTests": 9,
-      "failedTests": 2,
+      "passedTests": 11,
+      "failedTests": 0,
       "totalPreRequestTests": 0,
       "passedPreRequestTests": 0,
       "failedPreRequestTests": 0,

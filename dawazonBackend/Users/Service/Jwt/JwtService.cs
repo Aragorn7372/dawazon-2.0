@@ -39,10 +39,10 @@ public class JwtService(
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Name),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, user.Name ?? ""),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(ClaimTypes.Role, roles[0]),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -91,7 +91,8 @@ public class JwtService(
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;
-            var username = jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+            // Sub ahora contiene el ID de usuario; Name contiene el username
+            var username = jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Name).Value;
 
             return username;
         }

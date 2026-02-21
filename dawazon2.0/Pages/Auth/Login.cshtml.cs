@@ -4,10 +4,13 @@ using dawazonBackend.Users.Service.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using dawazonBackend.Users.Models;
+using Microsoft.AspNetCore.Identity;
+
 namespace dawazon2._0.Pages.Auth;
 
 
-public class Login(IAuthService auth, ILogger<Login> logger) : PageModel
+public class Login(IAuthService auth, ILogger<Login> logger, SignInManager<User> signInManager, UserManager<User> userManager) : PageModel
 {
     // Propiedades vinculadas al formulario
     [BindProperty] 
@@ -34,13 +37,23 @@ public class Login(IAuthService auth, ILogger<Login> logger) : PageModel
 
         try
         {
-            
             var result = await auth.SignInAsync(User.ToDto());
 
             if (result.IsSuccess)
             {
-                logger.LogInformation("Usuario {Email} ha iniciado sesión correctamente.", User.UsernameOrEmail);
-                return LocalRedirect(returnUrl);
+                // Buscamos el usuario real para dárselo a Identity y que cree la cookie
+                var applicationUser = User.UsernameOrEmail.Contains("@") 
+                    ? await userManager.FindByEmailAsync(User.UsernameOrEmail)
+                    : await userManager.FindByNameAsync(User.UsernameOrEmail);
+
+                if (applicationUser != null)
+                {
+                    // persistencia por cookie (isPersistent: true para que no se borre al cerrar navegador si se desea)
+                    await signInManager.PasswordSignInAsync(applicationUser.UserName!, User.Password, isPersistent: true, lockoutOnFailure: false);
+                    
+                    logger.LogInformation("Usuario {Email} ha iniciado sesión con éxito (JWT + Cookie).", User.UsernameOrEmail);
+                    return LocalRedirect(returnUrl);
+                }
             }
 
             ErrorMessage = result.Error.Message;

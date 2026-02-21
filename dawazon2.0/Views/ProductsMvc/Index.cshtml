@@ -1,0 +1,199 @@
+@model dawazon2._0.Models.ProductListViewModel
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="container my-5">
+
+    @* Mensajes de éxito *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <h2 class="mb-0">Productos</h2>
+            <small class="text-muted">@Model.TotalElements resultados</small>
+        </div>
+        @if (User.IsInRole("Manager"))
+        {
+            <div class="col-md-4 text-end">
+                <a asp-controller="ProductsMvc" asp-action="Create" class="btn btn-gradient">
+                    <i class="bi bi-plus-lg me-1"></i>Nuevo producto
+                </a>
+            </div>
+        }
+    </div>
+
+    @* Filtros de búsqueda *@
+    <form asp-controller="ProductsMvc" asp-action="Index" method="get" class="row g-2 mb-4" id="filterForm">
+        <input type="hidden" name="direction" id="directionInput" value="@Model.Direction">
+        <div class="col-md-6">
+            <input type="text" name="nombre" class="form-control" placeholder="Buscar por nombre…"
+                   value="@Model.SearchName">
+        </div>
+        <div class="col-md-2">
+            <select name="sortBy" class="form-select">
+                <option value="id"    selected="@(Model.SortBy == "id")">Por defecto</option>
+                <option value="name"  selected="@(Model.SortBy == "name")">Nombre</option>
+                <option value="price" selected="@(Model.SortBy == "price")">Precio</option>
+                <option value="stock" selected="@(Model.SortBy == "stock")">Stock</option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            @* Botón toggle dirección *@
+            <button type="button" id="directionBtn" class="btn btn-outline-secondary w-100"
+                    title="@(Model.Direction == "asc" ? "Ascendente" : "Descendente")"
+                    onclick="toggleDirection()">
+                @if (Model.Direction == "asc")
+                {
+                    <i class="bi bi-sort-up"></i>
+                }
+                else
+                {
+                    <i class="bi bi-sort-down"></i>
+                }
+            </button>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-search w-100">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+        <div class="col-md-2">
+            @if (!string.IsNullOrEmpty(Model.SearchName) || !string.IsNullOrEmpty(Model.SearchCategory))
+            {
+                <a asp-controller="ProductsMvc" asp-action="Index" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-x-lg me-1"></i>Limpiar
+                </a>
+            }
+        </div>
+    </form>
+
+    @section Scripts {
+        <script>
+            function toggleDirection() {
+                var input = document.getElementById('directionInput');
+                var btn = document.getElementById('directionBtn');
+                if (input.value === 'asc') {
+                    input.value = 'desc';
+                    btn.innerHTML = '<i class="bi bi-sort-down"></i>';
+                    btn.title = 'Descendente';
+                } else {
+                    input.value = 'asc';
+                    btn.innerHTML = '<i class="bi bi-sort-up"></i>';
+                    btn.title = 'Ascendente';
+                }
+                document.getElementById('filterForm').submit();
+            }
+        </script>
+    }
+
+    @* Grid de productos *@
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @if (!Model.Products.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-warning">No se encontraron productos.</div>
+            </div>
+        }
+        else
+        {
+            @foreach (var product in Model.Products)
+            {
+                <div class="col">
+                    <div class="card h-100 p-3 bg-white">
+                        <div class="img-container">
+                            @if (!string.IsNullOrEmpty(product.FirstImage))
+                            {
+                                <img src="/files/@product.FirstImage" alt="@product.Name">
+                            }
+                        </div>
+                        <div class="card-body px-0 pb-0">
+                            <div class="product-title">@product.Name</div>
+                            <small class="text-muted">@product.Category</small>
+
+                            <div class="price-container mt-2">
+                                <span class="price-symbol">@product.Price€</span>
+                            </div>
+
+                            @if (product.Stock > 0)
+                            {
+                                <span class="badge bg-success">En stock</span>
+                                <span style="font-size:0.8rem"> Stock: @product.Stock</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">AGOTADO</span>
+                            }
+
+                            <div class="d-flex gap-2 mt-2">
+                                <a asp-controller="ProductsMvc" asp-action="Detail"
+                                   asp-route-id="@product.Id" class="btn btn-amazon flex-grow-1">
+                                    Ver detalles
+                                </a>
+                                @if (User.IsInRole("Manager"))
+                                {
+                                    <a asp-controller="ProductsMvc" asp-action="Edit"
+                                       asp-route-id="@product.Id" class="btn btn-outline-secondary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    @* Paginación *@
+    @if (Model.TotalPages > 1)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item @(Model.First ? "disabled" : "")">
+                            <a class="page-link"
+                               href="?page=0&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                                «
+                            </a>
+                        </li>
+                        <li class="page-item @(Model.First ? "disabled" : "")">
+                            <a class="page-link"
+                               href="?page=@Model.PrevPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                                ‹
+                            </a>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">Página @(Model.PageNumber + 1) de @Model.TotalPages</span>
+                        </li>
+                        <li class="page-item @(Model.Last ? "disabled" : "")">
+                            <a class="page-link"
+                               href="?page=@Model.NextPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                                ›
+                            </a>
+                        </li>
+                        <li class="page-item @(Model.Last ? "disabled" : "")">
+                            <a class="page-link"
+                               href="?page=@(Model.TotalPages - 1)&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                                »
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center text-muted">
+                <small>@Model.TotalElements productos en total</small>
+            </div>
+        </div>
+    }
+</div>

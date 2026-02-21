@@ -3,4 +3,8 @@
 */obj/*
 */bin/*
 .env
-bruno-test.json
+*/bruno-report.json
+*/report-ControladorAdmin.json
+*/report-ControladorProductos.json
+*/report-ControladorAuth.json
+*/report-ControladorCarrito.json

@@ -2,13 +2,13 @@
 @model dawazon2._0.Pages.Auth.Login
 
 @{
-    ViewData["Title"] = "Iniciar Sesión - Dawazon";
+    ViewData["Title"] = "Identifícate - Dawazon";
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Iniciar Sesión - Dawazon</title>
+    <title>@ViewData["Title"]</title>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
@@ -18,62 +18,83 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link href="/css/auth.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .auth-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 153, 0, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <div class="container-fluid">
-        <a class="logo-container" href="/">
-            <img src="/Dawazon.png"
-                 class="bg-white text-dark rounded-circle d-flex justify-content-center align-items-center me-2"
-                 style="width: 40px; height: 40px; object-fit: contain; padding: 2px;">
-            <span class="fw-bold fs-3" style="color: #ff9900;">Dawazon</span>
-        </a>
-    </div>
+    <a class="logo-container" href="/">
+        <img src="/Dawazon.png" alt="Logo" style="width: 50px; height: 50px;">
+        <span>Dawazon</span>
+    </a>
 </header>
 
 <div class="auth-container">
     <div class="auth-card">
+        <h1 class="auth-title">Identifícate</h1>
 
-        @* Mostrar errores si existen *@
         @if (Model.ErrorMessage != null)
         {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle me-2"></i>@Model.ErrorMessage
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-circle me-2"></i>@Model.ErrorMessage
             </div>
         }
 
         <form method="post">
             @Html.AntiForgeryToken()
 
-            @* Usuario *@
-            <div class="mb-3">
+            <div class="mb-4">
+                <label asp-for="User.UsernameOrEmail" class="form-label">Email o Usuario</label>
                 <input type="text"
                        asp-for="User.UsernameOrEmail"
                        class="form-control auth-input"
-                       placeholder="Usuario"
+                       placeholder="correo@ejemplo.com"
                        required
                        autofocus>
+                <span asp-validation-for="User.UsernameOrEmail" class="text-danger xsmall" style="font-size: 0.75rem;"></span>
             </div>
 
-            @* Contraseña *@
-            <div class="input-group mb-3">
-                <input type="password"
-                       asp-for="User.Password"
-                       class="form-control auth-input password-field"
-                       placeholder="Contraseña"
-                       required>
-                <span class="input-group-text toggle-password" onclick="toggleField(this)">
-                    <i class="bi bi-eye-slash"></i>
-                </span>
+            <div class="mb-4">
+                <label asp-for="User.Password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                    <input type="password"
+                           asp-for="User.Password"
+                           class="form-control auth-input"
+                           placeholder="Introduce tu contraseña"
+                           required>
+                    <span class="toggle-password" onclick="toggleField(this)">
+                        <i class="bi bi-eye-slash"></i>
+                    </span>
+                </div>
+                <span asp-validation-for="User.Password" class="text-danger xsmall" style="font-size: 0.75rem;"></span>
             </div>
 
-            <div class="auth-buttons mt-4">
-                <a asp-page="/Auth/Register" class="btn-auth">Registrarse</a>
-                <button type="submit" class="btn-auth">Iniciar sesión</button>
+            <div class="auth-buttons mt-5">
+                <button type="submit" class="btn-auth">Continuar</button>
             </div>
         </form>
+
+        <div class="auth-footer mt-4 pt-3 border-top border-secondary">
+            <p class="mb-2" style="color: var(--text-muted); font-size: 0.9rem;">¿Eres nuevo en Dawazon?</p>
+            <a asp-page="/Auth/Register" class="btn btn-outline-warning w-100 py-2" style="font-weight: 600; font-size: 0.9rem;">
+                Crea tu cuenta de Dawazon
+            </a>
+        </div>
     </div>
 </div>
 

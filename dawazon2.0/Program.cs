@@ -66,6 +66,8 @@ app.UseSession();
 app.UseStaticFiles();
 // mapeador de controllers
 app.MapControllers();
+// mapeador de razor pages
+app.MapRazorPages();
 // init de datos
 await app.SeedIdentityAsync();
 await app.InitializeDatabaseAsync();

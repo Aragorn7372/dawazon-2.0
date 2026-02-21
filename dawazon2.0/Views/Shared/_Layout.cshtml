@@ -11,23 +11,23 @@
     <link rel="stylesheet" href="~/dawazon2._0.styles.css" asp-append-version="true"/>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-        <div class="container">
-            <div class="bg-custom-dark py-2">
+<header style="background-color: #131921;">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm p-0 m-0">
+        <div class="container-fluid p-0">
+            <div class="bg-custom-dark py-2 w-100">
                 <div class="d-flex align-items-center gap-2 gap-md-3">
 
-                    <a class="text-decoration-none d-flex align-items-center text-white me-1" asp-controller="Home" asp-action="Index">
+                    <a class="text-decoration-none d-flex align-items-center text-white me-1" asp-controller="ProductsMvc" asp-action="Index">
                         <img src="~/Dawazon.png"
                              class="bg-white text-dark rounded-circle d-flex justify-content-center align-items-center me-2"
                              style="width: 35px; height: 35px; font-weight: bold;">
                         <span class="fw-bold fs-5 d-none d-sm-block">Dawazon</span>
                     </a>
 
-                    <form class="d-flex flex-grow-1" asp-controller="Home" asp-action="Index" method="get" role="search">
+                    <form class="d-flex flex-grow-1" asp-controller="ProductsMvc" asp-action="Index" method="get" role="search">
                         <div class="input-group">
-                            <input class="form-control search-input" name="name" type="search" placeholder="Buscar..."
-                                   aria-label="Search" value="@Context.Request.Query["name"]">
+                            <input class="form-control search-input" name="nombre" type="search" placeholder="Buscar..."
+                                   aria-label="Search" value="@Context.Request.Query["nombre"]">
                             <button class="btn btn-search" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -36,7 +36,7 @@
             
                     @using System.Security.Claims
                     
-                    @* @if (User.Identity.IsAuthenticated) *@
+                    @if (User.Identity!.IsAuthenticated)
                     {
                     <div class="d-flex align-items-center gap-3 ms-1">
                         @* Verificamos si el usuario tiene el rol de "User" *@
@@ -54,20 +54,21 @@
                         }
 
                         <div class="dropdown">
-                            <a href="#" class="d-flex align-items-center text-white text-decoration-none"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img">
+                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle-custom"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="padding: 5px 8px; border-radius: 4px; transition: background 0.2s;">
+                                <div class="d-flex flex-column me-2 d-none d-sm-flex" style="line-height: 1;">
+                                    <span style="font-size: 0.75rem; color: #ccc;">Hola,</span>
+                                    <span class="fw-bold" style="font-size: 0.85rem;">@User.Identity.Name</span>
+                                </div>
+                                <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2);">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Mi Cuenta</a></li>
+                                <li><span class="dropdown-item-text small text-muted">@User.Identity.Name</span></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <form asp-controller="Account" asp-action="Logout" method="post" style="margin: 0;">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="dropdown-item" style="cursor: pointer; border: none; background: none; width: 100%; text-align: left;">
-                                            Cerrar Sesión
-                                        </button>
-                                    </form>
+                                    <a href="/Auth/Logout" class="dropdown-item">
+                                        Cerrar Sesión
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -76,18 +77,16 @@
                     else
                     {
                     <div class="d-flex align-items-center gap-3 ms-1">
-                        <div class="dropdown">
-                            <a asp-controller="Account" asp-action="Login">
-                                <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img" style="cursor: pointer;">
-                            </a>
-                        </div>
+                        <a href="/Auth/Login" class="text-white text-decoration-none small fw-semibold">
+                            <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img" style="cursor: pointer;">
+                        </a>
                     </div>
                     }
                 </div>
             </div>
         </div>
             
-        @* @if (User.Identity.IsAuthenticated) *@
+        @if (User.Identity!.IsAuthenticated)
         {
         @if (User.IsInRole("Admin"))
         {
@@ -120,29 +119,71 @@
             </div>
         }
 
-        <div class="bg-custom-secondary text-white py-1 shadow-sm border-top border-secondary">
-            <div class="container-fluid d-flex align-items-center">
-
-                <button class="btn btn-link text-white text-decoration-none d-flex align-items-center me-3 px-0 fw-bold border-0"
-                        type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategories">
-                    <i class="bi bi-list fs-3 me-1"></i>
-                    <span class="d-none d-sm-inline">Categorías</span>
-                </button>
-
-                <nav class="d-flex gap-3 overflow-auto ms-2" style="white-space: nowrap; scrollbar-width: none;">
-                    @if (ViewBag.Categorias != null)
-                    {
-                        @foreach (var categoria in ((List<string>)ViewBag.Categorias).Take(5))
-                        {
-                            <a class="nav-link text-white small p-0" asp-controller="Home" asp-action="Index" asp-route-categoria="@categoria">
-                                @categoria
-                            </a>
-                        }
-                    }
-                </nav>
-            </div>
-        </div>
+        } @* fin @if IsAuthenticated *@
     </nav>
+    @* Barra de categorías — segunda fila del header *@
+    <div style="background-color: #000d27; padding: 2px 0; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="container-fluid d-flex align-items-center">
+
+            <button style="background:none; border:none; color:#fff; font-weight:600; font-size:0.875rem; padding: 2px 12px 2px 0; display:flex; align-items:center; gap:4px; cursor:pointer;"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategories" aria-controls="offcanvasCategories">
+                <i class="bi bi-list" style="font-size:1.25rem;"></i>
+                <span class="d-none d-sm-inline">Categorías</span>
+            </button>
+
+            <nav class="d-flex gap-3 overflow-auto" style="white-space: nowrap; scrollbar-width: none;">
+                @if (ViewBag.Categorias != null)
+                {
+                    @foreach (var categoria in ((List<string>)ViewBag.Categorias).Take(3))
+                    {
+                        <a style="color:#fff; font-size:0.875rem; text-decoration:none; padding: 0;"
+                           asp-controller="ProductsMvc" asp-action="Index"
+                           asp-route-categoria="@categoria">
+                            @categoria
+                        </a>
+                    }
+                }
+            </nav>
+        </div>
+    </div>
+
+    @* Offcanvas de todas las categorías *@
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCategories"
+         aria-labelledby="offcanvasCategoriesLabel">
+        <div class="offcanvas-header bg-custom-dark text-black">
+            <h5 class="offcanvas-title" id="offcanvasCategoriesLabel">
+                <i class="bi bi-grid me-2"></i>Categorías
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a class="text-decoration-none d-block py-1"
+                       asp-controller="ProductsMvc" asp-action="Index">
+                        <i class="bi bi-house me-2"></i>Todos los productos
+                    </a>
+                </li>
+                @if (ViewBag.Categorias != null)
+                {
+                    @foreach (var categoria in (List<string>)ViewBag.Categorias)
+                    {
+                        <li class="list-group-item">
+                            <a class="text-decoration-none d-block py-1"
+                               asp-controller="ProductsMvc" asp-action="Index"
+                               asp-route-categoria="@categoria">
+                                <i class="bi bi-tag me-2 text-muted"></i>@categoria
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item text-muted small">Sin categorías disponibles</li>
+                }
+            </ul>
+        </div>
+    </div>
 </header>
 
 <div class="container">

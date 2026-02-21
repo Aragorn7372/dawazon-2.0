@@ -4,7 +4,7 @@ using dawazonBackend.Users.Errors;
 using dawazonBackend.Users.Service.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dawazon2._0.Controllers;
+namespace dawazon2._0.RestControllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
