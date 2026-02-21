@@ -10,8 +10,14 @@ delete {
   auth: none
 }
 
+script:pre-request {
+  if (!bru.getVar("newProductId")) {
+    bru.setVar("newProductId", "1");
+  }
+}
+
 tests {
-  test("DELETE sin autenticación devuelve 401", function() {
+  test("DELETE sin autenticacion devuelve 401", function() {
     expect(res.status).to.equal(401);
   });
 }

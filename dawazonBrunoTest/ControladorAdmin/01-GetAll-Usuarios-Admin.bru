@@ -15,16 +15,17 @@ auth:bearer {
 }
 
 params:query {
-  page: 0
-  size: 10
-  sortBy: id
-  direction: asc
+  ~page: 0
+  ~size: 10
+  ~sortBy: id
+  ~direction: asc
 }
 
 script:post-response {
   if (res.status === 200 && res.body.content && res.body.content.length > 0) {
-    // Guardamos un id de usuario que no sea el admin para los tests de update/ban
-    const nonAdmin = res.body.content.find(u => u.roles && !u.roles.includes("Admin"));
+    var nonAdmin = res.body.content.find(function(u) {
+      return u.id && u.id !== bru.getVar("userId");
+    });
     if (nonAdmin) bru.setVar("targetUserId", nonAdmin.id);
   }
 }

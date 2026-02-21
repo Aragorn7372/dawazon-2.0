@@ -67,8 +67,8 @@ app.UseStaticFiles();
 // mapeador de controllers
 app.MapControllers();
 // init de datos
-await app.InitializeDatabaseAsync();
 await app.SeedIdentityAsync();
+await app.InitializeDatabaseAsync();
 // init del storage
 app.InitializeStorage();
 try

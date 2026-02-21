@@ -1,0 +1,276 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "ControladorAuth\\01-Register-OK.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/register",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@dawazon.test\",\n  \"password\": \"User123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:24 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZGF3YXpvbi50ZXN0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMyIsImp0aSI6IjYzOTIzNDQ5LWJhNGYtNDNiMy05ODExLWI4YzliMTY0MWIzMSIsImV4cCI6MTc3MTY5NjU4NSwiaXNzIjoiSldUX0lTU1VFUiIsImF1ZCI6IkpXVF9BVURJRU5DRSJ9.pKHsxaKLuKKYYXZ_8PFnCOSJPPy5bh0oRQpgeNNyt-o"
+          },
+          "url": "http://localhost/api/auth/register",
+          "responseTime": 689
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Registro exitoso devuelve 200",
+            "status": "pass",
+            "uid": "EvBkJKP32dDRX5-FuNy4Z"
+          },
+          {
+            "description": "Respuesta contiene token",
+            "status": "pass",
+            "uid": "vXI8pGeC7Qf3jgyzqvyYa"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 1.0628752,
+        "name": "01-Register-OK",
+        "path": "ControladorAuth\\01-Register-OK",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAuth\\02-Register-Conflict.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/register",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@dawazon.test\",\n  \"password\": \"User123!\"\n}"
+        },
+        "response": {
+          "status": 409,
+          "statusText": "Conflict",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:24 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "message": "username ya en uso:testuser"
+          },
+          "url": "http://localhost/api/auth/register",
+          "responseTime": 38
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Registro duplicado devuelve 409 Conflict",
+            "status": "pass",
+            "uid": "26MuYy_QaGLw9n-0qEWrX"
+          },
+          {
+            "description": "Respuesta contiene mensaje de error",
+            "status": "pass",
+            "uid": "4ThYFyeeYTU8YqtA_Gq31"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1671147,
+        "name": "02-Register-Conflict",
+        "path": "ControladorAuth\\02-Register-Conflict",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAuth\\03-Login-OK.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"testuser\",\n  \"password\": \"User123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:25 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZGF3YXpvbi50ZXN0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMyIsImp0aSI6ImRlNjllYjI2LTU1YzAtNDVjOS05ZTRlLTgzMmFmMDY5YjY3NiIsImV4cCI6MTc3MTY5NjU4NSwiaXNzIjoiSldUX0lTU1VFUiIsImF1ZCI6IkpXVF9BVURJRU5DRSJ9.Jz-MN-yaKb0EsHzjWzPlLb-dTPwoOp4VX6axWF3jXAg"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 227
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Login exitoso devuelve 200",
+            "status": "pass",
+            "uid": "fuHAgUJgeShEjVTK4ca2H"
+          },
+          {
+            "description": "Respuesta contiene token JWT",
+            "status": "pass",
+            "uid": "BPVAJ7Vkg-3HmNrM9gsBJ"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.4137454,
+        "name": "03-Login-OK",
+        "path": "ControladorAuth\\03-Login-OK",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAuth\\04-Login-WrongPassword.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"testuser\",\n  \"password\": \"ContraseñaIncorrecta999!\"\n}"
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:25 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "message": "credenciales invalidas"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 248
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Login con contraseña incorrecta devuelve 401",
+            "status": "pass",
+            "uid": "1CDU6WtZwg73gkm9k8ENu"
+          },
+          {
+            "description": "Respuesta contiene mensaje de error",
+            "status": "pass",
+            "uid": "VL1rKjkDpAqS0egnrTKz8"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.3515739,
+        "name": "04-Login-WrongPassword",
+        "path": "ControladorAuth\\04-Login-WrongPassword",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAuth\\05-Login-Admin.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"admin@admin.com\",\n  \"password\": \"Admin123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:26 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiZWMxYTI3YmUtMmQzMi00MjBmLWJkMDEtNzc1YmUwYTJhMTdhIiwiZXhwIjoxNzcxNjk2NTg2LCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.mC0h6Kc8zLTTcSqRbuH4OkxRqnNu0Y63dGgoedZrvQc"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 197
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Login como admin devuelve 200",
+            "status": "pass",
+            "uid": "GVZK9aQT2XEszuzLGE1Ai"
+          },
+          {
+            "description": "Respuesta contiene token JWT de admin",
+            "status": "pass",
+            "uid": "2HauIQsCceOYtE62_KYd_"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.3763458,
+        "name": "05-Login-Admin",
+        "path": "ControladorAuth\\05-Login-Admin",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 5,
+      "passedRequests": 5,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": 0,
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

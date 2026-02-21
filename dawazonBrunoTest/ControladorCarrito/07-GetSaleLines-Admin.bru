@@ -15,14 +15,14 @@ auth:bearer {
 }
 
 params:query {
-  page: 0
-  size: 10
-  sortBy: id
-  direction: asc
+  ~page: 0
+  ~size: 10
+  ~sortBy: id
+  ~direction: asc
 }
 
 tests {
-  test("GET líneas de venta como admin devuelve 200", function() {
+  test("GET lineas de venta como admin devuelve 200", function() {
     expect(res.status).to.equal(200);
   });
   test("Respuesta contiene campo content", function() {

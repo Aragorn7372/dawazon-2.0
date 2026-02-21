@@ -1,0 +1,460 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "ControladorCarrito\\00-Login-Setup.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"testuser\",\n  \"password\": \"User123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:35 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZGF3YXpvbi50ZXN0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMyIsImp0aSI6IjcwMTc5OWMzLTgzMTMtNDIxOS05YWNiLTU3MzIyZTdkYjg2YSIsImV4cCI6MTc3MTY5NjU5NiwiaXNzIjoiSldUX0lTU1VFUiIsImF1ZCI6IkpXVF9BVURJRU5DRSJ9.iB5ek2RC7BKwSZ9qOh-WI_uOvqmsWfw4q609-9gLzeA"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 199
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Setup: Login usuario OK",
+            "status": "pass",
+            "uid": "AD1pHjbyrVaCSwII1zXV3"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.7312143,
+        "name": "00-Login-Setup",
+        "path": "ControladorCarrito\\00-Login-Setup",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\01-GetCarrito-SinAuth.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/cart/cart",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:36 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart/cart",
+          "responseTime": 3
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET carrito sin autenticación devuelve 401",
+            "status": "pass",
+            "uid": "7WA3nqPQw80xT14SfYwwY"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1480731,
+        "name": "01-GetCarrito-SinAuth",
+        "path": "ControladorCarrito\\01-GetCarrito-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\02-GetCarrito-ConAuth.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/cart/cart",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 500,
+          "statusText": "Internal Server Error",
+          "headers": {
+            "content-type": "application/json",
+            "date": "Sat, 21 Feb 2026 16:56:36 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "errorId": "73a7d05a",
+            "message": "Ha ocurrido un error interno",
+            "errorType": "InternalError",
+            "timestamp": "2026-02-21T16:56:37.6230753Z",
+            "path": {
+              "value": "/api/cart/cart",
+              "hasValue": true
+            },
+            "method": "GET"
+          },
+          "url": "http://localhost/api/cart/cart",
+          "responseTime": 376
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET carrito con token de usuario devuelve 200 o 404",
+            "status": "fail",
+            "error": "expected [ 200, 404 ] to include 500",
+            "uid": "qeJI5X6qarLs83f7l6jwj"
+          },
+          {
+            "description": "Si hay carrito, contiene id",
+            "status": "pass",
+            "uid": "69j4HKT2XAp-TSP6X9pIQ"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.5659432,
+        "name": "02-GetCarrito-ConAuth",
+        "path": "ControladorCarrito\\02-GetCarrito-ConAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\03-AddProducto-AlCarrito.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/cart/addToCart//",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart/addToCart//",
+          "responseTime": 2
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Añadir producto al carrito devuelve 200 o 404 o 409",
+            "status": "pass",
+            "uid": "8DYZeXNAo57EwwFg3n7vB"
+          },
+          {
+            "description": "Si OK, respuesta contiene id del carrito",
+            "status": "pass",
+            "uid": "f0q8KVYC6dA6W49-VXCIE"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0874448,
+        "name": "03-AddProducto-AlCarrito",
+        "path": "ControladorCarrito\\03-AddProducto-AlCarrito",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\04-AddProducto-SinAuth.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/cart/addToCart/cualquier-cart-id/cualquier-product-id",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart/addToCart/cualquier-cart-id/cualquier-product-id",
+          "responseTime": 2
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Añadir producto sin auth devuelve 401",
+            "status": "pass",
+            "uid": "L12RhvkggH7ScdFhyI1XU"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1253712,
+        "name": "04-AddProducto-SinAuth",
+        "path": "ControladorCarrito\\04-AddProducto-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\05-RemoveProducto-AlCarrito.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/cart/removeFromCart//",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart/removeFromCart//",
+          "responseTime": 4
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Eliminar producto del carrito devuelve 200 o 404",
+            "status": "pass",
+            "uid": "thwcEKuhLH0NSjom716fg"
+          },
+          {
+            "description": "Si OK, respuesta contiene id del carrito",
+            "status": "pass",
+            "uid": "wSuW-7HBbRYYn74SMJYPg"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0955701,
+        "name": "05-RemoveProducto-AlCarrito",
+        "path": "ControladorCarrito\\05-RemoveProducto-AlCarrito",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\06-GetCarritosPurchased-ConAuth.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/cart/purchased",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 500,
+          "statusText": "Internal Server Error",
+          "headers": {
+            "content-type": "application/json",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "errorId": "f751b108",
+            "message": "Ha ocurrido un error interno",
+            "errorType": "InternalError",
+            "timestamp": "2026-02-21T16:56:38.1733296Z",
+            "path": {
+              "value": "/api/cart/purchased",
+              "hasValue": true
+            },
+            "method": "GET"
+          },
+          "url": "http://localhost/api/cart/purchased",
+          "responseTime": 28
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET carritos comprados devuelve 200",
+            "status": "fail",
+            "error": "expected 500 to equal 200",
+            "uid": "QLJdBvHOR0YVi1Xhv96_L"
+          },
+          {
+            "description": "Respuesta contiene campo content",
+            "status": "fail",
+            "error": "expected { errorId: 'f751b108', …(5) } to have property 'content'",
+            "uid": "dadfqjnoznCgkxit1xjZu"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1385808,
+        "name": "06-GetCarritosPurchased-ConAuth",
+        "path": "ControladorCarrito\\06-GetCarritosPurchased-ConAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\07-GetSaleLines-Admin.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/cart",
+          "headers": {
+            "Authorization": "********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart",
+          "responseTime": 2
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET lineas de venta como admin devuelve 200",
+            "status": "fail",
+            "error": "expected 401 to equal 200",
+            "uid": "_N5CRpF8DpmNVjGvtDN3I"
+          },
+          {
+            "description": "Respuesta contiene campo content",
+            "status": "fail",
+            "error": "expected '' to have property 'content'",
+            "uid": "YVOHaH4xk0MQ3Q90QTgFP"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0923457,
+        "name": "07-GetSaleLines-Admin",
+        "path": "ControladorCarrito\\07-GetSaleLines-Admin",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorCarrito\\08-GetSaleLines-SinAuth.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/cart",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:37 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/cart",
+          "responseTime": 5
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET líneas de venta sin auth devuelve 401",
+            "status": "pass",
+            "uid": "Hg0SQuCDjHEIyWbzgfZPB"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1252533,
+        "name": "08-GetSaleLines-SinAuth",
+        "path": "ControladorCarrito\\08-GetSaleLines-SinAuth",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 9,
+      "passedRequests": 6,
+      "failedRequests": 3,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": 0,
+      "totalTests": 14,
+      "passedTests": 9,
+      "failedTests": 5,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

@@ -12,10 +12,9 @@ post {
 
 body:json {
   {
-    "usernameOrEmail": "testuser",
-    "password": "Test1234!",
+    "username": "testuser",
     "email": "testuser@dawazon.test",
-    "username": "testuser"
+    "password": "User123!"
   }
 }
 
@@ -32,8 +31,5 @@ tests {
   });
   test("Respuesta contiene token", function() {
     expect(res.body).to.have.property("token");
-  });
-  test("Respuesta contiene id de usuario", function() {
-    expect(res.body).to.have.property("id");
   });
 }

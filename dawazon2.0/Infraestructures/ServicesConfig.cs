@@ -2,6 +2,8 @@
 using dawazonBackend.Products.Service;
 using dawazonBackend.Stripe;
 using dawazonBackend.Users.Service;
+using dawazonBackend.Users.Service.Auth;
+using dawazonBackend.Users.Service.Jwt;
 using Serilog;
 
 namespace dawazon2._0.Infraestructures;
@@ -15,6 +17,9 @@ public static class ServicesConfig
     {
         Log.Information("⚙️ Registrando servicios...");
         return services
+            .AddScoped<IAuthService, AuthService>()
+            .AddScoped<IJwtService, JwtService>()
+            .AddScoped<IJwtTokenExtractor,  JwtTokenExtractor>()
             .AddScoped<IProductService, ProductService>()
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICartService, CartService>()

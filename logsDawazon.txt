@@ -1,0 +1,158 @@
+C:/Users/carlo/Desktop/dawazon-2.0/dawazon2.0/bin/Debug/net10.0/dawazon2.0.exe
+[17:55:53 INF] 📦 Configurando controladores MVC...
+[17:55:54 INF] Configurando CORS para DESARROLLO...
+[17:55:54 INF] 🔐 Configurando autenticación JWT...
+[17:55:54 INF]  Registrando repositorios...
+[17:55:54 INF] ⚙️ Registrando servicios...
+[17:55:54 INF] 📧 Configurando servicio de email con MailKit (producción)...
+[17:55:54 INF] Configurando servicio de almacenamiento...
+[17:55:54 INF] Aplicando política CORS: AllowAll
+[17:55:54 INF] Inicializando base de datos...
+[17:55:55 WRN] The property 'Product.Images' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+[17:55:55 INF] Base de datos verificada (tablas creadas si no existían)
+[17:55:55 INF] Inicializando roles y usuarios...
+[17:55:55 INF] Rol 'Admin' creado
+[17:55:55 INF] Rol 'User' creado
+[17:55:55 INF] Rol 'Manager' creado
+[17:55:56 INF] Usuario admin creado correctamente
+[17:55:56 INF] Usuario normal creado correctamente
+[17:55:56 INF] Roles y usuarios inicializados correctamente
+[17:55:56 INF] [PRODUCCIÓN] Verificando directorio de almacenamiento: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:55:56 INF] Iniciando aplicación FunkoApi...
+[17:55:56 INF] Servicio de email en segundo plano iniciado
+[17:55:56 INF] CORS: AllowAll (desarrollo)
+[17:55:56 INF] Now listening on: http://localhost:5041
+[17:55:56 INF] Application started. Press Ctrl+C to shut down.
+[17:55:56 INF] Hosting environment: Development
+[17:55:56 INF] Content root path: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0
+[17:55:57 WRN] Failed to determine the https port for redirect.
+[17:56:24 INF] registro
+[17:56:24 INF] SignUp request for username: testuser
+[17:56:25 INF] Token JWT generado para usuario: testuser
+[17:56:25 INF] User registered successfully: testuser
+[17:56:25 INF] registro
+[17:56:25 INF] SignUp request for username: testuser
+[17:56:25 INF] Intento de inicio de sesión de: testuser
+[17:56:25 INF] SignIn request for username: testuser
+[17:56:25 INF] Token JWT generado para usuario: testuser
+[17:56:25 INF] Usuario inició sesión correctamente: testuser
+[17:56:26 INF] Intento de inicio de sesión de: testuser
+[17:56:26 INF] SignIn request for username: testuser
+[17:56:26 WRN] SignIn fallido: Password inválido - testuser
+[17:56:26 INF] Intento de inicio de sesión de: admin@admin.com
+[17:56:26 INF] SignIn request for username: admin@admin.com
+[17:56:26 INF] Token JWT generado para usuario: 
+[17:56:26 INF] Usuario inició sesión correctamente: admin@admin.com
+[17:56:30 INF] Intento de inicio de sesión de: admin@admin.com
+[17:56:30 INF] SignIn request for username: admin@admin.com
+[17:56:30 INF] Token JWT generado para usuario: 
+[17:56:30 INF] Usuario inició sesión correctamente: admin@admin.com
+[17:56:30 INF] Storage service inicializado en: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:56:31 INF] Storage service inicializado en: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:56:31 INF] Storage service inicializado en: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:56:31 WRN] Product con id 1 no encontrado en la base de datos
+[17:56:31 INF] Storage service inicializado en: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:56:31 WRN] Product con id 99999999 no encontrado en la base de datos
+[17:56:33 INF] Storage service inicializado en: C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\wwwroot\uploads
+[17:56:33 INF] Eliminando Product con id: 99999999
+[17:56:36 INF] Intento de inicio de sesión de: testuser
+[17:56:36 INF] SignIn request for username: testuser
+[17:56:36 INF] Token JWT generado para usuario: testuser
+[17:56:36 INF] Usuario inició sesión correctamente: testuser
+[17:56:37 ERR] Excepción no manejada. ErrorId: 73a7d05a, Message: The input string 'testuser' was not in a correct format.
+System.FormatException: The input string 'testuser' was not in a correct format.
+   at System.Number.ThrowFormatException[TChar](ReadOnlySpan`1 value)
+   at System.Int64.Parse(String s)
+   at dawazon2._0.Controllers.CartController.GetCartByUserIdAsync() in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Controllers\CartController.cs:line 130
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at dawazon2._0.Middleware.GlobalExceptionHandler.InvokeAsync(HttpContext context) in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Middleware\GlobalExceptionHandler.cs:line 25
+[17:56:38 INF] Obteniendo todas las líneas de venta compradas
+[17:56:38 ERR] Excepción no manejada. ErrorId: f751b108, Message: The input string 'testuser' was not in a correct format.
+System.FormatException: The input string 'testuser' was not in a correct format.
+   at System.Number.ThrowFormatException[TChar](ReadOnlySpan`1 value)
+   at System.Int64.Parse(String s)
+   at dawazon2._0.Controllers.CartController.GetPurchasedCartsAsync(String sortBy, Int32 page, Int32 size, String direction) in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Controllers\CartController.cs:line 54
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at dawazon2._0.Middleware.GlobalExceptionHandler.InvokeAsync(HttpContext context) in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Middleware\GlobalExceptionHandler.cs:line 25
+[17:56:41 INF] Intento de inicio de sesión de: admin@admin.com
+[17:56:41 INF] SignIn request for username: admin@admin.com
+[17:56:41 INF] Token JWT generado para usuario: 
+[17:56:41 INF] Usuario inició sesión correctamente: admin@admin.com
+[17:56:41 INF] Endpoint llamado: GET api/users
+[17:56:41 INF] Getting all users
+[17:56:42 INF] Endpoint llamado: GET api/users/1
+[17:56:42 INF] Getting user with id 1
+[17:56:42 INF] todo good
+[17:56:42 INF] Endpoint llamado: GET api/users/ID_INEXISTENTE_999999
+[17:56:42 INF] Getting user with id ID_INEXISTENTE_999999
+[17:56:42 ERR] Excepción no manejada. ErrorId: 74dd2da4, Message: ID_INEXISTENTE_999999 is not a valid value for Int64. (Parameter 'value')
+System.ArgumentException: ID_INEXISTENTE_999999 is not a valid value for Int64. (Parameter 'value')
+ ---> System.FormatException: The input string 'ID_INEXISTENTE_999999' was not in a correct format.
+   at System.Number.ThrowFormatException[TChar](ReadOnlySpan`1 value)
+   at System.Int64.Parse(String s, NumberStyles style, IFormatProvider provider)
+   at System.ComponentModel.Int64Converter.FromString(String value, NumberFormatInfo formatInfo)
+   at System.ComponentModel.BaseNumberConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   --- End of inner exception stack trace ---
+   at System.ComponentModel.BaseNumberConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   at Microsoft.AspNetCore.Identity.UserStoreBase`5.ConvertIdFromString(String id)
+   at Microsoft.AspNetCore.Identity.EntityFrameworkCore.UserStore`10.FindByIdAsync(String userId, CancellationToken cancellationToken)
+   at dawazonBackend.Users.Service.UserService.GetByIdAsync(String id) in C:\Users\carlo\Desktop\dawazon-2.0\dawazonBackend\Users\Service\UserService.cs:line 78
+   at dawazon2._0.Controllers.UsersController.GetById(String id) in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Controllers\UserAdminController.cs:line 38
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at dawazon2._0.Middleware.GlobalExceptionHandler.InvokeAsync(HttpContext context) in C:\Users\carlo\Desktop\dawazon-2.0\dawazon2.0\Middleware\GlobalExceptionHandler.cs:line 25
+[17:56:42 INF] Endpoint called: DELETE api/users/1
+[17:56:42 INF] Getting user with id 1
+[17:56:43 INF] todo good
+
+

@@ -11,10 +11,16 @@ get {
 }
 
 params:query {
-  page: 0
-  size: 10
-  sortBy: id
-  direction: asc
+  ~page: 0
+  ~size: 10
+  ~sortBy: id
+  ~direction: asc
+}
+
+script:post-response {
+  if (res.status === 200 && res.body.content && res.body.content.length > 0) {
+    bru.setVar("productId", res.body.content[0].id);
+  }
 }
 
 tests {
@@ -25,16 +31,10 @@ tests {
     expect(res.body).to.have.property("content");
     expect(res.body.content).to.be.an("array");
   });
-  test("Respuesta contiene paginación", function() {
+  test("Respuesta contiene paginacion", function() {
     expect(res.body).to.have.property("totalPages");
     expect(res.body).to.have.property("totalElements");
     expect(res.body).to.have.property("pageSize");
     expect(res.body).to.have.property("pageNumber");
   });
-
-  script:post-response {
-    if (res.status === 200 && res.body.content.length > 0) {
-      bru.setVar("productId", res.body.content[0].id);
-    }
-  }
 }
