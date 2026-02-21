@@ -46,7 +46,7 @@ public static class IdentitySeeder
                     Email = "admin@admin.com",
                     EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(adminUser, "Admin123");
+                var result = await userManager.CreateAsync(adminUser, "Admin123!");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(adminUser, "Admin");
@@ -68,7 +68,7 @@ public static class IdentitySeeder
                     Email = "user@user.com",
                     EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(normalUser, "User123");
+                var result = await userManager.CreateAsync(normalUser, "User123!");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(normalUser, "User");

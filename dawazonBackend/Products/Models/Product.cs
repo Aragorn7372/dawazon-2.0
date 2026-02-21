@@ -69,7 +69,7 @@ public class Product
     /// <summary>
     /// Lista de URLs de imágenes del producto.
     /// </summary>
-    public List<string> Images = [];
+    public List<string> Images { get; set; } = [];
 
     /// <summary>
     /// Indica si el producto ha sido eliminado (borrado lógico).

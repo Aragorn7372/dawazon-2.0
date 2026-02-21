@@ -1,0 +1,17 @@
+meta {
+  name: 01-GetCarrito-SinAuth
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/cart/cart
+  body: none
+  auth: none
+}
+
+tests {
+  test("GET carrito sin autenticación devuelve 401", function() {
+    expect(res.status).to.equal(401);
+  });
+}

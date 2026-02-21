@@ -1,0 +1,39 @@
+meta {
+  name: 01-Register-OK
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "usernameOrEmail": "testuser",
+    "password": "Test1234!",
+    "email": "testuser@dawazon.test",
+    "username": "testuser"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("userToken", res.body.token);
+    bru.setVar("userId", res.body.id);
+  }
+}
+
+tests {
+  test("Registro exitoso devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene token", function() {
+    expect(res.body).to.have.property("token");
+  });
+  test("Respuesta contiene id de usuario", function() {
+    expect(res.body).to.have.property("id");
+  });
+}

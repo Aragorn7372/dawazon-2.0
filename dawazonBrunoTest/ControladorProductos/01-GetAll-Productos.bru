@@ -1,0 +1,40 @@
+meta {
+  name: 01-GetAll-Productos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/products
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 0
+  size: 10
+  sortBy: id
+  direction: asc
+}
+
+tests {
+  test("GET todos los productos devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene campo content", function() {
+    expect(res.body).to.have.property("content");
+    expect(res.body.content).to.be.an("array");
+  });
+  test("Respuesta contiene paginación", function() {
+    expect(res.body).to.have.property("totalPages");
+    expect(res.body).to.have.property("totalElements");
+    expect(res.body).to.have.property("pageSize");
+    expect(res.body).to.have.property("pageNumber");
+  });
+
+  script:post-response {
+    if (res.status === 200 && res.body.content.length > 0) {
+      bru.setVar("productId", res.body.content[0].id);
+    }
+  }
+}

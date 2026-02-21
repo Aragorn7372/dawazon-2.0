@@ -1,0 +1,25 @@
+meta {
+  name: 08-Put-Producto-SinAuth
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{baseUrl}}/api/products/{{newProductId}}
+  body: multipartForm
+  auth: none
+}
+
+body:multipart {
+  name: Intento sin auth
+  price: 1.00
+  stock: 1
+  category: Figuras
+  description: No debería funcionar
+}
+
+tests {
+  test("PUT sin autenticación devuelve 401", function() {
+    expect(res.status).to.equal(401);
+  });
+}

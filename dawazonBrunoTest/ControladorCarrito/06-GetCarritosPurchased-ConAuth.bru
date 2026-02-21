@@ -1,0 +1,32 @@
+meta {
+  name: 06-GetCarritosPurchased-ConAuth
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/cart/purchased
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+params:query {
+  page: 0
+  size: 10
+  sortBy: id
+  direction: asc
+}
+
+tests {
+  test("GET carritos comprados devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene campo content", function() {
+    expect(res.body).to.have.property("content");
+    expect(res.body.content).to.be.an("array");
+  });
+}

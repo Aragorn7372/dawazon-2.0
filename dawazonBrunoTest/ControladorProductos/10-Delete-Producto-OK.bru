@@ -1,0 +1,25 @@
+meta {
+  name: 10-Delete-Producto-OK
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/api/products/{{newProductId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("DELETE producto con token de admin devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene el producto eliminado", function() {
+    expect(res.body).to.have.property("id");
+    expect(res.body.id).to.equal(bru.getVar("newProductId"));
+  });
+}

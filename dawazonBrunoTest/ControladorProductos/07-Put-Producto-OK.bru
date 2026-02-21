@@ -1,0 +1,35 @@
+meta {
+  name: 07-Put-Producto-OK
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/api/products/{{newProductId}}
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{managerToken}}
+}
+
+body:multipart {
+  name: Producto Test E2E Actualizado
+  price: 39.99
+  stock: 5
+  category: Figuras
+  description: Descripción actualizada en test E2E
+}
+
+tests {
+  test("PUT producto devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Nombre fue actualizado", function() {
+    expect(res.body.name).to.equal("Producto Test E2E Actualizado");
+  });
+  test("Precio fue actualizado", function() {
+    expect(res.body.price).to.equal(39.99);
+  });
+}

@@ -1,0 +1,26 @@
+meta {
+  name: 05-RemoveProducto-AlCarrito
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/cart/removeFromCart/{{cartId}}/{{productId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("Eliminar producto del carrito devuelve 200 o 404", function() {
+    expect([200, 404]).to.include(res.status);
+  });
+  test("Si OK, respuesta contiene id del carrito", function() {
+    if (res.status === 200) {
+      expect(res.body).to.have.property("id");
+    }
+  });
+}

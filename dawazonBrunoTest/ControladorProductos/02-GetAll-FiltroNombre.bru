@@ -1,0 +1,29 @@
+meta {
+  name: 02-GetAll-FiltroNombre
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/products
+  body: none
+  auth: none
+}
+
+params:query {
+  nombre: test
+  page: 0
+  size: 5
+  sortBy: id
+  direction: asc
+}
+
+tests {
+  test("GET con filtro de nombre devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta es un PageResponseDto", function() {
+    expect(res.body).to.have.property("content");
+    expect(res.body.content).to.be.an("array");
+  });
+}

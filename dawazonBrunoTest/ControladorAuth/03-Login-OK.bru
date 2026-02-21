@@ -1,0 +1,34 @@
+meta {
+  name: 03-Login-OK
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "usernameOrEmail": "testuser",
+    "password": "Test1234!"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("userToken", res.body.token);
+  }
+}
+
+tests {
+  test("Login exitoso devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene token JWT", function() {
+    expect(res.body).to.have.property("token");
+    expect(res.body.token).to.be.a("string");
+  });
+}

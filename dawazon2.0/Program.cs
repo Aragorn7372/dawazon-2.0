@@ -21,17 +21,6 @@ services.AddMvcControllers();
 services.AddRazorPages();
 // añado la base de datos
 services.AddDatabase(configuration);
-// configuro identity
-services.AddIdentity<User, IdentityRole<long>>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 6;
-})
-    .AddEntityFrameworkStores<DawazonDbContext>()
-    .AddDefaultTokenProviders();
 // politicas de corps
 services.AddCorsPolicy(configuration,true);
 // limite de peticiones 
@@ -39,7 +28,7 @@ services.AddRateLimitingPolicy();
 // añade autorizacion
 services.AddAuthorization();
 // añade autenticacion
-services.AddAuthentication();
+services.AddAuthentication(configuration);
 // añado la cache
 services.AddCache(configuration);
 // añade las sesiones para paginas din

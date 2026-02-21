@@ -29,16 +29,11 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             });
         
         modelBuilder.Entity<Product>()
-            .OwnsMany(p => p.Images, builder =>
-            {
-                builder.ToTable("ProductImages");
-                builder.WithOwner()
-                    .HasForeignKey("ProductId"); 
-                builder.Property<string>("Value") 
-                    .HasColumnName("Image")
-                    .IsRequired();
-                builder.HasKey("ProductId", "Value"); // PK compuesta
-            });
+            .Property(p => p.Images)
+            .HasConversion(
+                v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
+            );
         modelBuilder.Entity<Product>()
             .OwnsMany(p => p.Comments, builder =>
             {
@@ -53,9 +48,6 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
                 builder.Property(c => c.verified).IsRequired();
                 builder.Property(c => c.recommended).IsRequired();
             });
-        modelBuilder.Entity<Product>()
-            .Navigation(p => p.Images)
-            .AutoInclude(); 
         modelBuilder.Entity<Product>()
             .Navigation(p => p.Comments)
             .AutoInclude();

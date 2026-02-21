@@ -1,0 +1,31 @@
+meta {
+  name: 05-UpdateById-Usuario-Admin
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/users/{{targetUserId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "username": "testuser_updated",
+    "email": "testuser_updated@dawazon.test"
+  }
+}
+
+tests {
+  test("PUT usuario como admin devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene id del usuario actualizado", function() {
+    expect(res.body).to.have.property("id");
+  });
+}

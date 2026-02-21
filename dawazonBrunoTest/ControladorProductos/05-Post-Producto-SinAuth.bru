@@ -1,0 +1,25 @@
+meta {
+  name: 05-Post-Producto-SinAuth
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/products
+  body: multipartForm
+  auth: none
+}
+
+body:multipart {
+  name: Producto Test E2E
+  price: 29.99
+  stock: 10
+  category: TestCategoria
+  description: Producto creado en test E2E automatizado
+}
+
+tests {
+  test("POST sin autenticación devuelve 401", function() {
+    expect(res.status).to.equal(401);
+  });
+}

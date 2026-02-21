@@ -1,0 +1,24 @@
+meta {
+  name: 04-GetById-Usuario-NotFound
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/users/ID_INEXISTENTE_999999
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("GET usuario inexistente devuelve 404", function() {
+    expect(res.status).to.equal(404);
+  });
+  test("Respuesta contiene mensaje de error", function() {
+    expect(res.body).to.have.property("message");
+  });
+}

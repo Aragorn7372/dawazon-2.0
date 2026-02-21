@@ -67,7 +67,7 @@ public class ProductService(
     }
 
     /// <inheritdoc/>
-    public async Task<Result<PageResponseDto<ProductResponseDto>, ProductError>> GetAllAsync(FilterDto filter)
+    public async Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter)
     {
         logger.LogDebug("Obteniendo listado de Products con filtros");
 
@@ -88,7 +88,7 @@ public class ProductService(
             Direction: filter.Direction
         );
 
-        return Result.Success<PageResponseDto<ProductResponseDto>, ProductError>(page);
+        return page;
     }
     
     /// <inheritdoc/>

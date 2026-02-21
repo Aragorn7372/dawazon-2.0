@@ -1,0 +1,20 @@
+meta {
+  name: 04-GetById-NotFound
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/products/ID_QUE_NO_EXISTE_999
+  body: none
+  auth: none
+}
+
+tests {
+  test("GET producto inexistente devuelve 404", function() {
+    expect(res.status).to.equal(404);
+  });
+  test("Respuesta contiene mensaje de error", function() {
+    expect(res.body).to.have.property("message");
+  });
+}

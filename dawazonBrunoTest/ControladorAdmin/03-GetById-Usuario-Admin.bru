@@ -1,0 +1,24 @@
+meta {
+  name: 03-GetById-Usuario-Admin
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/users/{{targetUserId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("GET usuario por ID como admin devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene id del usuario", function() {
+    expect(res.body).to.have.property("id");
+  });
+}

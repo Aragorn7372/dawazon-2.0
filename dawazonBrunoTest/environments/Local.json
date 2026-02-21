@@ -1,0 +1,60 @@
+{
+  "version": "1",
+  "name": "Local",
+  "variables": [
+    {
+      "name": "baseUrl",
+      "value": "http://localhost:5041",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "adminToken",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "userToken",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "managerToken",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "productId",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "newProductId",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "cartId",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "userId",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "name": "targetUserId",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    }
+  ]
+}

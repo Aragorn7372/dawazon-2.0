@@ -1,0 +1,44 @@
+meta {
+  name: 06-Post-Producto-ConManagerToken
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/products
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{managerToken}}
+}
+
+body:multipart {
+  name: Producto Test E2E
+  price: 29.99
+  stock: 10
+  category: Figuras
+  description: Producto creado en test E2E automatizado
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setVar("newProductId", res.body.id);
+  }
+}
+
+tests {
+  test("POST producto con token de manager devuelve 201", function() {
+    expect(res.status).to.equal(201);
+  });
+  test("Respuesta contiene id del producto creado", function() {
+    expect(res.body).to.have.property("id");
+  });
+  test("Nombre del producto es correcto", function() {
+    expect(res.body.name).to.equal("Producto Test E2E");
+  });
+  test("Precio es correcto", function() {
+    expect(res.body.price).to.equal(29.99);
+  });
+}

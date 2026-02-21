@@ -16,7 +16,7 @@ public interface IProductService
     /// </summary>
     /// <param name="filter">Filtros de búsqueda, ordenamiento y paginación.</param>
     /// <returns>Un resultado con la respuesta paginada o un error de producto.</returns>
-    Task<Result<PageResponseDto<ProductResponseDto>, ProductError>> GetAllAsync(FilterDto filter);
+    Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter);
     
     /// <summary>
     /// Obtiene un producto por su identificador.

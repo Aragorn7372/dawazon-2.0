@@ -1,0 +1,27 @@
+meta {
+  name: 03-GetById-OK
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/products/{{productId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("GET producto por ID devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene id del producto", function() {
+    expect(res.body).to.have.property("id");
+    expect(res.body.id).to.equal(bru.getVar("productId"));
+  });
+  test("Respuesta contiene propiedades del producto", function() {
+    expect(res.body).to.have.property("name");
+    expect(res.body).to.have.property("price");
+    expect(res.body).to.have.property("stock");
+    expect(res.body).to.have.property("category");
+  });
+}

@@ -1,0 +1,32 @@
+meta {
+  name: 07-GetSaleLines-Admin
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/cart
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+params:query {
+  page: 0
+  size: 10
+  sortBy: id
+  direction: asc
+}
+
+tests {
+  test("GET líneas de venta como admin devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene campo content", function() {
+    expect(res.body).to.have.property("content");
+    expect(res.body.content).to.be.an("array");
+  });
+}

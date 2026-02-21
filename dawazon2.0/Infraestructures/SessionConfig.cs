@@ -11,13 +11,7 @@ public static class SessionConfig
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
-        // configuro la cookie de verga
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.LoginPath = "/Login";
-            options.AccessDeniedPath = "/AccessDenied";
-            options.LogoutPath = "/Logout";
-        });
+        
         return services;
     }
 }

@@ -4,6 +4,7 @@ using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Errors;
 using dawazonBackend.Cart.Service;
 using dawazonBackend.Common.Dto;
+using dawazonBackend.Common.Error;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -80,7 +81,14 @@ public class CartController (
     )
     {
         logger.LogInformation("Añadiendo producto al carrito");
-        return Ok(await service.AddProductAsync(cartId, productId));
+        return await service.AddProductAsync(cartId, productId).Match(
+            onSuccess: IActionResult (cart) => Ok(cart),
+            onFailure: error => error switch
+            {
+                CartNotFoundError => NotFound(new { message = error.Message }),
+                CartProductQuantityExceededError => Conflict(new { message = error.Message }),
+                _ => StatusCode(StatusCodes.Status500InternalServerError, new { message = error.Message })
+            });
     }
     
     [HttpPost("removeFromCart/{cartId}/{productId}")]

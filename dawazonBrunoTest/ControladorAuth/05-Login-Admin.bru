@@ -1,0 +1,34 @@
+meta {
+  name: 05-Login-Admin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "usernameOrEmail": "admin",
+    "password": "Admin1234!"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("adminToken", res.body.token);
+  }
+}
+
+tests {
+  test("Login como admin devuelve 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("Respuesta contiene token JWT de admin", function() {
+    expect(res.body).to.have.property("token");
+    expect(res.body.token).to.be.a("string");
+  });
+}

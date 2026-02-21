@@ -36,7 +36,7 @@ public class ProductsController(IProductService service) : ControllerBase
     /// GET /api/funkos
     /// </example>
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<ProductResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PageResponseDto<ProductResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAsync(
         [FromQuery] string? nombre,

@@ -1,0 +1,17 @@
+meta {
+  name: 08-GetSaleLines-SinAuth
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/cart
+  body: none
+  auth: none
+}
+
+tests {
+  test("GET líneas de venta sin auth devuelve 401", function() {
+    expect(res.status).to.equal(401);
+  });
+}
