@@ -221,6 +221,7 @@ public class CartRepository(
 {
     // Aplanamos las líneas de los carritos comprados (SQL INNER JOIN implícito)
     var query = context.Carts
+        .AsNoTracking()
         .Where(c => c.Purchased==true)
         .SelectMany(
             cart => cart.CartLines,

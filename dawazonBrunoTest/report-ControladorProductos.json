@@ -19,15 +19,15 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:29 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:11 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiNTIxNzI1MzUtMGFlZS00MzNkLWI3NzUtMTM0YTcxOTgwOWVmIiwiZXhwIjoxNzcxNjk2NTkwLCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.ORrXD2cGMVRZTPosk0ssf8xgpw7AadUJT0vrk9ddYNc"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJqdGkiOiI5MDVmZTcxYy1jMTlhLTQyOTEtOGQzZi1iZDZmMzhkNmIzY2MiLCJleHAiOjE3NzE2OTk4NzEsImlzcyI6IkpXVF9JU1NVRVIiLCJhdWQiOiJKV1RfQVVESUVOQ0UifQ.iDMvEplfYvcHuXMCkpQLLg3jaECxPRUHn0oe2J7GCa0"
           },
           "url": "http://localhost/api/auth/login",
-          "responseTime": 339
+          "responseTime": 69
         },
         "error": null,
         "status": "pass",
@@ -36,13 +36,13 @@
           {
             "description": "Setup: Login como admin OK",
             "status": "pass",
-            "uid": "ym6d4db-Zw1gMdpqUA2hq"
+            "uid": "ED33Um1QZ7vUhF6rlJwMI"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.8464371,
+        "runDuration": 0.2692402,
         "name": "00-Login-Setup",
         "path": "ControladorProductos\\00-Login-Setup",
         "iterationIndex": 0
@@ -63,25 +63,146 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:11 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "content": [],
-            "totalPages": 0,
-            "totalElements": 0,
+            "content": [
+              {
+                "id": "PRD000000001",
+                "name": "Funko Pop Iron Man",
+                "price": 15.99,
+                "stock": 50,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Iron Man de Marvel.",
+                "comments": [],
+                "images": [
+                  "ironman_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000002",
+                "name": "Spider-Man Comic #1",
+                "price": 9.99,
+                "stock": 20,
+                "category": "Comics",
+                "description": "Primer número del comic de Spider-Man.",
+                "comments": [],
+                "images": [
+                  "spiderman_comic.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000003",
+                "name": "Captain America T-Shirt",
+                "price": 19.99,
+                "stock": 30,
+                "category": "Ropa",
+                "description": "Camiseta de algodón con el escudo del Capitán América.",
+                "comments": [],
+                "images": [
+                  "cap_tshirt.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000004",
+                "name": "Funko Pop Batman",
+                "price": 14.99,
+                "stock": 40,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Batman de DC.",
+                "comments": [],
+                "images": [
+                  "batman_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000005",
+                "name": "Funko Pop Joker",
+                "price": 16.5,
+                "stock": 15,
+                "category": "Figuras",
+                "description": "Figura Funko Pop del Joker de DC Comics.",
+                "comments": [],
+                "images": [
+                  "joker_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000006",
+                "name": "Funko Pop Hulk",
+                "price": 18,
+                "stock": 25,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Hulk de Marvel.",
+                "comments": [],
+                "images": [
+                  "hulk_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000007",
+                "name": "Batman Comic #50",
+                "price": 7.5,
+                "stock": 60,
+                "category": "Comics",
+                "description": "Edición especial del comic de Batman.",
+                "comments": [],
+                "images": [
+                  "batman_50.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000008",
+                "name": "X-Men Comic #10",
+                "price": 8.25,
+                "stock": 12,
+                "category": "Comics",
+                "description": "Comic de los X-Men, número 10.",
+                "comments": [],
+                "images": [
+                  "xmen_10.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000009",
+                "name": "Watchmen",
+                "price": 25,
+                "stock": 10,
+                "category": "Comics",
+                "description": "La aclamada novela gráfica Watchmen.",
+                "comments": [],
+                "images": [
+                  "watchmen.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000010",
+                "name": "Black Widow Hoodie",
+                "price": 35.99,
+                "stock": 18,
+                "category": "Ropa",
+                "description": "Sudadera de la Viuda Negra.",
+                "comments": [],
+                "images": [
+                  "widow_hoodie.jpg"
+                ]
+              }
+            ],
+            "totalPages": 2,
+            "totalElements": 13,
             "pageSize": 10,
             "pageNumber": 0,
-            "totalPageElements": 0,
+            "totalPageElements": 10,
             "sortBy": "id",
             "direction": "asc",
-            "empty": true,
+            "empty": false,
             "first": true,
-            "last": true
+            "last": false
           },
           "url": "http://localhost/api/products",
-          "responseTime": 251
+          "responseTime": 89
         },
         "error": null,
         "status": "pass",
@@ -90,23 +211,23 @@
           {
             "description": "GET todos los productos devuelve 200",
             "status": "pass",
-            "uid": "lLYtNJvIHj9RO6334mdPS"
+            "uid": "FeEEa1QSOT9P0hfB7WeB_"
           },
           {
             "description": "Respuesta contiene campo content",
             "status": "pass",
-            "uid": "5G6J_QVbU6rwVNvY8NI_f"
+            "uid": "Z6rgwx0kU0cmjJ5ElM8Ru"
           },
           {
             "description": "Respuesta contiene paginacion",
             "status": "pass",
-            "uid": "iNw-q8_15RPtHR9xHEeCk"
+            "uid": "bh969r60iUuZt573QRqMZ"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.4677637,
+        "runDuration": 0.2129112,
         "name": "01-GetAll-Productos",
         "path": "ControladorProductos\\01-GetAll-Productos",
         "iterationIndex": 0
@@ -127,25 +248,146 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "content": [],
-            "totalPages": 0,
-            "totalElements": 0,
+            "content": [
+              {
+                "id": "PRD000000001",
+                "name": "Funko Pop Iron Man",
+                "price": 15.99,
+                "stock": 50,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Iron Man de Marvel.",
+                "comments": [],
+                "images": [
+                  "ironman_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000002",
+                "name": "Spider-Man Comic #1",
+                "price": 9.99,
+                "stock": 20,
+                "category": "Comics",
+                "description": "Primer número del comic de Spider-Man.",
+                "comments": [],
+                "images": [
+                  "spiderman_comic.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000003",
+                "name": "Captain America T-Shirt",
+                "price": 19.99,
+                "stock": 30,
+                "category": "Ropa",
+                "description": "Camiseta de algodón con el escudo del Capitán América.",
+                "comments": [],
+                "images": [
+                  "cap_tshirt.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000004",
+                "name": "Funko Pop Batman",
+                "price": 14.99,
+                "stock": 40,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Batman de DC.",
+                "comments": [],
+                "images": [
+                  "batman_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000005",
+                "name": "Funko Pop Joker",
+                "price": 16.5,
+                "stock": 15,
+                "category": "Figuras",
+                "description": "Figura Funko Pop del Joker de DC Comics.",
+                "comments": [],
+                "images": [
+                  "joker_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000006",
+                "name": "Funko Pop Hulk",
+                "price": 18,
+                "stock": 25,
+                "category": "Figuras",
+                "description": "Figura Funko Pop de Hulk de Marvel.",
+                "comments": [],
+                "images": [
+                  "hulk_funko.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000007",
+                "name": "Batman Comic #50",
+                "price": 7.5,
+                "stock": 60,
+                "category": "Comics",
+                "description": "Edición especial del comic de Batman.",
+                "comments": [],
+                "images": [
+                  "batman_50.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000008",
+                "name": "X-Men Comic #10",
+                "price": 8.25,
+                "stock": 12,
+                "category": "Comics",
+                "description": "Comic de los X-Men, número 10.",
+                "comments": [],
+                "images": [
+                  "xmen_10.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000009",
+                "name": "Watchmen",
+                "price": 25,
+                "stock": 10,
+                "category": "Comics",
+                "description": "La aclamada novela gráfica Watchmen.",
+                "comments": [],
+                "images": [
+                  "watchmen.jpg"
+                ]
+              },
+              {
+                "id": "PRD000000010",
+                "name": "Black Widow Hoodie",
+                "price": 35.99,
+                "stock": 18,
+                "category": "Ropa",
+                "description": "Sudadera de la Viuda Negra.",
+                "comments": [],
+                "images": [
+                  "widow_hoodie.jpg"
+                ]
+              }
+            ],
+            "totalPages": 2,
+            "totalElements": 13,
             "pageSize": 10,
             "pageNumber": 0,
-            "totalPageElements": 0,
+            "totalPageElements": 10,
             "sortBy": "id",
             "direction": "asc",
-            "empty": true,
+            "empty": false,
             "first": true,
-            "last": true
+            "last": false
           },
           "url": "http://localhost/api/products",
-          "responseTime": 15
+          "responseTime": 8
         },
         "error": null,
         "status": "pass",
@@ -154,18 +396,18 @@
           {
             "description": "GET con filtro de nombre devuelve 200",
             "status": "pass",
-            "uid": "LHse861duGax3smhkOOE2"
+            "uid": "TmhG_INAhSoKY9U4XLtZR"
           },
           {
             "description": "Respuesta es un PageResponseDto",
             "status": "pass",
-            "uid": "k1VXvMF0prSk_9Oe--VBN"
+            "uid": "KAu0OrKRmzbNDLTfv3Tiw"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1313573,
+        "runDuration": 0.0535374,
         "name": "02-GetAll-FiltroNombre",
         "path": "ControladorProductos\\02-GetAll-FiltroNombre",
         "iterationIndex": 0
@@ -176,7 +418,7 @@
         },
         "request": {
           "method": "GET",
-          "url": "http://localhost:5041/api/products/1",
+          "url": "http://localhost:5041/api/products/PRD000000001",
           "headers": {
             "content-type": null
           }
@@ -185,16 +427,13 @@
           "status": 404,
           "statusText": "Not Found",
           "headers": {
-            "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
-            "server": "Kestrel",
-            "transfer-encoding": "chunked"
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
+            "server": "Kestrel"
           },
-          "data": {
-            "message": "No se encontró el Product con id: 1."
-          },
-          "url": "http://localhost/api/products/1",
-          "responseTime": 77
+          "data": "",
+          "url": "http://localhost/api/products/PRD000000001",
+          "responseTime": 2
         },
         "error": null,
         "status": "pass",
@@ -203,18 +442,18 @@
           {
             "description": "GET producto por ID devuelve 200 o 404",
             "status": "pass",
-            "uid": "VlpKQDfYk1vab6GYfq5AL"
+            "uid": "HTOhNyTflWsYJd_N8CfWf"
           },
           {
             "description": "Si existe: tiene id y name",
             "status": "pass",
-            "uid": "7g_TsXQ3KJOmh2q3g59nL"
+            "uid": "pM7PgTjJKQKc5nQs_p2zp"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.3013241,
+        "runDuration": 0.1345036,
         "name": "03-GetById-OK",
         "path": "ControladorProductos\\03-GetById-OK",
         "iterationIndex": 0
@@ -235,7 +474,7 @@
           "statusText": "Not Found",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -243,7 +482,7 @@
             "message": "No se encontró el Product con id: 99999999."
           },
           "url": "http://localhost/api/products/99999999",
-          "responseTime": 26
+          "responseTime": 36
         },
         "error": null,
         "status": "pass",
@@ -252,18 +491,18 @@
           {
             "description": "GET producto inexistente devuelve 404",
             "status": "pass",
-            "uid": "Osa0KjOlxOyaiwqLmfHnu"
+            "uid": "8rpKj0LROvlMwGJlFQkgN"
           },
           {
             "description": "Respuesta contiene mensaje de error",
             "status": "pass",
-            "uid": "mMGrvRhH5Yxz3ZUGrZ2G2"
+            "uid": "XsT8RvEALPsaXf6ny0X4i"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1691638,
+        "runDuration": 0.0911721,
         "name": "04-GetById-NotFound",
         "path": "ControladorProductos\\04-GetById-NotFound",
         "iterationIndex": 0
@@ -284,13 +523,13 @@
           "statusText": "Unauthorized",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel",
             "www-authenticate": "********"
           },
           "data": "",
           "url": "http://localhost/api/products",
-          "responseTime": 20
+          "responseTime": 9
         },
         "error": null,
         "status": "pass",
@@ -299,13 +538,13 @@
           {
             "description": "POST sin autenticación devuelve 401",
             "status": "pass",
-            "uid": "7HbhHaAaKzUGuDPHbaIK-"
+            "uid": "71DjE6v1iqTjJLYL_7fh7"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1370511,
+        "runDuration": 0.0656921,
         "name": "05-Post-Producto-SinAuth",
         "path": "ControladorProductos\\05-Post-Producto-SinAuth",
         "iterationIndex": 0
@@ -319,7 +558,7 @@
           "url": "http://localhost:5041/api/products",
           "headers": {
             "Authorization": "Bearer ********",
-            "content-type": "multipart/form-data; boundary=--------------------------faa3f20019e48328a302ccec"
+            "content-type": "multipart/form-data; boundary=--------------------------684f69616b5b61f873db1c94"
           },
           "data": {
             "_overheadLength": 0,
@@ -335,7 +574,7 @@
             "_currentStream": null,
             "_insideLoop": false,
             "_pendingNext": false,
-            "_boundary": "--------------------------faa3f20019e48328a302ccec",
+            "_boundary": "--------------------------684f69616b5b61f873db1c94",
             "_events": {},
             "_eventsCount": 3
           }
@@ -345,12 +584,12 @@
           "statusText": "Forbidden",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel"
           },
           "data": "",
           "url": "http://localhost/api/products",
-          "responseTime": 139
+          "responseTime": 49
         },
         "error": null,
         "status": "pass",
@@ -359,13 +598,13 @@
           {
             "description": "POST producto con token devuelve 201 o 403",
             "status": "pass",
-            "uid": "qEMf8dSrkGwU1TYQj21TK"
+            "uid": "S6L412aIJnvMDATWZRpoo"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.3939091,
+        "runDuration": 0.1777507,
         "name": "06-Post-Producto-ConAdminToken",
         "path": "ControladorProductos\\06-Post-Producto-ConManagerToken",
         "iterationIndex": 0
@@ -379,7 +618,7 @@
           "url": "http://localhost:5041/api/products/99999999",
           "headers": {
             "Authorization": "Bearer ********",
-            "content-type": "multipart/form-data; boundary=--------------------------1404397a494b76643eae329d"
+            "content-type": "multipart/form-data; boundary=--------------------------cf4cc852a6db8b5b89e884d3"
           },
           "data": {
             "_overheadLength": 0,
@@ -395,7 +634,7 @@
             "_currentStream": null,
             "_insideLoop": false,
             "_pendingNext": false,
-            "_boundary": "--------------------------1404397a494b76643eae329d",
+            "_boundary": "--------------------------cf4cc852a6db8b5b89e884d3",
             "_events": {},
             "_eventsCount": 3
           }
@@ -405,12 +644,12 @@
           "statusText": "Forbidden",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel"
           },
           "data": "",
           "url": "http://localhost/api/products/99999999",
-          "responseTime": 12
+          "responseTime": 4
         },
         "error": null,
         "status": "pass",
@@ -419,13 +658,13 @@
           {
             "description": "PUT producto devuelve 200, 403 o 404",
             "status": "pass",
-            "uid": "M8LBFIH7I6VrmKngJOW0Z"
+            "uid": "nyg7qNVGrxjhl5TxEC38R"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.28956,
+        "runDuration": 0.116234,
         "name": "07-Put-Producto-OK",
         "path": "ControladorProductos\\07-Put-Producto-OK",
         "iterationIndex": 0
@@ -446,13 +685,13 @@
           "statusText": "Unauthorized",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel",
             "www-authenticate": "********"
           },
           "data": "",
           "url": "http://localhost/api/products/99999999",
-          "responseTime": 6
+          "responseTime": 3
         },
         "error": null,
         "status": "pass",
@@ -461,13 +700,13 @@
           {
             "description": "PUT sin autenticacion devuelve 401",
             "status": "pass",
-            "uid": "cn7gzXJhaJ32S-XeZq_Du"
+            "uid": "BdJ9zTqCZ6wM2BF151Sik"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.2654685,
+        "runDuration": 0.1339006,
         "name": "08-Put-Producto-SinAuth",
         "path": "ControladorProductos\\08-Put-Producto-SinAuth",
         "iterationIndex": 0
@@ -488,13 +727,13 @@
           "statusText": "Unauthorized",
           "headers": {
             "content-length": "0",
-            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:12 GMT",
             "server": "Kestrel",
             "www-authenticate": "********"
           },
           "data": "",
           "url": "http://localhost/api/products/99999999",
-          "responseTime": 4
+          "responseTime": 3
         },
         "error": null,
         "status": "pass",
@@ -503,13 +742,13 @@
           {
             "description": "DELETE sin autenticacion devuelve 401",
             "status": "pass",
-            "uid": "jya2MoDhF07ZbUSfXvSJy"
+            "uid": "b5LRx-_nbNiMJLqeP_oVT"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.2136962,
+        "runDuration": 0.1253718,
         "name": "09-Delete-Producto-SinAuth",
         "path": "ControladorProductos\\09-Delete-Producto-SinAuth",
         "iterationIndex": 0
@@ -531,7 +770,7 @@
           "statusText": "Not Found",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:13 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -539,7 +778,7 @@
             "message": "No se encontró el Product con id: 99999999."
           },
           "url": "http://localhost/api/products/99999999",
-          "responseTime": 27
+          "responseTime": 16
         },
         "error": null,
         "status": "pass",
@@ -548,18 +787,18 @@
           {
             "description": "DELETE producto con token devuelve 200, 403 o 404",
             "status": "pass",
-            "uid": "mdj1b6cmbTpYtn_9HXnVx"
+            "uid": "lP7KuC-20BGa_KrPv0zau"
           },
           {
             "description": "Si OK, respuesta contiene el producto eliminado",
             "status": "pass",
-            "uid": "Omx6molxHA6pqP2tm2Ton"
+            "uid": "qvaZR9buHwmRx1zpFVY7K"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.2797315,
+        "runDuration": 0.1233764,
         "name": "10-Delete-Producto-OK",
         "path": "ControladorProductos\\10-Delete-Producto-OK",
         "iterationIndex": 0

@@ -1,13 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc;
 using dawazonBackend.Common.Dto;
 using dawazonBackend.Users.Dto;
 using dawazonBackend.Users.Errors;
 using dawazonBackend.Users.Models;
 using dawazonBackend.Users.Service;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace dawazon2._0.Controllers;
+namespace dawazon2._0.RestControllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -9,7 +9,7 @@ using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dawazon2._0.Controllers;
+namespace dawazon2._0.RestControllers;
 
 /// <summary>
 /// Proporciona endpoints API para la gestión de productos Funko Pop.

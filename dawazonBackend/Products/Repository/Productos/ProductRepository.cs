@@ -134,11 +134,12 @@ public class ProductRepository(ILogger<ProductRepository> logger, DawazonDbConte
         var isDescending = direction.Equals("desc", StringComparison.OrdinalIgnoreCase);
         Expression<Func<Product,object>> keySelector = sortBy.ToLower() switch
         {
-            "nombre" => p => p.Name,
-            "precio" => p => p.Price,
-            "createdat" => p => p.CreatedAt,
-            "categoria" => p => p.Category!.Name,
-            _ => p => p.Id!
+            "nombre" or "name"       => p => p.Name,
+            "precio" or "price"      => p => p.Price,
+            "createdat"              => p => p.CreatedAt,
+            "stock"                  => p => p.Stock,
+            "categoria" or "category"=> p => p.Category!.Name,
+            _                        => p => p.Id!
         };
         return isDescending ? query.OrderByDescending(keySelector) : query.OrderBy(keySelector);
     }

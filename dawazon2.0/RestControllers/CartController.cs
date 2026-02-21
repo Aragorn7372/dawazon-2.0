@@ -4,14 +4,12 @@ using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Errors;
 using dawazonBackend.Cart.Service;
 using dawazonBackend.Common.Dto;
-using dawazonBackend.Common.Error;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
-namespace dawazon2._0.Controllers;
+namespace dawazon2._0.RestControllers;
 
 [ApiController]
 [Route("api/[controller]")]

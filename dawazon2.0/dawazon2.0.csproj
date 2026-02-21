@@ -48,4 +48,8 @@
       <ProjectReference Include="..\dawazonBackend\dawazonBackend.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="MvcControllers\" />
+    </ItemGroup>
+
 </Project>

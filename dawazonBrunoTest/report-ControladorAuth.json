@@ -19,15 +19,15 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:24 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:09 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZGF3YXpvbi50ZXN0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMyIsImp0aSI6IjYzOTIzNDQ5LWJhNGYtNDNiMy05ODExLWI4YzliMTY0MWIzMSIsImV4cCI6MTc3MTY5NjU4NSwiaXNzIjoiSldUX0lTU1VFUiIsImF1ZCI6IkpXVF9BVURJRU5DRSJ9.pKHsxaKLuKKYYXZ_8PFnCOSJPPy5bh0oRQpgeNNyt-o"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwibmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckBkYXdhem9uLnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwianRpIjoiMjRmZmRmZDUtMTYzOC00OGNiLWE2YjctNTNhYzEzZDg0ZWFhIiwiZXhwIjoxNzcxNjk5ODY5LCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.Zqlc4_-l5VfWYE-CUciTctmMuGP2qjt78KERj6ZRGq8"
           },
           "url": "http://localhost/api/auth/register",
-          "responseTime": 689
+          "responseTime": 214
         },
         "error": null,
         "status": "pass",
@@ -36,18 +36,18 @@
           {
             "description": "Registro exitoso devuelve 200",
             "status": "pass",
-            "uid": "EvBkJKP32dDRX5-FuNy4Z"
+            "uid": "I22tvfI_BLEiAgt2LDVLK"
           },
           {
             "description": "Respuesta contiene token",
             "status": "pass",
-            "uid": "vXI8pGeC7Qf3jgyzqvyYa"
+            "uid": "zXOQ1VOYJGslGmSOg-Tqc"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 1.0628752,
+        "runDuration": 0.4124843,
         "name": "01-Register-OK",
         "path": "ControladorAuth\\01-Register-OK",
         "iterationIndex": 0
@@ -69,7 +69,7 @@
           "statusText": "Conflict",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:24 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:09 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -77,7 +77,7 @@
             "message": "username ya en uso:testuser"
           },
           "url": "http://localhost/api/auth/register",
-          "responseTime": 38
+          "responseTime": 17
         },
         "error": null,
         "status": "pass",
@@ -86,18 +86,18 @@
           {
             "description": "Registro duplicado devuelve 409 Conflict",
             "status": "pass",
-            "uid": "26MuYy_QaGLw9n-0qEWrX"
+            "uid": "aG6X-DNBDZDBpEPbTtQ_5"
           },
           {
             "description": "Respuesta contiene mensaje de error",
             "status": "pass",
-            "uid": "4ThYFyeeYTU8YqtA_Gq31"
+            "uid": "GM-sBbjbPFCa_3klD635u"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.1671147,
+        "runDuration": 0.0919178,
         "name": "02-Register-Conflict",
         "path": "ControladorAuth\\02-Register-Conflict",
         "iterationIndex": 0
@@ -119,15 +119,15 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:25 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:09 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZGF3YXpvbi50ZXN0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMyIsImp0aSI6ImRlNjllYjI2LTU1YzAtNDVjOS05ZTRlLTgzMmFmMDY5YjY3NiIsImV4cCI6MTc3MTY5NjU4NSwiaXNzIjoiSldUX0lTU1VFUiIsImF1ZCI6IkpXVF9BVURJRU5DRSJ9.Jz-MN-yaKb0EsHzjWzPlLb-dTPwoOp4VX6axWF3jXAg"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwibmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckBkYXdhem9uLnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwianRpIjoiMzAzNGU1MDgtNGRiNy00ZGFkLWFmNmEtYWMyMGIwMmYwZDE4IiwiZXhwIjoxNzcxNjk5ODY5LCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.BoKvPJw4XePbppwpXbhTYgNZCfden8Jn7bJjF7YjmQk"
           },
           "url": "http://localhost/api/auth/login",
-          "responseTime": 227
+          "responseTime": 69
         },
         "error": null,
         "status": "pass",
@@ -136,18 +136,18 @@
           {
             "description": "Login exitoso devuelve 200",
             "status": "pass",
-            "uid": "fuHAgUJgeShEjVTK4ca2H"
+            "uid": "y-Az_TN3cMWtKvL_aRKjt"
           },
           {
             "description": "Respuesta contiene token JWT",
             "status": "pass",
-            "uid": "BPVAJ7Vkg-3HmNrM9gsBJ"
+            "uid": "RXvBOGIoFdbexbnVAIAuF"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.4137454,
+        "runDuration": 0.1687114,
         "name": "03-Login-OK",
         "path": "ControladorAuth\\03-Login-OK",
         "iterationIndex": 0
@@ -169,7 +169,7 @@
           "statusText": "Unauthorized",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:25 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:09 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
@@ -177,7 +177,7 @@
             "message": "credenciales invalidas"
           },
           "url": "http://localhost/api/auth/login",
-          "responseTime": 248
+          "responseTime": 52
         },
         "error": null,
         "status": "pass",
@@ -186,18 +186,18 @@
           {
             "description": "Login con contraseña incorrecta devuelve 401",
             "status": "pass",
-            "uid": "1CDU6WtZwg73gkm9k8ENu"
+            "uid": "ceFtTzete4kCTyrr7CS6j"
           },
           {
             "description": "Respuesta contiene mensaje de error",
             "status": "pass",
-            "uid": "VL1rKjkDpAqS0egnrTKz8"
+            "uid": "9sjGagtCyzwS2gsqt2FN4"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.3515739,
+        "runDuration": 0.1087395,
         "name": "04-Login-WrongPassword",
         "path": "ControladorAuth\\04-Login-WrongPassword",
         "iterationIndex": 0
@@ -219,15 +219,15 @@
           "statusText": "OK",
           "headers": {
             "content-type": "application/json; charset=utf-8",
-            "date": "Sat, 21 Feb 2026 16:56:26 GMT",
+            "date": "Sat, 21 Feb 2026 17:51:09 GMT",
             "server": "Kestrel",
             "transfer-encoding": "chunked"
           },
           "data": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiZWMxYTI3YmUtMmQzMi00MjBmLWJkMDEtNzc1YmUwYTJhMTdhIiwiZXhwIjoxNzcxNjk2NTg2LCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.mC0h6Kc8zLTTcSqRbuH4OkxRqnNu0Y63dGgoedZrvQc"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJqdGkiOiIxYTU1NjkwMC1kMTQ1LTRlNTItYWEyZS04MzgxYmQ0NDE4NWUiLCJleHAiOjE3NzE2OTk4NjksImlzcyI6IkpXVF9JU1NVRVIiLCJhdWQiOiJKV1RfQVVESUVOQ0UifQ.X28OZXHQiPuoHhMlJeVxYpI0pALN6S1-glCtAFcIiKA"
           },
           "url": "http://localhost/api/auth/login",
-          "responseTime": 197
+          "responseTime": 51
         },
         "error": null,
         "status": "pass",
@@ -236,18 +236,18 @@
           {
             "description": "Login como admin devuelve 200",
             "status": "pass",
-            "uid": "GVZK9aQT2XEszuzLGE1Ai"
+            "uid": "QDoWzCpiA3wP_Pf1D3SP2"
           },
           {
             "description": "Respuesta contiene token JWT de admin",
             "status": "pass",
-            "uid": "2HauIQsCceOYtE62_KYd_"
+            "uid": "ztY47Lt2hQGHKpFTpZdwQ"
           }
         ],
         "preRequestTestResults": [],
         "postResponseTestResults": [],
         "shouldStopRunnerExecution": false,
-        "runDuration": 0.3763458,
+        "runDuration": 0.1717036,
         "name": "05-Login-Admin",
         "path": "ControladorAuth\\05-Login-Admin",
         "iterationIndex": 0

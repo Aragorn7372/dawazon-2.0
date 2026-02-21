@@ -1,0 +1,197 @@
+@model dawazon2._0.Models.ProductDetailViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+    bool isUser = User.IsInRole("User");
+    bool isManager = User.IsInRole("Manager");
+    bool isAdmin = User.IsInRole("Admin");
+}
+
+@Html.AntiForgeryToken()
+
+<div class="container col-12 my-4">
+
+    @* Mensajes de éxito *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @* Migas de pan *@
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="ProductsMvc" asp-action="Index">Productos</a>
+            </li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <h1 class="product-title">@Model.Name</h1>
+
+    <div class="product-main-grid">
+        @* Carrusel de imágenes *@
+        <div class="carousel-container">
+            <button class="carousel-arrow left">&#10094;</button>
+            @for (int i = 0; i < Model.Images.Count; i++)
+            {
+                <img src="/files/@Model.Images[i]"
+                     class="product-img @(i == 0 ? "active" : "")"
+                     alt="@Model.Name">
+            }
+            @if (!Model.Images.Any())
+            {
+                <img src="~/img/defaultImg.png" class="product-img active" alt="Sin imagen">
+            }
+            <button class="carousel-arrow right">&#10095;</button>
+        </div>
+
+        @* Info del producto *@
+        <div class="product-info">
+            <div class="price-tag">@Model.Price€</div>
+            <p class="text-muted mb-1"><i class="bi bi-tag me-1"></i>@Model.Category</p>
+
+            @if (Model.Stock > 0)
+            {
+                <span class="badge bg-success mb-2">En stock (@Model.Stock disponibles)</span>
+            }
+            else
+            {
+                <span class="badge bg-danger mb-2">Agotado</span>
+            }
+
+            <ul id="description" class="features-list">@Model.Description</ul>
+
+            @* Acciones de usuario *@
+            @if (isUser && Model.Stock > 0)
+            {
+                <div class="action-buttons mt-3">
+                    <button onclick="addCart('@Model.Id')" class="btn btn-gradient">
+                        <i class="bi bi-cart-plus me-1"></i>Añadir al carrito
+                    </button>
+                </div>
+            }
+
+            @* Acciones de manager / admin *@
+            @if (isManager || isAdmin)
+            {
+                <div class="action-buttons mt-3 d-flex gap-2">
+                    @if (isManager)
+                    {
+                        <a asp-controller="ProductsMvc" asp-action="Edit"
+                           asp-route-id="@Model.Id" class="btn btn-gradient">
+                            <i class="bi bi-pencil me-1"></i>Editar
+                        </a>
+                    }
+                    <form asp-controller="ProductsMvc" asp-action="Delete"
+                          asp-route-id="@Model.Id" method="post"
+                          onsubmit="return confirm('¿Eliminar el producto «@Model.Name»? Esta acción no se puede deshacer.')">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Eliminar
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* Comentarios *@
+    <section class="comments-section mt-5">
+        <h3>Comentarios</h3>
+
+        @if (Model.Comments.Any())
+        {
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <div>
+                            <span class="user-name">@comment.userName</span>
+                            <span class="@(comment.verified ? "badge-verified" : "badge-")">
+                                @(comment.verified ? "compra verificada" : "compra no verificada")
+                            </span>
+                        </div>
+                        <span class="recommendation @(comment.recommended ? "positive" : "negative")">
+                            @(comment.recommended ? "recomendado" : "no recomendado")
+                        </span>
+                    </div>
+                    <div class="comment-body">
+                        <p>@comment.comment</p>
+                    </div>
+                    <hr>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">Este producto aún no tiene comentarios.</p>
+        }
+    </section>
+
+    @* Toast de notificación *@
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Notificación</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body text-white" id="toastMessage"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Carrusel de imágenes
+    document.addEventListener("DOMContentLoaded", function () {
+        const imgs = document.querySelectorAll('.product-img');
+        let current = 0;
+        const show = (i) => {
+            imgs.forEach(img => img.classList.remove('active'));
+            if (imgs[i]) imgs[i].classList.add('active');
+        };
+        document.querySelector('.carousel-arrow.left')?.addEventListener('click', () => {
+            current = (current - 1 + imgs.length) % imgs.length;
+            show(current);
+        });
+        document.querySelector('.carousel-arrow.right')?.addEventListener('click', () => {
+            current = (current + 1) % imgs.length;
+            show(current);
+        });
+
+        // Descripción como lista si viene en JSON
+        const lista = document.getElementById("description");
+        if (lista) {
+            const text = lista.textContent.trim();
+            try {
+                const data = JSON.parse(text);
+                if (Array.isArray(data)) {
+                    lista.innerHTML = "<li>Características:</li>" + data.map(item => `<li>${item}</li>`).join("");
+                }
+            } catch (e) { /* texto plano, nada que hacer */ }
+        }
+    });
+
+    @if (isUser)
+    {
+        <text>
+        function addCart(productoId) {
+            window.location.href = `/auth/me/carrito/add/${productoId}`;
+        }
+        </text>
+    }
+
+    function showNotification(message, type = 'success') {
+        const toastEl = document.getElementById('notificationToast');
+        const toastMsg = document.getElementById('toastMessage');
+        toastMsg.textContent = message;
+        toastEl.classList.remove('bg-success', 'bg-danger', 'bg-warning');
+        toastEl.classList.add(type === 'error' ? 'bg-danger' : 'bg-success');
+        new bootstrap.Toast(toastEl).show();
+    }
+</script>
+}
