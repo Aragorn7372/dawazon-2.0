@@ -99,7 +99,70 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
     /// <param name="modelBuilder">Constructor de modelos.</param>
     private static void SeedData(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Id = "FIG000000001", Name = "Figuras", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+            new Category { Id = "COM000000001", Name = "Comics", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+            new Category { Id = "ROP000000001", Name = "Ropa", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+        );
 
+        modelBuilder.Entity<Product>().HasData(
+            new { Id = "PRD000000001", Name = "Funko Pop Iron Man", Price = 15.99, Stock = 50, Description = "Figura Funko Pop de Iron Man de Marvel.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "ironman_funko.jpg" } },
+            new { Id = "PRD000000002", Name = "Spider-Man Comic #1", Price = 9.99, Stock = 20, Description = "Primer número del comic de Spider-Man.", CreatorId = 1L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "spiderman_comic.jpg" } },
+            new { Id = "PRD000000003", Name = "Captain America T-Shirt", Price = 19.99, Stock = 30, Description = "Camiseta de algodón con el escudo del Capitán América.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "cap_tshirt.jpg" } },
+            new { Id = "PRD000000004", Name = "Funko Pop Batman", Price = 14.99, Stock = 40, Description = "Figura Funko Pop de Batman de DC.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "batman_funko.jpg" } },
+            new { Id = "PRD000000005", Name = "Funko Pop Joker", Price = 16.50, Stock = 15, Description = "Figura Funko Pop del Joker de DC Comics.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "joker_funko.jpg" } },
+            new { Id = "PRD000000006", Name = "Funko Pop Hulk", Price = 18.00, Stock = 25, Description = "Figura Funko Pop de Hulk de Marvel.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "hulk_funko.jpg" } },
+            new { Id = "PRD000000007", Name = "Batman Comic #50", Price = 7.50, Stock = 60, Description = "Edición especial del comic de Batman.", CreatorId = 1L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "batman_50.jpg" } },
+            new { Id = "PRD000000008", Name = "X-Men Comic #10", Price = 8.25, Stock = 12, Description = "Comic de los X-Men, número 10.", CreatorId = 1L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "xmen_10.jpg" } },
+            new { Id = "PRD000000009", Name = "Watchmen", Price = 25.00, Stock = 10, Description = "La aclamada novela gráfica Watchmen.", CreatorId = 1L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "watchmen.jpg" } },
+            new { Id = "PRD000000010", Name = "Black Widow Hoodie", Price = 35.99, Stock = 18, Description = "Sudadera de la Viuda Negra.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "widow_hoodie.jpg" } },
+            new { Id = "PRD000000011", Name = "Thor Logo Cap", Price = 12.00, Stock = 45, Description = "Gorra con el logo de Thor.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "thor_cap.jpg" } },
+            new { Id = "PRD000000012", Name = "Hulk Gloves", Price = 22.50, Stock = 20, Description = "Guantes gigantes de Hulk.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "hulk_gloves.jpg" } },
+            new { Id = "PRD000000013", Name = "Iron Man Mug", Price = 10.99, Stock = 100, Description = "Taza con diseño de casco de Iron Man.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "ironman_mug.jpg" } }
+        );
+
+        // 1. Purchased Cart
+        modelBuilder.Entity<Cart.Models.Cart>().HasData(
+            new 
+            { 
+                Id = "CART00000001", 
+                UserId = 2L, 
+                Purchased = true, 
+                TotalItems = 2, 
+                Total = 25.98, 
+                CreatedAt = DateTime.UtcNow.AddDays(-1), 
+                UploadAt = DateTime.UtcNow.AddDays(-1),
+                CheckoutInProgress = false
+            },
+            // 2. Active Cart
+            new 
+            { 
+                Id = "CART00000002", 
+                UserId = 2L, 
+                Purchased = false, 
+                TotalItems = 1, 
+                Total = 19.99, 
+                CreatedAt = DateTime.UtcNow, 
+                UploadAt = DateTime.UtcNow,
+                CheckoutInProgress = false
+            }
+        );
+
+        modelBuilder.Entity<Cart.Models.Cart>().OwnsOne(c => c.Client).HasData(
+            new { CartId = "CART00000001", Name = "Test User", Email = "user@user.com", Phone = "123456789" },
+            new { CartId = "CART00000002", Name = "Test User", Email = "user@user.com", Phone = "123456789" }
+        );
+
+        modelBuilder.Entity<Cart.Models.Cart>().OwnsOne(c => c.Client).OwnsOne(c => c.Address).HasData(
+            new { ClientCartId = "CART00000001", Street = "Calle Falsa 123", City = "Soria", State = "Soria", Country = "España", ZipCode = "42001" },
+            new { ClientCartId = "CART00000002", Street = "Calle Falsa 123", City = "Soria", State = "Soria", Country = "España", ZipCode = "42001" }
+        );
+
+        modelBuilder.Entity<Cart.Models.Cart>().OwnsMany(c => c.CartLines).HasData(
+            new { CartId = "CART00000001", ProductId = "PRD000000001", Quantity = 1, ProductPrice = 15.99, Status = Status.Recibido },
+            new { CartId = "CART00000001", ProductId = "PRD000000002", Quantity = 1, ProductPrice = 9.99, Status = Status.Recibido },
+            new { CartId = "CART00000002", ProductId = "PRD000000003", Quantity = 1, ProductPrice = 19.99, Status = Status.EnCarrito }
+        );
     }
     
 }

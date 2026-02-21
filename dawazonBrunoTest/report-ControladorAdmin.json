@@ -1,0 +1,445 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "ControladorAdmin\\00-Login-Setup.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"admin@admin.com\",\n  \"password\": \"Admin123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:40 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiMDBkZjZjY2MtZGU2MS00NWNmLTkwM2MtN2Y3M2RhMjAwZmI1IiwiZXhwIjoxNzcxNjk2NjAxLCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.mKjtUMfETRBC8zRid1z4vzHqr7_Gqc3z7nIocZiiUHc"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 211
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Setup: Login admin OK",
+            "status": "pass",
+            "uid": "XdoUg_g4yVsqj5rg9ZE5h"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.6345895,
+        "name": "00-Login-Setup",
+        "path": "ControladorAdmin\\00-Login-Setup",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\01-GetAll-Usuarios-Admin.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/users",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "content": [
+              {
+                "id": 1,
+                "nombre": "",
+                "email": "admin@admin.com",
+                "telefono": "",
+                "roles": [
+                  "Admin"
+                ],
+                "calle": "",
+                "ciudad": "",
+                "codigoPostal": "0",
+                "provincia": ""
+              },
+              {
+                "id": 2,
+                "nombre": "",
+                "email": "user@user.com",
+                "telefono": "",
+                "roles": [
+                  "User"
+                ],
+                "calle": "",
+                "ciudad": "",
+                "codigoPostal": "0",
+                "provincia": ""
+              },
+              {
+                "id": 3,
+                "nombre": "testuser",
+                "email": "testuser@dawazon.test",
+                "telefono": "",
+                "roles": [
+                  "User"
+                ],
+                "calle": "",
+                "ciudad": "",
+                "codigoPostal": "0",
+                "provincia": ""
+              }
+            ],
+            "totalPages": 1,
+            "totalElements": 3,
+            "pageSize": 10,
+            "pageNumber": 0,
+            "totalPageElements": 3,
+            "sortBy": "id",
+            "direction": "asc",
+            "empty": false,
+            "first": true,
+            "last": true
+          },
+          "url": "http://localhost/api/users",
+          "responseTime": 156
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET usuarios como admin devuelve 200",
+            "status": "pass",
+            "uid": "slf7tCVhlPyZeRNvGB1dS"
+          },
+          {
+            "description": "Respuesta contiene campo content paginado",
+            "status": "pass",
+            "uid": "nwfJnIADuixfhp24Cvz3s"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.4281315,
+        "name": "01-GetAll-Usuarios-Admin",
+        "path": "ControladorAdmin\\01-GetAll-Usuarios-Admin",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\02-GetAll-Usuarios-SinAuth.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/users",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/users",
+          "responseTime": 7
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET usuarios sin auth devuelve 401",
+            "status": "pass",
+            "uid": "js3fc750COE3Ib2tiy76s"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1801773,
+        "name": "02-GetAll-Usuarios-SinAuth",
+        "path": "ControladorAdmin\\02-GetAll-Usuarios-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\03-GetById-Usuario-Admin.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/users/1",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "id": 1,
+            "nombre": "",
+            "email": "admin@admin.com",
+            "telefono": "",
+            "roles": [
+              "Admin"
+            ],
+            "calle": "",
+            "ciudad": "",
+            "codigoPostal": "0",
+            "provincia": ""
+          },
+          "url": "http://localhost/api/users/1",
+          "responseTime": 71
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET usuario por ID como admin devuelve 200",
+            "status": "pass",
+            "uid": "Xj5iQgkUwbm1Atwfp9sKS"
+          },
+          {
+            "description": "Respuesta contiene id del usuario",
+            "status": "pass",
+            "uid": "8A0fy_r0im1J5Zfo_aihO"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1633571,
+        "name": "03-GetById-Usuario-Admin",
+        "path": "ControladorAdmin\\03-GetById-Usuario-Admin",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\04-GetById-Usuario-NotFound.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/users/ID_INEXISTENTE_999999",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 400,
+          "statusText": "Bad Request",
+          "headers": {
+            "content-type": "application/json",
+            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "errorId": "74dd2da4",
+            "message": "ID_INEXISTENTE_999999 is not a valid value for Int64. (Parameter 'value')",
+            "errorType": "ValidationError",
+            "timestamp": "2026-02-21T16:56:42.4995678Z",
+            "path": {
+              "value": "/api/users/ID_INEXISTENTE_999999",
+              "hasValue": true
+            },
+            "method": "GET"
+          },
+          "url": "http://localhost/api/users/ID_INEXISTENTE_999999",
+          "responseTime": 25
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET usuario inexistente devuelve 404",
+            "status": "fail",
+            "error": "expected 400 to equal 404",
+            "uid": "Yic4kFxNeYS6YyVPZIl9u"
+          },
+          {
+            "description": "Respuesta contiene mensaje de error",
+            "status": "pass",
+            "uid": "wGt3v8z9v7QS8XrLsOgLx"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1889207,
+        "name": "04-GetById-Usuario-NotFound",
+        "path": "ControladorAdmin\\04-GetById-Usuario-NotFound",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\05-UpdateById-Usuario-Admin.bru"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "http://localhost:5041/api/users/1",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"username\": \"testuser_updated\",\n  \"email\": \"testuser_updated@dawazon.test\"\n}"
+        },
+        "response": {
+          "status": 400,
+          "statusText": "Bad Request",
+          "headers": {
+            "content-type": "application/problem+json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:41 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            "title": "One or more validation errors occurred.",
+            "status": 400,
+            "errors": {
+              "Calle": [
+                "The Calle field is required."
+              ],
+              "Ciudad": [
+                "The Ciudad field is required."
+              ],
+              "Nombre": [
+                "The Nombre field is required."
+              ],
+              "Provincia": [
+                "The Provincia field is required."
+              ],
+              "CodigoPostal": [
+                "The CodigoPostal field is required."
+              ]
+            },
+            "traceId": "00-17ad5eba729b874793057332e7b32705-fb401b249af4a123-00"
+          },
+          "url": "http://localhost/api/users/1",
+          "responseTime": 50
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "PUT usuario como admin devuelve 200 o 404",
+            "status": "fail",
+            "error": "expected [ 200, 404 ] to include 400",
+            "uid": "4e5WweT1PMkmkWsoW5wZ1"
+          },
+          {
+            "description": "Si OK, respuesta contiene id del usuario actualizado",
+            "status": "pass",
+            "uid": "xs2LXuuOADvqOXh_IPapA"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.2300113,
+        "name": "05-UpdateById-Usuario-Admin",
+        "path": "ControladorAdmin\\05-UpdateById-Usuario-Admin",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorAdmin\\06-BanUser-Admin.bru"
+        },
+        "request": {
+          "method": "DELETE",
+          "url": "http://localhost:5041/api/users/1",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 204,
+          "statusText": "No Content",
+          "headers": {
+            "date": "Sat, 21 Feb 2026 16:56:42 GMT",
+            "server": "Kestrel"
+          },
+          "data": "",
+          "url": "http://localhost/api/users/1",
+          "responseTime": 33
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "DELETE (ban) usuario como admin devuelve 204 o 404",
+            "status": "pass",
+            "uid": "uan8Ix8WMEExKHLIpVrhc"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.2310157,
+        "name": "06-BanUser-Admin",
+        "path": "ControladorAdmin\\06-BanUser-Admin",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 7,
+      "passedRequests": 5,
+      "failedRequests": 2,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": 0,
+      "totalTests": 11,
+      "passedTests": 9,
+      "failedTests": 2,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

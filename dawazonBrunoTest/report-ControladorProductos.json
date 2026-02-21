@@ -1,0 +1,588 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "ControladorProductos\\00-Login-Setup.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/auth/login",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"usernameOrEmail\": \"admin@admin.com\",\n  \"password\": \"Admin123!\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:29 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiNTIxNzI1MzUtMGFlZS00MzNkLWI3NzUtMTM0YTcxOTgwOWVmIiwiZXhwIjoxNzcxNjk2NTkwLCJpc3MiOiJKV1RfSVNTVUVSIiwiYXVkIjoiSldUX0FVRElFTkNFIn0.ORrXD2cGMVRZTPosk0ssf8xgpw7AadUJT0vrk9ddYNc"
+          },
+          "url": "http://localhost/api/auth/login",
+          "responseTime": 339
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Setup: Login como admin OK",
+            "status": "pass",
+            "uid": "ym6d4db-Zw1gMdpqUA2hq"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.8464371,
+        "name": "00-Login-Setup",
+        "path": "ControladorProductos\\00-Login-Setup",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\01-GetAll-Productos.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/products",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "content": [],
+            "totalPages": 0,
+            "totalElements": 0,
+            "pageSize": 10,
+            "pageNumber": 0,
+            "totalPageElements": 0,
+            "sortBy": "id",
+            "direction": "asc",
+            "empty": true,
+            "first": true,
+            "last": true
+          },
+          "url": "http://localhost/api/products",
+          "responseTime": 251
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET todos los productos devuelve 200",
+            "status": "pass",
+            "uid": "lLYtNJvIHj9RO6334mdPS"
+          },
+          {
+            "description": "Respuesta contiene campo content",
+            "status": "pass",
+            "uid": "5G6J_QVbU6rwVNvY8NI_f"
+          },
+          {
+            "description": "Respuesta contiene paginacion",
+            "status": "pass",
+            "uid": "iNw-q8_15RPtHR9xHEeCk"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.4677637,
+        "name": "01-GetAll-Productos",
+        "path": "ControladorProductos\\01-GetAll-Productos",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\02-GetAll-FiltroNombre.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/products",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "content": [],
+            "totalPages": 0,
+            "totalElements": 0,
+            "pageSize": 10,
+            "pageNumber": 0,
+            "totalPageElements": 0,
+            "sortBy": "id",
+            "direction": "asc",
+            "empty": true,
+            "first": true,
+            "last": true
+          },
+          "url": "http://localhost/api/products",
+          "responseTime": 15
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET con filtro de nombre devuelve 200",
+            "status": "pass",
+            "uid": "LHse861duGax3smhkOOE2"
+          },
+          {
+            "description": "Respuesta es un PageResponseDto",
+            "status": "pass",
+            "uid": "k1VXvMF0prSk_9Oe--VBN"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1313573,
+        "name": "02-GetAll-FiltroNombre",
+        "path": "ControladorProductos\\02-GetAll-FiltroNombre",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\03-GetById-OK.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/products/1",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:30 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "message": "No se encontró el Product con id: 1."
+          },
+          "url": "http://localhost/api/products/1",
+          "responseTime": 77
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET producto por ID devuelve 200 o 404",
+            "status": "pass",
+            "uid": "VlpKQDfYk1vab6GYfq5AL"
+          },
+          {
+            "description": "Si existe: tiene id y name",
+            "status": "pass",
+            "uid": "7g_TsXQ3KJOmh2q3g59nL"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.3013241,
+        "name": "03-GetById-OK",
+        "path": "ControladorProductos\\03-GetById-OK",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\04-GetById-NotFound.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:5041/api/products/99999999",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "message": "No se encontró el Product con id: 99999999."
+          },
+          "url": "http://localhost/api/products/99999999",
+          "responseTime": 26
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "GET producto inexistente devuelve 404",
+            "status": "pass",
+            "uid": "Osa0KjOlxOyaiwqLmfHnu"
+          },
+          {
+            "description": "Respuesta contiene mensaje de error",
+            "status": "pass",
+            "uid": "mMGrvRhH5Yxz3ZUGrZ2G2"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1691638,
+        "name": "04-GetById-NotFound",
+        "path": "ControladorProductos\\04-GetById-NotFound",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\05-Post-Producto-SinAuth.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/products",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/products",
+          "responseTime": 20
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "POST sin autenticación devuelve 401",
+            "status": "pass",
+            "uid": "7HbhHaAaKzUGuDPHbaIK-"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1370511,
+        "name": "05-Post-Producto-SinAuth",
+        "path": "ControladorProductos\\05-Post-Producto-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\06-Post-Producto-ConManagerToken.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:5041/api/products",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": "multipart/form-data; boundary=--------------------------faa3f20019e48328a302ccec"
+          },
+          "data": {
+            "_overheadLength": 0,
+            "_valueLength": 0,
+            "_valuesToMeasure": [],
+            "writable": false,
+            "readable": true,
+            "dataSize": 0,
+            "maxDataSize": 2097152,
+            "pauseStreams": true,
+            "_released": true,
+            "_streams": [],
+            "_currentStream": null,
+            "_insideLoop": false,
+            "_pendingNext": false,
+            "_boundary": "--------------------------faa3f20019e48328a302ccec",
+            "_events": {},
+            "_eventsCount": 3
+          }
+        },
+        "response": {
+          "status": 403,
+          "statusText": "Forbidden",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "server": "Kestrel"
+          },
+          "data": "",
+          "url": "http://localhost/api/products",
+          "responseTime": 139
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "POST producto con token devuelve 201 o 403",
+            "status": "pass",
+            "uid": "qEMf8dSrkGwU1TYQj21TK"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.3939091,
+        "name": "06-Post-Producto-ConAdminToken",
+        "path": "ControladorProductos\\06-Post-Producto-ConManagerToken",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\07-Put-Producto-OK.bru"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "http://localhost:5041/api/products/99999999",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": "multipart/form-data; boundary=--------------------------1404397a494b76643eae329d"
+          },
+          "data": {
+            "_overheadLength": 0,
+            "_valueLength": 0,
+            "_valuesToMeasure": [],
+            "writable": false,
+            "readable": true,
+            "dataSize": 0,
+            "maxDataSize": 2097152,
+            "pauseStreams": true,
+            "_released": true,
+            "_streams": [],
+            "_currentStream": null,
+            "_insideLoop": false,
+            "_pendingNext": false,
+            "_boundary": "--------------------------1404397a494b76643eae329d",
+            "_events": {},
+            "_eventsCount": 3
+          }
+        },
+        "response": {
+          "status": 403,
+          "statusText": "Forbidden",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:31 GMT",
+            "server": "Kestrel"
+          },
+          "data": "",
+          "url": "http://localhost/api/products/99999999",
+          "responseTime": 12
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "PUT producto devuelve 200, 403 o 404",
+            "status": "pass",
+            "uid": "M8LBFIH7I6VrmKngJOW0Z"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.28956,
+        "name": "07-Put-Producto-OK",
+        "path": "ControladorProductos\\07-Put-Producto-OK",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\08-Put-Producto-SinAuth.bru"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "http://localhost:5041/api/products/99999999",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/products/99999999",
+          "responseTime": 6
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "PUT sin autenticacion devuelve 401",
+            "status": "pass",
+            "uid": "cn7gzXJhaJ32S-XeZq_Du"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.2654685,
+        "name": "08-Put-Producto-SinAuth",
+        "path": "ControladorProductos\\08-Put-Producto-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\09-Delete-Producto-SinAuth.bru"
+        },
+        "request": {
+          "method": "DELETE",
+          "url": "http://localhost:5041/api/products/99999999",
+          "headers": {
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 401,
+          "statusText": "Unauthorized",
+          "headers": {
+            "content-length": "0",
+            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "server": "Kestrel",
+            "www-authenticate": "********"
+          },
+          "data": "",
+          "url": "http://localhost/api/products/99999999",
+          "responseTime": 4
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "DELETE sin autenticacion devuelve 401",
+            "status": "pass",
+            "uid": "jya2MoDhF07ZbUSfXvSJy"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.2136962,
+        "name": "09-Delete-Producto-SinAuth",
+        "path": "ControladorProductos\\09-Delete-Producto-SinAuth",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "ControladorProductos\\10-Delete-Producto-OK.bru"
+        },
+        "request": {
+          "method": "DELETE",
+          "url": "http://localhost:5041/api/products/99999999",
+          "headers": {
+            "Authorization": "Bearer ********",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 404,
+          "statusText": "Not Found",
+          "headers": {
+            "content-type": "application/json; charset=utf-8",
+            "date": "Sat, 21 Feb 2026 16:56:32 GMT",
+            "server": "Kestrel",
+            "transfer-encoding": "chunked"
+          },
+          "data": {
+            "message": "No se encontró el Product con id: 99999999."
+          },
+          "url": "http://localhost/api/products/99999999",
+          "responseTime": 27
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "DELETE producto con token devuelve 200, 403 o 404",
+            "status": "pass",
+            "uid": "mdj1b6cmbTpYtn_9HXnVx"
+          },
+          {
+            "description": "Si OK, respuesta contiene el producto eliminado",
+            "status": "pass",
+            "uid": "Omx6molxHA6pqP2tm2Ton"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.2797315,
+        "name": "10-Delete-Producto-OK",
+        "path": "ControladorProductos\\10-Delete-Producto-OK",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 11,
+      "passedRequests": 11,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "totalAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": 0,
+      "totalTests": 17,
+      "passedTests": 17,
+      "failedTests": 0,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

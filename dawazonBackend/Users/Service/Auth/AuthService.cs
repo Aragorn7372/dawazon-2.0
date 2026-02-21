@@ -26,15 +26,14 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
             Name = dto.Username,
             UserName = dto.Username,
             Email = dto.Email,
-            PasswordHash = dto.Password,
             IsDeleted = false
         };
 
-        var savedUser = await db.CreateAsync(user);
+        var savedUser = await db.CreateAsync(user, dto.Password);
         if (!savedUser.Succeeded)
         {
-            var errors = savedUser.Errors.Select(x => x.Description).ToString();
-            return Result.Failure<AuthResponseDto, UserError>(new UserError("/n" + errors!));
+            var errors = string.Join(", ", savedUser.Errors.Select(x => x.Description));
+            return Result.Failure<AuthResponseDto, UserError>(new UserError(errors));
         }
 
         var userFound = await db.FindByEmailAsync(dto.Email);
@@ -78,7 +77,9 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
             );
         }
 
-        var passwordValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
+        // Usamos CheckPasswordAsync en lugar de BCrypt directamente,
+        // ya que CreateAsync de UserManager gestiona el hash con Identity internamente
+        var passwordValid = await db.CheckPasswordAsync(user, dto.Password);
         if (!passwordValid)
         {
             logger.LogWarning("SignIn fallido: Password inválido - {Username}", sanitizedUsername);

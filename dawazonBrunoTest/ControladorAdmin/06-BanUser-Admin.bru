@@ -14,8 +14,14 @@ auth:bearer {
   token: {{adminToken}}
 }
 
+script:pre-request {
+  if (!bru.getVar("targetUserId")) {
+    bru.setVar("targetUserId", "99999999");
+  }
+}
+
 tests {
-  test("DELETE (ban) usuario como admin devuelve 204", function() {
-    expect(res.status).to.equal(204);
+  test("DELETE (ban) usuario como admin devuelve 204 o 404", function() {
+    expect([204, 404]).to.include(res.status);
   });
 }

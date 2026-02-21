@@ -6,20 +6,18 @@ meta {
 
 put {
   url: {{baseUrl}}/api/products/{{newProductId}}
-  body: multipartForm
+  body: none
   auth: none
 }
 
-body:multipart {
-  name: Intento sin auth
-  price: 1.00
-  stock: 1
-  category: Figuras
-  description: No debería funcionar
+script:pre-request {
+  if (!bru.getVar("newProductId")) {
+    bru.setVar("newProductId", "1");
+  }
 }
 
 tests {
-  test("PUT sin autenticación devuelve 401", function() {
+  test("PUT sin autenticacion devuelve 401", function() {
     expect(res.status).to.equal(401);
   });
 }

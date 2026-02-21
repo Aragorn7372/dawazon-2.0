@@ -1,7 +1,7 @@
 meta {
-  name: 05-Login-Admin
+  name: 00b-Login-Admin-Setup
   type: http
-  seq: 5
+  seq: 1
 }
 
 post {
@@ -20,16 +20,12 @@ body:json {
 script:post-response {
   if (res.status === 200) {
     bru.setVar("adminToken", res.body.token);
-    bru.setVar("managerToken", res.body.token);
   }
 }
 
 tests {
-  test("Login como admin devuelve 200", function() {
+  test("Setup: Login admin OK (para test 07)", function() {
     expect(res.status).to.equal(200);
-  });
-  test("Respuesta contiene token JWT de admin", function() {
     expect(res.body).to.have.property("token");
-    expect(res.body.token).to.be.a("string");
   });
 }

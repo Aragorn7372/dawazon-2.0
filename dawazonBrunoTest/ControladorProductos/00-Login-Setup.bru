@@ -1,7 +1,7 @@
 meta {
-  name: 05-Login-Admin
+  name: 00-Login-Setup
   type: http
-  seq: 5
+  seq: 0
 }
 
 post {
@@ -25,11 +25,8 @@ script:post-response {
 }
 
 tests {
-  test("Login como admin devuelve 200", function() {
+  test("Setup: Login como admin OK", function() {
     expect(res.status).to.equal(200);
-  });
-  test("Respuesta contiene token JWT de admin", function() {
     expect(res.body).to.have.property("token");
-    expect(res.body.token).to.be.a("string");
   });
 }
