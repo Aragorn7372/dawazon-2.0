@@ -28,6 +28,10 @@ public class User: IdentityUser<long>
     public bool IsDeleted { get; set; } = false;
 
     /// <summary>
+    /// Productos Favoritos del Usuario
+    /// </summary>
+    public List<string> ProductsFavs { get; set; } = new();
+    /// <summary>
     /// Datos del cliente asociados al usuario (dirección, etc.).
     /// </summary>
     public Client Client { get; set; } = new Client();

@@ -27,3 +27,7 @@ public record UserConflictError(string Message):UserError(Message);
 /// Error devuelto cuando una operación requiere autorización y el usuario no la tiene.
 /// </summary>
 public record UnauthorizedError(string Message):UserError(Message);
+///
+///
+/// 
+public record UserHasThatProductError(string Message):UserError(Message);

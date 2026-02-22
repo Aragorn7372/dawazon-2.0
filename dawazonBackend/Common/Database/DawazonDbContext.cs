@@ -27,6 +27,12 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             {
                 clientBuilder.OwnsOne(c => c.Address);
             });
+        modelBuilder.Entity<User>()
+            .Property(u => u.ProductsFavs)
+            .HasConversion(
+                v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
+            );
         
         modelBuilder.Entity<Product>()
             .Property(p => p.Images)
