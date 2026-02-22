@@ -1,0 +1,103 @@
+@model dawazon2._0.Models.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Mi perfil";
+}
+
+<div class="container my-5" style="max-width: 640px;">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Info"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["Info"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @* ── Tarjeta de perfil ── *@
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+
+        @* Cabecera con gradiente *@
+        <div style="background: linear-gradient(135deg, #001f5b 0%, #003087 100%); height: 90px;"></div>
+
+        <div class="card-body pt-0 text-center px-4 pb-4">
+
+            @* Avatar *@
+            <img src="@Model.AvatarUrl"
+                 alt="Avatar de @Model.Name"
+                 class="rounded-circle border border-4 border-white shadow"
+                 style="width: 100px; height: 100px; object-fit: cover; margin-top: -50px;">
+
+            <h3 class="fw-bold mt-3 mb-0">@Model.Name</h3>
+            <p class="text-muted small mb-1">@Model.Email</p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Phone))
+            {
+                <p class="text-muted small mb-1"><i class="bi bi-telephone me-1"></i>@Model.Phone</p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.City))
+            {
+                <p class="text-muted small mb-2">
+                    <i class="bi bi-geo-alt me-1"></i>@Model.Street, @Model.City (@Model.PostalCode) — @Model.Province
+                </p>
+            }
+
+            <span class="badge bg-warning text-dark mb-3">
+                <i class="bi bi-heart-fill me-1"></i>@Model.FavCount favorito(s)
+            </span>
+
+            @* ── 3 Botones ── *@
+            <div class="d-grid gap-2 mt-2">
+
+                <a asp-controller="UserMvc" asp-action="Favs"
+                   class="btn btn-amazon">
+                    <i class="bi bi-heart me-2"></i>Mis Favoritos
+                </a>
+
+                <a asp-controller="UserMvc" asp-action="EditProfile"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-pencil me-2"></i>Editar perfil
+                </a>
+
+                <button type="button" class="btn btn-outline-danger"
+                        data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                    <i class="bi bi-trash me-2"></i>Eliminar cuenta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ── Modal confirmación eliminar cuenta ── *@
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="labelEliminar" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-danger" id="labelEliminar">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Eliminar cuenta
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que quieres desactivar tu cuenta? Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form asp-controller="UserMvc" asp-action="DeleteAccount" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Sí, eliminar mi cuenta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

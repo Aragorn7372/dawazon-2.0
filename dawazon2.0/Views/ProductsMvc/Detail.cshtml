@@ -75,6 +75,44 @@
                 </div>
             }
 
+            @* Favoritos (solo Usuario) *@
+            @if (isUser)
+            {
+                
+                    // Asumimos por defecto que NO es favorito
+                    bool isFav = false;
+
+                    // Comprobamos si hay un booleano guardado
+                    if (ViewBag.IsFav is bool)
+                    {
+                        // Si lo hay, lo extraemos de forma segura
+                        isFav = (bool)ViewBag.IsFav;
+                    }
+                
+                <div class="mt-2">
+                    @if (isFav)
+                    {
+                        <form asp-controller="UserMvc" asp-action="RemoveFav"
+                              asp-route-id="@Model.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-heart-fill me-1"></i>Quitar de favoritos
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="UserMvc" asp-action="AddFav"
+                              asp-route-id="@Model.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-heart me-1"></i>Añadir a favoritos
+                            </button>
+                        </form>
+                    }
+                </div>
+            }
+
             @* Acciones de manager / admin *@
             @if (isManager || isAdmin)
             {

@@ -1,0 +1,89 @@
+@model dawazon2._0.Models.UserFavsViewModel
+
+@{
+    ViewData["Title"] = "Mis Favoritos";
+}
+
+<div class="container my-5">
+
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="UserMvc" asp-action="Profile">Mi perfil</a>
+                    </li>
+                    <li class="breadcrumb-item active">Mis Favoritos</li>
+                </ol>
+            </nav>
+            <h2 class="mb-0">Mis Favoritos</h2>
+            @if (Model.TotalElements > 0)
+            {
+                <small class="text-muted">@Model.TotalElements producto(s) guardado(s)</small>
+            }
+        </div>
+    </div>
+
+    @if (!Model.Products.Any())
+    {
+        <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
+            <i class="bi bi-heart fs-5"></i>
+            <div>Aún no tienes favoritos. <a asp-controller="ProductsMvc" asp-action="Index">¡Descubre productos!</a></div>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                        <img src="/files/@product.Images.FirstOrDefault()" 
+                             class="card-img-top" 
+                             alt="@product.Name"
+                             style="height: 180px; object-fit: contain; background: #f9f9f9; padding: 12px;"
+                             onerror="this.src='/img/defaultImg.png'">
+                        <div class="card-body d-flex flex-column pb-2">
+                            <h6 class="card-title fw-semibold mb-1" style="font-size: 0.9rem;">@product.Name</h6>
+                            <p class="text-muted small mb-1">@product.Category</p>
+                            <p class="fw-bold mb-2">@product.Price.ToString("0.00")&nbsp;€</p>
+
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a asp-controller="ProductsMvc" asp-action="Detail"
+                                   asp-route-id="@product.Id"
+                                   class="btn btn-sm btn-amazon">
+                                    Ver detalles
+                                </a>
+                                <form asp-controller="UserMvc" asp-action="RemoveFav"
+                                      asp-route-id="@product.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                        <i class="bi bi-heart-fill me-1"></i>Quitar de favoritos
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @* Paginación *@
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-4" aria-label="Navegación de favoritos">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.First ? "disabled" : "")">
+                        <a class="page-link" href="?page=@Model.PrevPage">‹</a>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">@(Model.PageNumber + 1) / @Model.TotalPages</span>
+                    </li>
+                    <li class="page-item @(Model.Last ? "disabled" : "")">
+                        <a class="page-link" href="?page=@Model.NextPage">›</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>

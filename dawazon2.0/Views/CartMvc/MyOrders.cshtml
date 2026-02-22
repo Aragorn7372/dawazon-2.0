@@ -1,0 +1,108 @@
+@model dawazon2._0.Models.CartOrderListViewModel
+
+@{
+    ViewData["Title"] = "Mis Pedidos";
+}
+
+<div class="container my-5">
+
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <h2 class="mb-0">Mis pedidos</h2>
+            @if (Model.TotalElements > 0)
+            {
+                <small class="text-muted">@Model.TotalElements pedido(s) realizados</small>
+            }
+        </div>
+    </div>
+
+    @if (!Model.Orders.Any())
+    {
+        <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
+            <i class="bi bi-bag-x fs-5"></i>
+            <div>Aún no has realizado ningún pedido. <a asp-controller="ProductsMvc" asp-action="Index">¡Empieza a comprar!</a></div>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #f3f3f3;">
+                        <tr>
+                            <th class="py-3 px-4" style="font-size: 0.8rem; color: #555; font-weight: 600; min-width: 220px;">
+                                PEDIDO REALIZADO / ID
+                            </th>
+                            <th class="py-3 px-4" style="font-size: 0.8rem; color: #555; font-weight: 600;">
+                                ENVIAR A
+                            </th>
+                            <th class="py-3 px-4 text-end" style="font-size: 0.8rem; color: #555; font-weight: 600;">
+                                TOTAL
+                            </th>
+                            <th class="py-3 px-4 text-center" style="font-size: 0.8rem; color: #555; font-weight: 600;">
+                                DETALLES DEL PEDIDO
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td class="px-4 py-3">
+                                    @if (order.CreatedAt != DateTime.MinValue)
+                                    {
+                                        <div class="small text-muted mb-1">
+                                            <i class="bi bi-calendar3 me-1"></i>
+                                            @order.CreatedAt.ToString("dd 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-ES"))
+                                        </div>
+                                    }
+                                    <div class="font-monospace" style="font-size: 0.75rem; color: #6c757d; word-break: break-all;">
+                                        @order.Id
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="fw-semibold small">@order.ClientName</div>
+                                    <div class="text-muted small">@order.ClientCity, @order.ClientPostalCode</div>
+                                </td>
+                                <td class="px-4 py-3 text-end">
+                                    <span class="fw-bold">@order.Total.ToString("0.00")&nbsp;€</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <a asp-controller="CartMvc" asp-action="Detail"
+                                       asp-route-id="@order.Id"
+                                       class="btn btn-sm btn-amazon px-3">
+                                        Ver detalles
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @* Paginación *@
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-4" aria-label="Navegación de páginas">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.First ? "disabled" : "")">
+                        <a class="page-link" href="?page=0">«</a>
+                    </li>
+                    <li class="page-item @(Model.First ? "disabled" : "")">
+                        <a class="page-link" href="?page=@Model.PrevPage">‹</a>
+                    </li>
+                    <li class="page-item active">
+                        <span class="page-link">Página @(Model.PageNumber + 1) de @Model.TotalPages</span>
+                    </li>
+                    <li class="page-item @(Model.Last ? "disabled" : "")">
+                        <a class="page-link" href="?page=@Model.NextPage">›</a>
+                    </li>
+                    <li class="page-item @(Model.Last ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.TotalPages - 1)">»</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>
