@@ -6,6 +6,7 @@ using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Service;
 using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -17,9 +18,8 @@ namespace dawazon2._0.MvcControllers;
 /// </summary>
 [Route("")]
 [Route("productos")]
-public class ProductsMvcController(IProductService service) : Controller
+public class ProductsMvcController(IProductService service, UserManager<User> userManager) : Controller
 {
-    // ── GET /productos ─────────────────────────────────────────────────────────
 
     /// <summary>Lista paginada y filtrable de productos.</summary>
     [HttpGet("")]
@@ -42,7 +42,6 @@ public class ProductsMvcController(IProductService service) : Controller
         return View(vm);
     }
 
-    // ── GET /productos/{id} ───────────────────────────────────────────────────
 
     /// <summary>Vista de detalle de un producto concreto.</summary>
     [HttpGet("{id}")]
@@ -54,10 +53,18 @@ public class ProductsMvcController(IProductService service) : Controller
                 ? NotFound()
                 : StatusCode(500);
 
+        if (User.IsInRole(UserRoles.USER))
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId != null)
+            {
+                var user = await userManager.FindByIdAsync(userId);
+                ViewBag.IsFav = user?.ProductsFavs.Contains(id) ?? false;
+            }
+        }
+
         return View(result.Value.ToDetailViewModel());
     }
-
-    // ── GET /productos/crear ──────────────────────────────────────────────────
 
     /// <summary>Formulario de creación de producto (solo Manager).</summary>
     [HttpGet("crear")]
@@ -70,8 +77,6 @@ public class ProductsMvcController(IProductService service) : Controller
         };
         return View("Form", vm);
     }
-
-    // ── POST /productos/crear ─────────────────────────────────────────────────
 
     /// <summary>Procesa el formulario de creación de producto.</summary>
     [HttpPost("crear")]
@@ -106,7 +111,6 @@ public class ProductsMvcController(IProductService service) : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // ── GET /productos/editar/{id} ────────────────────────────────────────────
 
     /// <summary>Formulario de edición de un producto existente (solo su creador Manager).</summary>
     [HttpGet("editar/{id}")]
@@ -128,7 +132,6 @@ public class ProductsMvcController(IProductService service) : Controller
         return View("Form", vm);
     }
 
-    // ── POST /productos/editar/{id} ───────────────────────────────────────────
 
     /// <summary>Procesa el formulario de edición de un producto.</summary>
     [HttpPost("editar/{id}")]
@@ -171,7 +174,6 @@ public class ProductsMvcController(IProductService service) : Controller
         return RedirectToAction(nameof(Detail), new { id });
     }
 
-    // ── POST /productos/eliminar/{id} ─────────────────────────────────────────
 
     /// <summary>Elimina un producto (Admin o el Manager creador).</summary>
     [HttpPost("eliminar/{id}")]
@@ -197,7 +199,6 @@ public class ProductsMvcController(IProductService service) : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // ── Helpers privados ──────────────────────────────────────────────────────
 
     /// <summary>Obtiene todas las categorías como SelectListItem para los formularios.</summary>
     private async Task<List<SelectListItem>> GetCategorySelectListAsync()

@@ -5,6 +5,7 @@ using dawazonBackend.Users.Service;
 using dawazonBackend.Users.Service.Auth;
 using dawazonBackend.Users.Service.Jwt;
 using Serilog;
+using dawazonBackend.Users.Service.Favs;
 
 namespace dawazon2._0.Infraestructures;
 
@@ -23,6 +24,7 @@ public static class ServicesConfig
             .AddScoped<IProductService, ProductService>()
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICartService, CartService>()
-            .AddScoped<IStripeService, StripeService>();
+            .AddScoped<IStripeService, StripeService>()
+            .AddScoped<IFavService, FavService>();
     }
 }
