@@ -111,8 +111,8 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             new Category { Id = "ROP000000001", Name = "Ropa", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
         );
         modelBuilder.Entity<Product>().HasData(
-            new { Id = "PRD000000001", Name = "Funko Pop Iron Man", Price = 15.99, Stock = 50, Description = "Figura Funko Pop de Iron Man de Marvel.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/ironman_funko.jpg" } },
-            new { Id = "PRD000000002", Name = "Spider-Man Comic #1", Price = 9.99, Stock = 20, Description = "Primer número del comic de Spider-Man.", CreatorId = 1L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/spiderman_comic.jpg" } },
+            new { Id = "PRD000000001", Name = "Funko Pop Iron Man", Price = 15.99, Stock = 50, Description = "Figura Funko Pop de Iron Man de Marvel.", CreatorId = 3L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/ironman_funko.jpg" } },
+            new { Id = "PRD000000002", Name = "Spider-Man Comic #1", Price = 9.99, Stock = 20, Description = "Primer número del comic de Spider-Man.", CreatorId = 3L, CategoryId = "COM000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/spiderman_comic.jpg" } },
             new { Id = "PRD000000003", Name = "Captain America T-Shirt", Price = 19.99, Stock = 30, Description = "Camiseta de algodón con el escudo del Capitán América.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/cap_tshirt.jpg" } },
             new { Id = "PRD000000004", Name = "Funko Pop Batman", Price = 14.99, Stock = 40, Description = "Figura Funko Pop de Batman de DC.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/batman_funko.jpg" } },
             new { Id = "PRD000000005", Name = "Funko Pop Joker", Price = 16.50, Stock = 15, Description = "Figura Funko Pop del Joker de DC Comics.", CreatorId = 1L, CategoryId = "FIG000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/joker_funko.jpg" } },
@@ -126,7 +126,6 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             new { Id = "PRD000000013", Name = "Iron Man Mug", Price = 10.99, Stock = 100, Description = "Taza con diseño de casco de Iron Man.", CreatorId = 1L, CategoryId = "ROP000000001", IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Version = 1L, Images = new List<string> { "/uploads/products/ironman_mug.jpg" } }
         );
 
-        // 1. Purchased Cart
         modelBuilder.Entity<Cart.Models.Cart>().HasData(
             new 
             { 
@@ -139,7 +138,6 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
                 UploadAt = DateTime.UtcNow.AddDays(-1),
                 CheckoutInProgress = false
             },
-            // 2. Active Cart
             new 
             { 
                 Id = "CART00000002", 
@@ -164,8 +162,8 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
         );
 
         modelBuilder.Entity<Cart.Models.Cart>().OwnsMany(c => c.CartLines).HasData(
-            new { CartId = "CART00000001", ProductId = "PRD000000001", Quantity = 1, ProductPrice = 15.99, Status = Status.Recibido },
-            new { CartId = "CART00000001", ProductId = "PRD000000002", Quantity = 1, ProductPrice = 9.99, Status = Status.Recibido },
+            new { CartId = "CART00000001", ProductId = "PRD000000001", Quantity = 1, ProductPrice = 15.99, Status = Status.Preparado },
+            new { CartId = "CART00000001", ProductId = "PRD000000002", Quantity = 1, ProductPrice = 9.99, Status = Status.Enviado },
             new { CartId = "CART00000002", ProductId = "PRD000000003", Quantity = 1, ProductPrice = 19.99, Status = Status.EnCarrito }
         );
     }
