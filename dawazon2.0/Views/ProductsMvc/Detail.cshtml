@@ -19,6 +19,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
     @* Migas de pan *@
     <nav aria-label="breadcrumb" class="mb-3">
@@ -137,38 +144,20 @@
         </div>
     </div>
 
-    @* Comentarios *@
-    <section class="comments-section mt-5">
-        <h3>Comentarios</h3>
-
-        @if (Model.Comments.Any())
+    @* Comentarios — componente Blazor con tiempo real (Timer + SignalR) *@
+    @{
+        long currentUserId = 0;
+        if (isUser)
         {
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <div>
-                            <span class="user-name">@comment.userName</span>
-                            <span class="@(comment.verified ? "badge-verified" : "badge-")">
-                                @(comment.verified ? "compra verificada" : "compra no verificada")
-                            </span>
-                        </div>
-                        <span class="recommendation @(comment.recommended ? "positive" : "negative")">
-                            @(comment.recommended ? "recomendado" : "no recomendado")
-                        </span>
-                    </div>
-                    <div class="comment-body">
-                        <p>@comment.comment</p>
-                    </div>
-                    <hr>
-                </div>
-            }
+            var rawId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            long.TryParse(rawId, out currentUserId);
         }
-        else
-        {
-            <p class="text-muted">Este producto aún no tiene comentarios.</p>
-        }
-    </section>
+    }
+    <component type="typeof(dawazon2._0.Components.ProductComments)"
+               render-mode="ServerPrerendered"
+               param-ProductId="@Model.Id"
+               param-IsUser="@isUser"
+               param-CurrentUserId="@currentUserId" />
 
     @* Toast de notificación *@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">

@@ -248,5 +248,44 @@
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
+
+@* ── DEBUG: logs de Blazor/SignalR en consola del navegador ─── *@
+<script src="_framework/blazor.server.js" autostart="false"></script>
+<script>
+    console.log('[Blazor] Script cargado, iniciando con logs de debug...');
+
+    Blazor.start({
+        // Indica al navegador los reintentos de reconexión
+        reconnectionOptions: {
+            maxRetries: 5,
+            retryIntervalMilliseconds: 2000
+        },
+        // Acceso al builder de SignalR para añadir logging
+        configureSignalR: function (builder) {
+            // Nivel Trace para ver todos los mensajes del hub
+            builder.configureLogging(signalR.LogLevel.Information);
+
+            builder.withAutomaticReconnect({
+                nextRetryDelayInMilliseconds: retryContext => {
+                    console.warn('[SignalR] Reconectando... intento', retryContext.previousRetryCount);
+                    return 2000;
+                }
+            });
+        },
+        // Handler de reconexión visual
+        reconnectionHandler: {
+            onConnectionDown: (options, error) => {
+                console.error('[Blazor] ❌ Conexión caída:', error);
+            },
+            onConnectionUp: () => {
+                console.log('[Blazor] ✅ Conexión restaurada');
+            }
+        }
+    }).then(() => {
+        console.log('[Blazor] ✅ Circuito establecido correctamente');
+    }).catch(err => {
+        console.error('[Blazor] ❌ Error iniciando circuito:', err);
+    });
+</script>
 </body>
 </html>

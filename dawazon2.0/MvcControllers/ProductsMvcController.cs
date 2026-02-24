@@ -200,6 +200,43 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
     }
 
 
+    /// <summary>Añade un comentario a un producto (solo rol User).</summary>
+    [HttpPost("{id}/comentar")]
+    [Authorize(Roles = UserRoles.USER)]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddComment(string id, [FromForm] AddCommentViewModel vm)
+    {
+        if (!ModelState.IsValid || string.IsNullOrWhiteSpace(vm.CommentText))
+        {
+            TempData["Error"] = "El comentario no puede estar vacío.";
+            return RedirectToAction(nameof(Detail), new { id });
+        }
+
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userId, out int numericUserId))
+        {
+            TempData["Error"] = "No se pudo identificar al usuario.";
+            return RedirectToAction(nameof(Detail), new { id });
+        }
+
+        var comment = new dawazonBackend.Products.Models.Comment
+        {
+            UserId = numericUserId,
+            Content = vm.CommentText.Trim(),
+            recommended = vm.Recommended,
+            verified = false,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var result = await service.AddCommentAsync(id, comment);
+
+        TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess
+            ? "¡Comentario publicado correctamente!"
+            : "No se pudo publicar el comentario. Inténtalo de nuevo.";
+
+        return RedirectToAction(nameof(Detail), new { id });
+    }
+
     /// <summary>Obtiene todas las categorías como SelectListItem para los formularios.</summary>
     private async Task<List<SelectListItem>> GetCategorySelectListAsync()
     {

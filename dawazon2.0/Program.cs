@@ -3,6 +3,7 @@ using dawazon2._0.Infraestructures;
 using dawazon2._0.Middleware;
 using dawazonBackend.Common.Database;
 using dawazonBackend.Users.Models;
+using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 
@@ -43,6 +44,19 @@ services.AddEmail(environment);
 services.AddStorage();
 // añado configuracion de MVC
 services.AddControllersWithViews();
+// habilito Blazor Server para componentes interactivos
+// AddSignalR con tamaño de mensaje ampliado (Blazor lo necesita para renders grandes)
+services.AddServerSideBlazor(options =>
+{
+    options.DetailedErrors = true; // muestra errores en el browser durante desarrollo
+});
+services.AddSignalR(options =>
+{
+    options.MaximumReceiveMessageSize = 64 * 1024; // 64 KB
+});
+// handler de circuitos Blazor para depurar conexiones SignalR
+services.AddScoped<CircuitHandler, dawazon2._0.Components.LoggingCircuitHandler>();
+
 // declaro app
 var app = builder.Build(); 
 // en produccion mapea los errores web
@@ -54,20 +68,22 @@ if (!app.Environment.IsDevelopment())
 }
 // global exception handler
 app.UseGlobalExceptionHandler();
-// politicas de corps
+// politicas de corps (ANTES de routing para que las pre-flights pasen)
 app.UseCorsPolicy();
 app.UseHttpsRedirection();
+// archivos estaticos ANTES de routing (blazor.server.js, etc.)
+app.UseStaticFiles();
 app.UseRouting();
 // lo que tiene relacion con usuarios
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-// uso de archivos estaticos
-app.UseStaticFiles();
 // mapeador de controllers
 app.MapControllers();
 // mapeador de razor pages
 app.MapRazorPages();
+// hub de Blazor Server
+app.MapBlazorHub();
 // init de datos
 await app.SeedIdentityAsync();
 await app.InitializeDatabaseAsync();

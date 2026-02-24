@@ -1,0 +1,254 @@
+@namespace dawazon2._0.Components
+@using System.Timers
+@using dawazonBackend.Products.Models
+@using dawazonBackend.Products.Models.Dto
+@using dawazonBackend.Products.Service
+@using Microsoft.Extensions.Logging
+@implements IDisposable
+@inject IProductService ProductService
+@inject ILogger<ProductComments> Logger
+
+@* ── Lista de comentarios ──────────────────────────────────────── *@
+<section class="comments-section mt-5">
+    <h3 class="mb-4">
+        <i class="bi bi-chat-dots me-2"></i>Comentarios
+        @if (_comments.Count > 0)
+        {
+            <span class="badge bg-secondary ms-2" style="font-size:0.7rem;">@_comments.Count</span>
+        }
+        <span class="badge bg-success ms-2" style="font-size:0.6rem;">
+            <i class="bi bi-broadcast me-1"></i>En vivo
+        </span>
+    </h3>
+
+    @if (!_loaded)
+    {
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted small">Cargando comentarios...</p>
+        </div>
+    }
+    else if (_comments.Any())
+    {
+        @foreach (var c in _comments)
+        {
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div>
+                        <span class="user-name">
+                            <i class="bi bi-person-circle me-1"></i>@c.userName
+                        </span>
+                        <span class="@(c.verified ? "badge-verified" : "badge-unverified") ms-2">
+                            <i class="bi @(c.verified ? "bi-patch-check-fill" : "bi-question-circle") me-1"></i>
+                            @(c.verified ? "Compra verificada" : "No verificada")
+                        </span>
+                    </div>
+                    <span class="recommendation @(c.recommended ? "positive" : "negative")">
+                        <i class="bi @(c.recommended ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-down-fill") me-1"></i>
+                        @(c.recommended ? "Recomendado" : "No recomendado")
+                    </span>
+                </div>
+                <div class="comment-body"><p>@c.comment</p></div>
+                <hr />
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-chat-square-text" style="font-size:2.5rem; opacity:0.4;"></i>
+            <p class="mt-3">Este producto aún no tiene comentarios. ¡Sé el primero en opinar!</p>
+        </div>
+    }
+</section>
+
+@* ── Formulario (solo rol User) — SIN EditForm para evitar HTTP POST accidental *@
+@if (IsUser)
+{
+    <div class="comment-form-card mb-4">
+        <h5 class="mb-3"><i class="bi bi-pencil-square me-2 text-primary"></i>Deja tu opinión</h5>
+
+        @if (_successMsg is not null)
+        {
+            <div class="alert alert-success py-2">
+                <i class="bi bi-check-circle me-1"></i>@_successMsg
+            </div>
+        }
+        @if (_errorMsg is not null)
+        {
+            <div class="alert alert-danger py-2">
+                <i class="bi bi-exclamation-triangle me-1"></i>@_errorMsg
+            </div>
+        }
+        @if (_validationMsg is not null)
+        {
+            <div class="alert alert-warning py-2">
+                <i class="bi bi-info-circle me-1"></i>@_validationMsg
+            </div>
+        }
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Tu comentario</label>
+            <textarea class="form-control"
+                      rows="3"
+                      placeholder="Escribe tu opinión sobre este producto (mín. 2, máx. 200 caracteres)..."
+                      @bind="_commentText"
+                      @bind:event="oninput"
+                      maxlength="200"></textarea>
+            <small class="text-muted">@(_commentText.Length)/200</small>
+        </div>
+
+        <div class="mb-3 d-flex align-items-center gap-2">
+            <input type="checkbox" id="chkRecommend" class="form-check-input"
+                   @bind="_recommended" />
+            <label for="chkRecommend" class="form-check-label">
+                <i class="bi @(_recommended ? "bi-hand-thumbs-up-fill text-success" : "bi-hand-thumbs-up") me-1"></i>
+                Lo recomiendo
+            </label>
+        </div>
+
+        @* type="button" — nunca hace HTTP POST, el @onclick lo maneja Blazor *@
+        <button type="button" class="btn btn-gradient" @onclick="HandleSubmit" disabled="@_submitting">
+            @if (_submitting)
+            {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            }
+            else
+            {
+                <i class="bi bi-send me-2"></i>
+            }
+            Publicar comentario
+        </button>
+    </div>
+}
+
+<div class="text-end mt-1 mb-3">
+    <small class="text-muted fst-italic">
+        <i class="bi bi-arrow-repeat me-1"></i>
+        Actualizado: @_lastUpdate.ToString("HH:mm:ss") &nbsp;·&nbsp; Auto-refresh: 10s
+    </small>
+</div>
+
+@code {
+    // ── Parámetros ──────────────────────────────────────────────────
+
+    [Parameter, EditorRequired]
+    public string ProductId { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool IsUser { get; set; }
+
+    [Parameter]
+    public long CurrentUserId { get; set; }
+
+    // ── Estado ───────────────────────────────────────────────────────
+
+    private List<CommentDto> _comments = [];
+    private bool _loaded;
+    private DateTime _lastUpdate;
+    private Timer? _timer;
+
+    private string _commentText = string.Empty;
+    private bool _recommended;
+    private bool _submitting;
+    private string? _successMsg;
+    private string? _errorMsg;
+    private string? _validationMsg;
+
+    // ── Ciclo de vida ────────────────────────────────────────────────
+
+    protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("Blazor: ProductComments iniciado para producto {Id}", ProductId);
+        await LoadCommentsAsync();
+
+        _timer = new Timer(10_000);
+        _timer.Elapsed += async (_, _) => await InvokeAsync(AutoRefreshAsync);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private async Task AutoRefreshAsync()
+    {
+        Logger.LogDebug("Blazor: Auto-refresh comentarios {Id}", ProductId);
+        await LoadCommentsAsync();
+        StateHasChanged();
+    }
+
+    private async Task LoadCommentsAsync()
+    {
+        try
+        {
+            var result = await ProductService.GetByIdAsync(ProductId);
+            if (result.IsSuccess)
+                _comments = result.Value.Comments;
+            _lastUpdate = DateTime.Now;
+            _loaded = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Blazor: Error cargando comentarios de {Id}", ProductId);
+            _loaded = true;
+        }
+    }
+
+    // ── Submit ───────────────────────────────────────────────────────
+
+    private async Task HandleSubmit()
+    {
+        _successMsg = null;
+        _errorMsg = null;
+        _validationMsg = null;
+
+        if (string.IsNullOrWhiteSpace(_commentText) || _commentText.Trim().Length < 2)
+        {
+            _validationMsg = "El comentario debe tener al menos 2 caracteres.";
+            return;
+        }
+
+        _submitting = true;
+        try
+        {
+            var comment = new Comment
+            {
+                UserId     = (int)CurrentUserId,
+                Content    = _commentText.Trim(),
+                recommended = _recommended,
+                verified   = false,
+                CreatedAt  = DateTime.UtcNow
+            };
+
+            var result = await ProductService.AddCommentAsync(ProductId, comment);
+            if (result.IsSuccess)
+            {
+                Logger.LogInformation("Blazor: Comentario publicado en {Id}", ProductId);
+                _successMsg  = "¡Comentario publicado correctamente!";
+                _commentText = string.Empty;
+                _recommended = false;
+                await LoadCommentsAsync();
+            }
+            else
+            {
+                _errorMsg = "No se pudo publicar el comentario. Inténtalo de nuevo.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Blazor: Error publicando comentario");
+            _errorMsg = "Error inesperado al publicar el comentario.";
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+
+    // ── IDisposable ──────────────────────────────────────────────────
+
+    public void Dispose()
+    {
+        Logger.LogInformation("Blazor: ProductComments eliminado (Dispose)");
+        _timer?.Stop();
+        _timer?.Dispose();
+    }
+}

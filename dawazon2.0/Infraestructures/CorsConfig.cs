@@ -17,13 +17,21 @@ public static class CorsConfig
         {
             if (isDevelopment)
             {
+                // SignalR (Blazor) WebSockets requieren AllowCredentials(),
+                // que es incompatible con AllowAnyOrigin().
+                // Por eso usamos orígenes explícitos de localhost.
                 options.AddPolicy("AllowAll", policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins(
+                            "http://localhost:5000",
+                            "https://localhost:5001",
+                            "http://localhost:7000",
+                            "https://localhost:7001")
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials(); // ← necesario para SignalR/Blazor
                 });
-                Log.Information("CORS: AllowAll (desarrollo)");
+                Log.Information("CORS: AllowAll (desarrollo) con credenciales para SignalR");
             }
             else
             {
