@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/dawazon2._0.styles.css" asp-append-version="true"/>
 </head>
 <body>
 <header style="background-color: #131921;">
@@ -35,7 +34,22 @@
                     </form>
             
                     @using System.Security.Claims
+                    @using Microsoft.AspNetCore.Identity
+                    @using dawazonBackend.Users.Models
+                    @inject UserManager<User> UserManager
                     
+                    @{
+                        string avatarUrl = "/uploads/users/default.png";
+                        if (User.Identity!.IsAuthenticated)
+                        {
+                            var appUser = await UserManager.GetUserAsync(User);
+                            if (appUser != null && !string.IsNullOrWhiteSpace(appUser.Avatar) && appUser.Avatar != "default.png")
+                            {
+                                avatarUrl = appUser.Avatar.StartsWith("/") ? appUser.Avatar : $"/{appUser.Avatar}";
+                            }
+                        }
+                    }
+
                     @if (User.Identity!.IsAuthenticated)
                     {
                     <div class="d-flex align-items-center gap-3 ms-1">
@@ -60,7 +74,7 @@
                                     <span style="font-size: 0.75rem; color: #ccc;">Hola,</span>
                                     <span class="fw-bold" style="font-size: 0.85rem;">@User.Identity.Name</span>
                                 </div>
-                                <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2);">
+                                <img src="@avatarUrl" alt="user" class="rounded-circle profile-img" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2);">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li><span class="dropdown-item-text small text-muted">@User.Identity.Name</span></li>
@@ -86,7 +100,7 @@
                     {
                     <div class="d-flex align-items-center gap-3 ms-1">
                         <a href="/Auth/Login" class="text-white text-decoration-none small fw-semibold">
-                            <img src="~/img/defaultImg.png" alt="user" class="rounded-circle profile-img" style="cursor: pointer;">
+                            <img src="@avatarUrl" alt="user" class="rounded-circle profile-img" style="width: 32px; height: 32px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;">
                         </a>
                     </div>
                     }

@@ -96,7 +96,7 @@ public class UserMvcController(
             Provincia   = vm.Provincia
         };
 
-        var result = await userService.UpdateByIdAsync(userId, dto);
+        var result = await userService.UpdateByIdAsync(userId, dto, vm.Avatar);
         if (result.IsFailure)
         {
             ModelState.AddModelError(string.Empty, result.Error.Message);

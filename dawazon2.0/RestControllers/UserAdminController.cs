@@ -55,7 +55,7 @@ public class UsersController(IUserService userService, ILogger<UsersController> 
     public async Task<IActionResult> UpdateById(long id, [FromBody] UserRequestDto userRequestDto)
     {
         logger.LogInformation($"Endpoint llamado: PUT api/users/{id}");
-        var result = await userService.UpdateByIdAsync(id, userRequestDto);
+        var result = await userService.UpdateByIdAsync(id, userRequestDto, null);
         
         return result.Match(
             onSuccess: IActionResult(u) => Ok(u),

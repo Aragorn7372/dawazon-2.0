@@ -30,12 +30,27 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
         [FromQuery] string sortBy = "id",
         [FromQuery] int page = 0,
         [FromQuery] int size = 12,
-        [FromQuery] string direction = "asc")
+        [FromQuery] string direction = "asc",
+        [FromQuery] bool misProductos = false)
     {
         var filter = new FilterDto(nombre, categoria, page, size, sortBy, direction);
-        var result = await service.GetAllAsync(filter);
+        
+        long? creatorId = null;
+        if (misProductos && User.IsInRole(UserRoles.MANAGER))
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim != null && long.TryParse(userIdClaim, out var userId))
+            {
+                creatorId = userId;
+            }
+        }
+        
+        var result = await service.GetAllAsync(filter, creatorId);
         var vm = result.ToListViewModel(nombre, categoria, sortBy, direction);
 
+        // Variables adicionales para la vista
+        ViewBag.MisProductos = misProductos;
+        
         // Categorías para el navbar
         await SetCategoriasBagAsync();
 

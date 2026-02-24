@@ -50,6 +50,7 @@
 
     <ItemGroup>
       <Folder Include="MvcControllers\" />
+      <Folder Include="wwwroot\uploads\products\" />
     </ItemGroup>
 
 </Project>
