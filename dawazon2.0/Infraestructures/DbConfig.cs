@@ -29,7 +29,7 @@ public static class DbConfig
         //BBDD de Usuarios
         services.AddIdentity<User, IdentityRole<long>>(options => 
             {
-                // Configuraciones opcionales de contraseña, etc. P@ssw0rd
+                // Configuraciones opcionales de contraseña, etc. 
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = true;

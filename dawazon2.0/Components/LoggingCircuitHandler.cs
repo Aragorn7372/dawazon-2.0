@@ -29,13 +29,13 @@ public class LoggingCircuitHandler : CircuitHandler
 
     public override Task OnCircuitOpenedAsync(Circuit circuit, CancellationToken cancellationToken)
     {
-        Log.Information("✅ [Blazor] Circuito ABIERTO — Id: {CircuitId}", circuit.Id);
+        Log.Information("[Blazor] Circuito ABIERTO — Id: {CircuitId}", circuit.Id);
         return Task.CompletedTask;
     }
 
     public override Task OnCircuitClosedAsync(Circuit circuit, CancellationToken cancellationToken)
     {
-        Log.Warning("❌ [Blazor] Circuito CERRADO — Id: {CircuitId}", circuit.Id);
+        Log.Warning(" [Blazor] Circuito CERRADO — Id: {CircuitId}", circuit.Id);
         return Task.CompletedTask;
     }
 }

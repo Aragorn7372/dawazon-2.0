@@ -1,0 +1,19 @@
+﻿@using dawazon2._0.Components
+@using Microsoft.AspNetCore.Components.Routing
+
+
+@namespace dawazon2._0.Components
+
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+
+        <NotFound>
+            <NotFoundPage/> 
+        </NotFound>
+
+        <Navigating>
+            <div>Loading...</div>
+        </Navigating>
+    </Router>

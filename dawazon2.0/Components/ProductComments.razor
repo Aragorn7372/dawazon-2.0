@@ -1,8 +1,5 @@
 @namespace dawazon2._0.Components
 @using System.Timers
-@using dawazonBackend.Products.Models
-@using dawazonBackend.Products.Models.Dto
-@using dawazonBackend.Products.Service
 @using Microsoft.Extensions.Logging
 @implements IDisposable
 @inject IProductService ProductService
@@ -130,7 +127,6 @@
 </div>
 
 @code {
-    // ── Parámetros ──────────────────────────────────────────────────
 
     [Parameter, EditorRequired]
     public string ProductId { get; set; } = string.Empty;
@@ -140,8 +136,6 @@
 
     [Parameter]
     public long CurrentUserId { get; set; }
-
-    // ── Estado ───────────────────────────────────────────────────────
 
     private List<CommentDto> _comments = [];
     private bool _loaded;
@@ -155,14 +149,13 @@
     private string? _errorMsg;
     private string? _validationMsg;
 
-    // ── Ciclo de vida ────────────────────────────────────────────────
 
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Blazor: ProductComments iniciado para producto {Id}", ProductId);
         await LoadCommentsAsync();
 
-        _timer = new Timer(10_000);
+        _timer = new Timer(5_000);
         _timer.Elapsed += async (_, _) => await InvokeAsync(AutoRefreshAsync);
         _timer.AutoReset = true;
         _timer.Enabled = true;
@@ -192,7 +185,6 @@
         }
     }
 
-    // ── Submit ───────────────────────────────────────────────────────
 
     private async Task HandleSubmit()
     {
@@ -243,7 +235,6 @@
         }
     }
 
-    // ── IDisposable ──────────────────────────────────────────────────
 
     public void Dispose()
     {
