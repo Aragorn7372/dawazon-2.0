@@ -14,7 +14,7 @@ namespace dawazonBackend.Users.Service;
 /// <summary>
 /// Implementación del servicio de gestión de usuarios.
 /// </summary>
-public class UserService(ILogger<UserService> logger,UserManager<User> userManager): IUserService
+public class UserService(ILogger<UserService> logger,UserManager<User> userManager, IStorage storage): IUserService
 {
     /// <inheritdoc/>
     public async Task<PageResponseDto<UserDto>> GetAllAsync(FilterDto filters)
@@ -83,7 +83,7 @@ public class UserService(ILogger<UserService> logger,UserManager<User> userManag
     }
 
     /// <inheritdoc/>
-    public async Task<Result<UserDto, UserError>> UpdateByIdAsync(long id, UserRequestDto userRequestDto)
+    public async Task<Result<UserDto, UserError>> UpdateByIdAsync(long id, UserRequestDto userRequestDto, IFormFile? image)
     {
         var found = await userManager.Users.Include(u=>u.Client)
             .ThenInclude(cl => cl.Address).Where(u=>u.Id == id).FirstOrDefaultAsync();
@@ -93,6 +93,13 @@ public class UserService(ILogger<UserService> logger,UserManager<User> userManag
             return Result.Failure<UserDto, UserError>(new UserNotFoundError($"No se encontro usuario con id {id}"));
         }
 
+        if (image != null)
+        {
+            var img = await storage.SaveFileAsync(image, "users");
+            if (img.IsSuccess) found.Avatar = img.Value;
+            else return Result.Failure<UserDto, UserError>(new UserUpdateError($"Error al subir imagen: {img.Error.Message}"));
+        }
+            
         found.Name = userRequestDto.Nombre;
         found.Client.Name = userRequestDto.Nombre;
         // Dirección

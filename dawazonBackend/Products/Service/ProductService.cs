@@ -67,11 +67,21 @@ public class ProductService(
     }
 
     /// <inheritdoc/>
-    public async Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter)
+    public async Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter, long? creatorId = null)
     {
-        logger.LogDebug("Obteniendo listado de Products con filtros");
+        logger.LogDebug("Obteniendo listado de Products con filtros{Creator}", creatorId.HasValue ? $" para el creador {creatorId}" : "");
 
-        var (products, totalCount) = await repository.GetAllAsync(filter);
+        IEnumerable<Product> products;
+        int totalCount;
+
+        if (creatorId.HasValue)
+        {
+            (products, totalCount) = await repository.FindAllByCreatorId(creatorId.Value, filter);
+        }
+        else
+        {
+            (products, totalCount) = await repository.GetAllAsync(filter);
+        }
 
         var response = products.Select(it => it.ToDto()).ToList();
 
@@ -113,6 +123,13 @@ public class ProductService(
         var productModel = dto.ToModel();
         productModel.CategoryId = foundCategory.Id;
         productModel.Category = foundCategory;
+        
+        // El atributo GenerateCustomIdAtribute no genera el Id por sí solo, 
+        // así que lo aseguramos aquí antes de guardarlo en base de datos.
+        if (string.IsNullOrEmpty(productModel.Id))
+        {
+            productModel.Id = "PRD" + Guid.NewGuid().ToString("N").Substring(0, 9).ToUpper();
+        }
 
         var savedProduct = await repository.CreateProductAsync(productModel);
         
@@ -134,6 +151,7 @@ public class ProductService(
         var productToUpdate = dto.ToModel();
         productToUpdate.Id = id;
         productToUpdate.CategoryId = foundCategory.Id;
+        productToUpdate.Category = foundCategory;
         productToUpdate.UpdatedAt = DateTime.UtcNow;
 
         var updatedProduct = await repository.UpdateProductAsync(productToUpdate, id);

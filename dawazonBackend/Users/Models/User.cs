@@ -12,7 +12,7 @@ public class User: IdentityUser<long>
     /// <summary>
     /// Nombre de la imagen por defecto para el avatar.
     /// </summary>
-    public const string DEFAULT_IMAGE = "default.png";
+    public const string DEFAULT_IMAGE = "/uploads/users/default.png";
 
     /// <summary>
     /// Nombre completo del usuario.

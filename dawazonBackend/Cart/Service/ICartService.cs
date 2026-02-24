@@ -80,4 +80,9 @@ public interface ICartService
     /// Cancela una venta de un producto específico en un pedido.
     /// </summary>
     Task<DomainError?> CancelSaleAsync(string ventaId, string productId, long? managerId, bool isAdmin);
+
+    /// <summary>
+    /// Actualiza el estado de una venta.
+    /// </summary>
+    Task<DomainError?> UpdateSaleStatusAsync(string ventaId, string productId, Models.Status newStatus, long? managerId, bool isAdmin);
 }

@@ -172,7 +172,7 @@ public class Storage : IStorage
         return System.IO.Path.Combine(_rootPath, cleanFilename);
     }
 
-    public string GetRelativePath(string filename, string folder = "productos")
+    public string GetRelativePath(string filename, string folder = "products")
     {
         return $"/{_uploadPath}/{folder}/{filename}";    
     }

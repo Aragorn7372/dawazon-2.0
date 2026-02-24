@@ -125,8 +125,6 @@ public class ProductRepository(ILogger<ProductRepository> logger, DawazonDbConte
         var saved=await db.Products.AddAsync(product);
         await db.SaveChangesAsync();
         await db.Products.Entry(product).Reference(p => p.Category).LoadAsync();
-        await db.Products.Entry(product).Collection(p =>p.Images).LoadAsync();
-        await db.Products.Entry(product).Collection(p => p.Comments).LoadAsync();
         return saved.Entity;
     }
     private static IQueryable<Product> ApplySorting(IQueryable<Product> query, string sortBy, string direction)

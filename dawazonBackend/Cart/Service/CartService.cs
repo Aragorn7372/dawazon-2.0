@@ -389,7 +389,46 @@ public class CartService : ICartService
             return null; 
         }
         
-        private async Task<Result<Models.Cart, DomainError>> RecalculateCartTotalsAsync(string cartId)
+    /// <inheritdoc/>
+    public async Task<DomainError?> UpdateSaleStatusAsync(string ventaId, string productId, Status newStatus, long? managerId, bool isAdmin)
+    {
+        if (newStatus == Status.Cancelado)
+        {
+            return await CancelSaleAsync(ventaId, productId, managerId, isAdmin);
+        }
+
+        var cartResult = await GetByIdAsync(ventaId);
+        if (cartResult.IsFailure) 
+            return new CartNotFoundError($"Carrito no encontrado con id: {ventaId}");
+
+        var line = cartResult.Value.CartLines.FirstOrDefault(l => l.ProductId == productId);
+        if (line == null) 
+            return new CartNotFoundError("Producto no encontrado en esta venta");
+
+        var product = await _productRepository.GetProductAsync(productId);
+        if (product == null) 
+            return new ProductNotFoundError($"Producto no encontrado con id: {productId}");
+
+        if (!isAdmin && product.CreatorId != managerId)
+            return new CartUnauthorizedError("No tienes permisos para actualizar esta venta");
+
+        if (line.Status == Status.Cancelado && newStatus != Status.Cancelado)
+        {
+            // If it was cancelled before, we need to subtract the stock again
+            if (product.Stock < line.Quantity)
+                return new CartProductQuantityExceededError($"Stock insuficiente. Solo hay {product.Stock}");
+
+            product.Stock -= line.Quantity;
+            await _productRepository.UpdateProductAsync(product, product.Id!);
+        }
+
+        await _cartRepository.UpdateCartLineStatusAsync(ventaId, productId, newStatus);
+        _logger.LogInformation($"Estado de la venta actualizado: Cart {ventaId} Product {productId} a {newStatus}");
+
+        return null;
+    }
+
+    private async Task<Result<Models.Cart, DomainError>> RecalculateCartTotalsAsync(string cartId)
         {
             var cart = await _cartRepository.FindCartByIdAsync(cartId);
             if (cart == null) return Result.Failure<Models.Cart, DomainError>(
