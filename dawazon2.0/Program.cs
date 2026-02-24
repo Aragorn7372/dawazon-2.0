@@ -80,6 +80,10 @@ app.UseAuthorization();
 app.UseSession();
 // mapeador de controllers
 app.MapControllers();
+// mapeador de rutas convencionales MVC
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 // mapeador de razor pages
 app.MapRazorPages();
 // hub de Blazor Server
