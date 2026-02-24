@@ -21,6 +21,6 @@ public class UserProfileViewModel
 
     /// <summary>URL completa del avatar (fallback a imagen por defecto).</summary>
     public string AvatarUrl => string.IsNullOrWhiteSpace(Avatar) || Avatar == "default.png"
-        ? "/uploads/defaultImg.png"
-        : $"/uploads/{Avatar}";
+        ? "/uploads/users/default.png"
+        : $"{Avatar}";
 }

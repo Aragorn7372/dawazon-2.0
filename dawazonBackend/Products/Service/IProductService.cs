@@ -12,11 +12,13 @@ namespace dawazonBackend.Products.Service;
 public interface IProductService
 {
     /// <summary>
-    /// Obtiene una lista paginada de productos filtrados.
+    /// Obtiene todos los productos de forma paginada y filtrada.
+    /// Opcionalmente, permite filtrar solo los productos creados por un usuario específico.
     /// </summary>
-    /// <param name="filter">Filtros de búsqueda, ordenamiento y paginación.</param>
-    /// <returns>Un resultado con la respuesta paginada o un error de producto.</returns>
-    Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter);
+    /// <param name="filter">Filtros de búsqueda.</param>
+    /// <param name="creatorId">Opcional. ID del creador para filtrar (ej. para "Mis productos").</param>
+    /// <returns>Paginación de productos.</returns>
+    Task<PageResponseDto<ProductResponseDto>> GetAllAsync(FilterDto filter, long? creatorId = null);
     
     /// <summary>
     /// Obtiene un producto por su identificador.

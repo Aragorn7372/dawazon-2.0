@@ -1,0 +1,115 @@
+@model dawazon2._0.Models.AdminSaleEditViewModel
+@using dawazonBackend.Cart.Models
+
+@{
+    ViewBag.Title = "Editar Estado de Venta";
+    Layout = "_Layout";
+}
+
+<div class="container py-4" style="max-width: 800px;">
+    
+    <!-- Resumen del Pedido -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4 bg-light bg-opacity-50">
+        <div class="card-header border-bottom-0 pt-3 pb-2 bg-transparent text-secondary text-sm fw-bold">
+            Resumen del Pedido
+        </div>
+        <div class="card-body px-4 pb-4 pt-2">
+            <div class="row gx-5">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-2"><span class="fw-bold text-dark">Producto:</span> @Model.ProductName</p>
+                    <p class="mb-0"><span class="fw-bold text-dark">Cliente:</span> @Model.ClientName</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-2"><span class="fw-bold text-dark">Cantidad:</span> @Model.Quantity unidades</p>
+                    <p class="mb-0"><span class="fw-bold text-dark">Total:</span> <span class="text-success fw-bold">@Model.TotalPrice.ToString("C")</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario Cambiar Estado -->
+    <div class="card shadow border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0 fw-bold text-white">Cambiar Estado del Pedido</h5>
+        </div>
+        
+        <div class="card-body p-4 bg-light bg-opacity-25">
+            <form method="post" action="@Url.Action("SaleEdit", "ManagerMvc", new { id = Model.SaleId, productId = Model.ProductId })">
+                @Html.AntiForgeryToken()
+                
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+                    </div>
+                }
+
+                @{
+                    var statusBadgeClass = Model.CurrentStatus switch
+                    {
+                        Status.Preparado => "bg-warning text-dark",
+                        Status.EnCarrito => "bg-secondary",
+                        Status.Enviado => "bg-info text-white",
+                        Status.Recibido => "bg-success bg-opacity-25 text-success",
+                        Status.Cancelado => "bg-danger text-white",
+                        _ => "bg-secondary"
+                    };
+                }
+
+                <div class="alert alert-info bg-cyan-100 bg-opacity-10 border-info border-opacity-25 d-flex align-items-center mb-4" role="alert">
+                    <span class="fw-bold text-dark me-2">Estado actual:</span> 
+                    <span class="badge @statusBadgeClass px-3 py-2 rounded-2 text-uppercase fw-bold shadow-sm" style="letter-spacing: 0.5px;">@Model.CurrentStatus</span>
+                </div>
+
+                <div class="mb-4">
+                    <label for="NewStatus" class="form-label fw-bold text-dark">Nuevo Estado <span class="text-danger">*</span></label>
+                    <select class="form-select form-select-lg form-control shadow-none rounded-3 py-2" id="NewStatus" name="NewStatus" required>
+                        @foreach (Status status in Enum.GetValues(typeof(Status)))
+                        {
+                            if (status != Status.EnCarrito)
+                            {
+                                <option value="@status" selected="@(status == Model.CurrentStatus)">@status</option>
+                            }
+                        }
+                    </select>
+                    <div class="form-text mt-2 text-secondary">Selecciona el nuevo estado para este pedido</div>
+                </div>
+
+                <!-- Información Estados -->
+                <div class="card bg-light border-0 rounded-3 mb-4 shadow-sm">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold text-dark mb-3">Información sobre estados:</h6>
+                        <ul class="mb-0 ps-3 text-secondary" style="line-height: 1.8;">
+                            <li><strong class="text-dark">PREPARADO:</strong> El pedido está listo para enviar</li>
+                            <li><strong class="text-dark">ENVIADO:</strong> El pedido está en camino al cliente</li>
+                            <li><strong class="text-dark">RECIBIDO:</strong> El pedido fue entregado exitosamente</li>
+                            <li><strong class="text-dark">CANCELADO:</strong> El pedido fue cancelado (se restaurará el stock)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="Notes" class="form-label fw-bold text-dark">Notas adicionales (opcional)</label>
+                    <textarea class="form-control rounded-3 shadow-none p-3" id="Notes" name="Notes" rows="3" placeholder="Añade cualquier comentario sobre el cambio de estado..."></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+                    <a href="@Url.Action("Sales", "ManagerMvc")" class="btn btn-secondary text-white px-4 py-2 rounded-2 fw-bold bg-secondary bg-opacity-75 border-0 shadow-sm">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-2 fw-bold shadow-sm">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-cyan-100 { background-color: #cff4fc; }
+    .form-control:focus, .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+</style>

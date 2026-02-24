@@ -30,7 +30,7 @@ public interface IUserService
     /// <param name="id">El ID del usuario a actualizar.</param>
     /// <param name="userRequestDto">Los nuevos datos del usuario.</param>
     /// <returns>El DTO del usuario actualizado o un error si falló.</returns>
-    Task<Result<UserDto, UserError>> UpdateByIdAsync(long id, UserRequestDto userRequestDto);
+    Task<Result<UserDto, UserError>> UpdateByIdAsync(long id, UserRequestDto userRequestDto, IFormFile? image);
 
     /// <summary>
     /// Desactiva (banear) a un usuario por su ID (borrado lógico).

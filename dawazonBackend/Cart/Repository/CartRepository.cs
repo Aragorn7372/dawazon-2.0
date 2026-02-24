@@ -46,6 +46,8 @@ public class CartRepository(
         int skip = filter.Page * filter.Size;
 
         var items = await query
+            .Include(c => c.CartLines)
+                .ThenInclude(cl => cl.Product)
             .Skip(skip)
             .Take(filter.Size)
             .ToListAsync();
@@ -143,16 +145,24 @@ public class CartRepository(
     public async Task<Models.Cart?> FindByUserIdAndPurchasedAsync(long userId, bool purchased)
     {
         logger.LogInformation($"bucando carrito con  ID: {userId} y estatus {purchased}");
-        return await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
-            .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.UserId == userId && c.Purchased == purchased);
+        return await context.Carts
+            .Include(c => c.CartLines)
+                .ThenInclude(cl => cl.Product)
+            .Include(c => c.Client)
+                .ThenInclude(cl => cl.Address)
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.Purchased == purchased);
     }
 
     /// <inheritdoc/>
     public async Task<Models.Cart?> FindCartByIdAsync(string cartId)
     {
         logger.LogInformation($"cartId: {cartId}");
-        return await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
-            .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.Id == cartId);
+        return await context.Carts
+            .Include(c => c.CartLines)
+                .ThenInclude(cl => cl.Product)
+            .Include(c => c.Client)
+                .ThenInclude(cl => cl.Address)
+            .FirstOrDefaultAsync(c => c.Id == cartId);
     }
 
     /// <inheritdoc/>

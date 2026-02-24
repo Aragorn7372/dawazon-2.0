@@ -36,4 +36,7 @@ public class UserEditViewModel
     [Required(ErrorMessage = "La provincia es obligatoria")]
     [Display(Name = "Provincia")]
     public string Provincia { get; set; } = string.Empty;
+    
+    [Display(Name = "Avatar")]
+    public IFormFile? Avatar { get; set; }
 }

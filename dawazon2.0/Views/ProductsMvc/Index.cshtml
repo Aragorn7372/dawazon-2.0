@@ -22,8 +22,17 @@
         </div>
         @if (User.IsInRole("Manager"))
         {
-            <div class="col-md-4 text-end">
-                <a asp-controller="ProductsMvc" asp-action="Create" class="btn btn-gradient">
+            <div class="col-md-4 text-end d-flex justify-content-end gap-2">
+                <a asp-controller="ProductsMvc" asp-action="Index" 
+                   asp-route-misProductos="@(ViewBag.MisProductos != true ? "true" : "false")"
+                   asp-route-nombre="@Model.SearchName"
+                   asp-route-categoria="@Model.SearchCategory"
+                   asp-route-sortBy="@Model.SortBy"
+                   asp-route-direction="@Model.Direction"
+                   class="btn @(ViewBag.MisProductos == true ? "btn-primary" : "btn-outline-primary") text-nowrap">
+                    <i class="bi bi-person-badge me-1"></i>Mis productos
+                </a>
+                <a asp-controller="ProductsMvc" asp-action="Create" class="btn btn-gradient text-nowrap">
                     <i class="bi bi-plus-lg me-1"></i>Nuevo producto
                 </a>
             </div>
@@ -33,6 +42,7 @@
     @* Filtros de búsqueda *@
     <form asp-controller="ProductsMvc" asp-action="Index" method="get" class="row g-2 mb-4" id="filterForm">
         <input type="hidden" name="direction" id="directionInput" value="@Model.Direction">
+        <input type="hidden" name="misProductos" value="@(ViewBag.MisProductos == true ? "true" : "false")">
         <div class="col-md-6">
             <input type="text" name="nombre" class="form-control" placeholder="Buscar por nombre…"
                    value="@Model.SearchName">
@@ -111,7 +121,7 @@
                         <div class="img-container">
                             @if (!string.IsNullOrEmpty(product.FirstImage))
                             {
-                                <img src="/files/@product.FirstImage" alt="@product.Name">
+                                <img src="@product.FirstImage" alt="@product.Name">
                             }
                         </div>
                         <div class="card-body px-0 pb-0">
@@ -161,13 +171,13 @@
                     <ul class="pagination justify-content-center">
                         <li class="page-item @(Model.First ? "disabled" : "")">
                             <a class="page-link"
-                               href="?page=0&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                               href="?page=0&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction&misProductos=@(ViewBag.MisProductos == true ? "true" : "false")">
                                 «
                             </a>
                         </li>
                         <li class="page-item @(Model.First ? "disabled" : "")">
                             <a class="page-link"
-                               href="?page=@Model.PrevPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                               href="?page=@Model.PrevPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction&misProductos=@(ViewBag.MisProductos == true ? "true" : "false")">
                                 ‹
                             </a>
                         </li>
@@ -176,13 +186,13 @@
                         </li>
                         <li class="page-item @(Model.Last ? "disabled" : "")">
                             <a class="page-link"
-                               href="?page=@Model.NextPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                               href="?page=@Model.NextPage&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction&misProductos=@(ViewBag.MisProductos == true ? "true" : "false")">
                                 ›
                             </a>
                         </li>
                         <li class="page-item @(Model.Last ? "disabled" : "")">
                             <a class="page-link"
-                               href="?page=@(Model.TotalPages - 1)&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction">
+                               href="?page=@(Model.TotalPages - 1)&nombre=@Model.SearchName&categoria=@Model.SearchCategory&sortBy=@Model.SortBy&direction=@Model.Direction&misProductos=@(ViewBag.MisProductos == true ? "true" : "false")">
                                 »
                             </a>
                         </li>
