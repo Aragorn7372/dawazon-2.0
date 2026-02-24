@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/" />
     <title>@ViewData["Title"] - dawazon2.0</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true"/>
 </head>
 <body>
 <header style="background-color: #131921;">
@@ -257,49 +258,12 @@
     </div>
 </footer>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-
-@await RenderSectionAsync("Scripts", required: false)
-
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/site.js" asp-append-version="true"></script>
 @* ── DEBUG: logs de Blazor/SignalR en consola del navegador ─── *@
-<script src="_framework/blazor.server.js" autostart="false"></script>
-<script>
-    console.log('[Blazor] Script cargado, iniciando con logs de debug...');
 
-    Blazor.start({
-        // Indica al navegador los reintentos de reconexión
-        reconnectionOptions: {
-            maxRetries: 5,
-            retryIntervalMilliseconds: 2000
-        },
-        // Acceso al builder de SignalR para añadir logging
-        configureSignalR: function (builder) {
-            // Nivel Trace para ver todos los mensajes del hub
-            builder.configureLogging(signalR.LogLevel.Information);
-
-            builder.withAutomaticReconnect({
-                nextRetryDelayInMilliseconds: retryContext => {
-                    console.warn('[SignalR] Reconectando... intento', retryContext.previousRetryCount);
-                    return 2000;
-                }
-            });
-        },
-        // Handler de reconexión visual
-        reconnectionHandler: {
-            onConnectionDown: (options, error) => {
-                console.error('[Blazor] ❌ Conexión caída:', error);
-            },
-            onConnectionUp: () => {
-                console.log('[Blazor] ✅ Conexión restaurada');
-            }
-        }
-    }).then(() => {
-        console.log('[Blazor] ✅ Circuito establecido correctamente');
-    }).catch(err => {
-        console.error('[Blazor] ❌ Error iniciando circuito:', err);
-    });
-</script>
+<script src="/_framework/blazor.server.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

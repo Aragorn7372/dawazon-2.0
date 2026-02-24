@@ -10,7 +10,6 @@ namespace dawazon2._0.Mapper;
 /// </summary>
 public static class ProductMvcMapper
 {
-    // ── DTO → ViewModels ───────────────────────────────────────────────────────
 
     /// <summary>Convierte a ViewModel ligero para tarjetas de lista.</summary>
     public static ProductSummaryViewModel ToSummaryViewModel(this ProductResponseDto dto) =>
@@ -72,7 +71,6 @@ public static class ProductMvcMapper
             Direction = direction
         };
 
-    // ── ViewModel → DTO ────────────────────────────────────────────────────────
 
     /// <summary>Convierte el formulario MVC a ProductRequestDto para el servicio.</summary>
     public static ProductRequestDto ToRequestDto(this ProductFormViewModel vm, long creatorId) =>

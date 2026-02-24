@@ -1,4 +1,5 @@
 using System.Text;
+using dawazon2._0.Components;
 using dawazon2._0.Infraestructures;
 using dawazon2._0.Middleware;
 using dawazonBackend.Common.Database;
@@ -44,19 +45,11 @@ services.AddEmail(environment);
 services.AddStorage();
 // añado configuracion de MVC
 services.AddControllersWithViews();
-// habilito Blazor Server para componentes interactivos
-// AddSignalR con tamaño de mensaje ampliado (Blazor lo necesita para renders grandes)
 services.AddServerSideBlazor(options =>
 {
-    options.DetailedErrors = true; // muestra errores en el browser durante desarrollo
+    options.DetailedErrors = true; 
 });
-services.AddSignalR(options =>
-{
-    options.MaximumReceiveMessageSize = 64 * 1024; // 64 KB
-});
-// handler de circuitos Blazor para depurar conexiones SignalR
-services.AddScoped<CircuitHandler, dawazon2._0.Components.LoggingCircuitHandler>();
-
+services.AddScoped<CircuitHandler, LoggingCircuitHandler>();
 // declaro app
 var app = builder.Build(); 
 // en produccion mapea los errores web
@@ -86,7 +79,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 // mapeador de razor pages
 app.MapRazorPages();
-// hub de Blazor Server
+
 app.MapBlazorHub();
 // init de datos
 await app.SeedIdentityAsync();
