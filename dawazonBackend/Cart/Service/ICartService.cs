@@ -37,9 +37,15 @@ public interface ICartService
     Task<CartResponseDto> RemoveProductAsync(string cartId, string productId);
 
     /// <summary>
-    /// Obtiene un carrito por su ID.
+    /// Obtiene un carrito por su ID (devuelve el DTO).
     /// </summary>
     Task<Result<CartResponseDto, DomainError>> GetByIdAsync(string id);
+
+    /// <summary>
+    /// Obtiene el modelo de dominio completo de un carrito por su ID.
+    /// Útil para operaciones que requieren la entidad (SaveAsync, SendConfirmationEmailAsync).
+    /// </summary>
+    Task<Models.Cart?> GetCartModelByIdAsync(string id);
 
     /// <summary>
     /// Guarda o actualiza una entidad de carrito.

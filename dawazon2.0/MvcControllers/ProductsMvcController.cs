@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using dawazon2._0.Mapper;
 using dawazon2._0.Models;
+using dawazonBackend.Cart.Service;
 using dawazonBackend.Common.Dto;
 using dawazonBackend.Products.Errors;
 using dawazonBackend.Products.Service;
@@ -18,7 +19,7 @@ namespace dawazon2._0.MvcControllers;
 /// </summary>
 [Route("")]
 [Route("productos")]
-public class ProductsMvcController(IProductService service, UserManager<User> userManager) : Controller
+public class ProductsMvcController(IProductService service, UserManager<User> userManager, ICartService cartService) : Controller
 {
 
     /// <summary>Lista paginada y filtrable de productos.</summary>
@@ -71,10 +72,23 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
         if (User.IsInRole(UserRoles.USER))
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId != null)
+            if (userId != null && long.TryParse(userId, out long userIdLong))
             {
                 var user = await userManager.FindByIdAsync(userId);
                 ViewBag.IsFav = user?.ProductsFavs.Contains(id) ?? false;
+
+                // Comprobar si el producto ya está en el carrito activo
+                var cartResult = await cartService.GetCartByUserIdAsync(userIdLong);
+                if (cartResult.IsSuccess)
+                {
+                    ViewBag.CartId = cartResult.Value.Id;
+                    ViewBag.IsInCart = cartResult.Value.CartLines
+                        .Any(l => l.ProductId == id);
+                }
+                else
+                {
+                    ViewBag.IsInCart = false;
+                }
             }
         }
 

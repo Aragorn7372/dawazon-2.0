@@ -84,10 +84,13 @@ public class CartService : ICartService
         {
             // Deconstruimos la tupla devuelta por el repositorio
             var (itemsEnumerable, totalCount) = await _cartRepository.GetAllAsync(filter);
-            var items = itemsEnumerable
-                .Where(p => p.Purchased == purchased)
-                .Select(c => c.ToDto())
-                .ToList();
+            var items = userId is {} 
+                    ?itemsEnumerable.Where(p => p.UserId == userId && p.Purchased == purchased)
+                    .Select(c => c.ToDto())
+                    .ToList() 
+                    :itemsEnumerable.Where(p => p.Purchased == purchased)
+                    .Select(c => c.ToDto())
+                    .ToList();
     
             // Calculamos el total de páginas (redondeando hacia arriba)
             int totalPages = filter.Size > 0 ? (int)Math.Ceiling(totalCount / (double)filter.Size) : 0;
@@ -153,6 +156,10 @@ public class CartService : ICartService
                     new CartNotFoundError($"No se encontró el Carrito con id: {id}."));
             return cart.ToDto();
         }
+
+    /// <inheritdoc/>
+    public async Task<Models.Cart?> GetCartModelByIdAsync(string id)
+        => await _cartRepository.FindCartByIdAsync(id);
 
     /// <inheritdoc/>
     public async Task<Result<CartResponseDto, DomainError>> SaveAsync(Models.Cart entity)
@@ -254,7 +261,21 @@ public class CartService : ICartService
                         new UserNotFoundError($"Usuario no encontrado para el carrito con id: {id}."));
                 }
 
-                entity.Client = user.Client;
+                entity.Client = new Client
+                {
+                    Name  = user.Client?.Name  ?? string.Empty,
+                    Email = user.Client?.Email ?? string.Empty,
+                    Phone = user.Client?.Phone ?? string.Empty,
+                    Address = new Address
+                    {
+                        Street     = user.Client?.Address?.Street     ?? string.Empty,
+                        Number     = user.Client?.Address?.Number     ?? 0,
+                        City       = user.Client?.Address?.City       ?? string.Empty,
+                        Province   = user.Client?.Address?.Province   ?? string.Empty,
+                        Country    = user.Client?.Address?.Country    ?? string.Empty,
+                        PostalCode = user.Client?.Address?.PostalCode ?? 0
+                    }
+                };
 
                 await _cartRepository.UpdateCartAsync(id, entity);
 
@@ -437,8 +458,13 @@ public class CartService : ICartService
             cart.TotalItems = cart.CartLines.Count;
             cart.Total = cart.CartLines.Sum(l => l.TotalPrice);
 
-            return await _cartRepository.UpdateCartAsync(cart.Id, cart) ?? cart;
+            // Usamos UpdateCartScalarsAsync en lugar de UpdateCartAsync para evitar el bug
+            // donde Clear()+AddRange() sobre la misma referencia EF Core borraba todas las líneas.
+            await _cartRepository.UpdateCartScalarsAsync(cart.Id, cart.TotalItems, cart.Total);
+
+            return cart;
         }
+
         private async Task<Result<Models.Cart, DomainError>> CreateNewCartAsync(long userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());

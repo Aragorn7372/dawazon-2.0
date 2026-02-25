@@ -1,0 +1,60 @@
+@namespace dawazon2._0.Components
+@using System.Timers
+@using dawazonBackend.Cart.Service
+@implements IDisposable
+@inject ICartService CartService
+
+@* Renderiza el badge solo si hay ítems en el carrito *@
+@if (_itemCount > 0)
+{
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 0.65rem; min-width: 1.2rem;">
+        @(_itemCount > 99 ? "99+" : _itemCount.ToString())
+    </span>
+}
+
+@code {
+
+    /// <summary>ID del usuario autenticado cuyo carrito se quiere mostrar.</summary>
+    [Parameter, EditorRequired]
+    public long UserId { get; set; }
+
+    private int _itemCount;
+    private Timer? _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCartCountAsync();
+
+        // Refresca el badge cada 10 s sin bloquear el hilo de UI
+        _timer = new Timer(5_000);
+        _timer.Elapsed += async (_, _) => await InvokeAsync(RefreshAsync);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private async Task RefreshAsync()
+    {
+        await LoadCartCountAsync();
+        StateHasChanged();
+    }
+
+    private async Task LoadCartCountAsync()
+    {
+        try
+        {
+            var result = await CartService.GetCartByUserIdAsync(UserId);
+            _itemCount = result.IsSuccess ? result.Value.TotalItems : 0;
+        }
+        catch
+        {
+            _itemCount = 0;
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Stop();
+        _timer?.Dispose();
+    }
+}

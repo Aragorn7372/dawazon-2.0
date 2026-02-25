@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "¡Pago completado!";
+}
+
+<div class="container my-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-7 col-lg-5">
+
+            <div class="mb-4" style="font-size:5rem; color:#28a745;">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <h1 class="fw-bold mb-2" style="font-size:1.8rem;">¡Pedido confirmado!</h1>
+            <p class="text-muted mb-4">
+                Tu pago se ha procesado correctamente. Recibirás un email de confirmación en breve.
+            </p>
+
+            @if (TempData["OrderId"] != null)
+            {
+                <div class="alert alert-light border mb-4">
+                    <span class="small text-muted">Número de pedido:</span><br>
+                    <strong class="font-monospace">@TempData["OrderId"]</strong>
+                </div>
+            }
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center gap-3 text-start">
+                        <i class="bi bi-truck fs-3 text-success"></i>
+                        <div>
+                            <div class="fw-semibold small">Envío gratuito</div>
+                            <div class="text-muted" style="font-size:.82rem;">Tu pedido está en preparación</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center gap-3 text-start">
+                        <i class="bi bi-envelope-check fs-3 text-primary"></i>
+                        <div>
+                            <div class="fw-semibold small">Confirmación por email</div>
+                            <div class="text-muted" style="font-size:.82rem;">Recibirás los detalles del pedido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 justify-content-center mt-4">
+                <a asp-controller="CartMvc" asp-action="MyOrders"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-bag-check me-1"></i>Mis pedidos
+                </a>
+                <a asp-controller="ProductsMvc" asp-action="Index"
+                   class="btn btn-gradient">
+                    <i class="bi bi-shop me-1"></i>Seguir comprando
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

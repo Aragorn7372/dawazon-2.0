@@ -146,6 +146,7 @@ public class CartRepository(
     {
         logger.LogInformation($"bucando carrito con  ID: {userId} y estatus {purchased}");
         return await context.Carts
+            .AsNoTracking()
             .Include(c => c.CartLines)
                 .ThenInclude(cl => cl.Product)
             .Include(c => c.Client)
@@ -195,6 +196,21 @@ public class CartRepository(
         var saved=context.Carts.Update(oldCart);
         await context.SaveChangesAsync();
         return saved.Entity;
+    }
+
+    /// <inheritdoc/>
+    public async Task UpdateCartScalarsAsync(string cartId, int totalItems, double total)
+    {
+        // FindAsync usa la clave primaria y devuelve la entidad SIN Include de navegación,
+        // evitando el problema de Clear()+AddRange() sobre la misma referencia EF Core.
+        var cart = await context.Carts.FindAsync(cartId);
+        if (cart == null) return;
+
+        cart.TotalItems = totalItems;
+        cart.Total      = total;
+        cart.UploadAt   = DateTime.UtcNow;
+
+        await context.SaveChangesAsync();
     }
 
     /// <inheritdoc/>

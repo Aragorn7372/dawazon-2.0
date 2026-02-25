@@ -53,6 +53,12 @@ public interface ICartRepository
     /// Actualiza los datos de un carrito existente.
     /// </summary>
     Task<Models.Cart?> UpdateCartAsync(string id, Models.Cart cart);
+
+    /// <summary>
+    /// Actualiza únicamente los campos Total y TotalItems de un carrito,
+    /// sin tocar las líneas de carrito
+    /// </summary>
+    Task UpdateCartScalarsAsync(string cartId, int totalItems, double total);
     
     /// <summary>
     /// Elimina un carrito de la base de datos.

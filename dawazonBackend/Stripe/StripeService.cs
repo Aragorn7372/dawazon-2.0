@@ -55,8 +55,8 @@ public class StripeService : IStripeService
                 var options = new SessionCreateOptions
                 {
                     Mode = "payment",
-                    SuccessUrl = $"{_serverUrl}/auth/me/cart/checkout/success/",
-                    CancelUrl = $"{_serverUrl}/auth/me/cart/checkout/cancel/",
+                    SuccessUrl = $"{_serverUrl}/pedidos/success?cartId={cart.Id}&session_id={{CHECKOUT_SESSION_ID}}",
+                    CancelUrl  = $"{_serverUrl}/pedidos/cancel?cartId={cart.Id}",
                     CustomerEmail = cart.Client.Email,
                     LineItems = lineItems
                 };
@@ -68,10 +68,11 @@ public class StripeService : IStripeService
             }
             catch (StripeException e)
             {
-                // Errores específicos de la API de Stripe (tarjeta rechazada, datos inválidos...)
-                _logger.LogWarning($"Error de Stripe al crear sesión de pago: {e.StripeError.Message}");
+                // Errores específicos de la API de Stripe (tarjeta rechazada, datos inválidos...
+                // e.StripeError puede ser null en errores de red/configuración, de ahí el uso de ?.
+                _logger.LogWarning($"Error de Stripe al crear sesión de pago: {e.StripeError?.Message ?? e.Message}");
                 return Result.Failure<string, DomainError>(
-                    new StripePaymentError($"Error en la pasarela de pago: {e.StripeError.Message}"));
+                    new StripePaymentError($"Error en la pasarela de pago: {e.StripeError?.Message ?? e.Message}"));
             }
             catch (Exception e)
             {

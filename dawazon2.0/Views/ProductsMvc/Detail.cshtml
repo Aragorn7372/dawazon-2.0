@@ -75,10 +75,29 @@
             @* Acciones de usuario *@
             @if (isUser && Model.Stock > 0)
             {
+                bool isInCart = ViewBag.IsInCart is bool b && b;
                 <div class="action-buttons mt-3">
-                    <button onclick="addCart('@Model.Id')" class="btn btn-gradient">
-                        <i class="bi bi-cart-plus me-1"></i>Añadir al carrito
-                    </button>
+                    @if (isInCart)
+                    {
+                        <form asp-controller="CartMvc" asp-action="RemoveFromCart"
+                              asp-route-productId="@Model.Id" method="post" style="margin:0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-cart-x me-1"></i>Quitar del carrito
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="CartMvc" asp-action="AddToCart"
+                              asp-route-productId="@Model.Id" method="post" style="margin:0">
+                            @Html.AntiForgeryToken()
+                            @* Corrección visual: cambiado btn-gradient a btn-primary *@
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-cart-plus me-1"></i>Añadir al carrito
+                            </button>
+                        </form>
+                    }
                 </div>
             }
 
@@ -88,7 +107,6 @@
                 
                     // Asumimos por defecto que NO es favorito
                     bool isFav = false;
-
                     // Comprobamos si hay un booleano guardado
                     if (ViewBag.IsFav is bool)
                     {
@@ -103,7 +121,7 @@
                               asp-route-id="@Model.Id" method="post">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-warning">
-                                <i class="bi bi-heart-fill me-1"></i>Quitar de favoritos
+                               <i class="bi bi-heart-fill me-1"></i>Quitar de favoritos
                             </button>
                         </form>
                     }
@@ -189,7 +207,6 @@
             current = (current + 1) % imgs.length;
             show(current);
         });
-
         // Descripción como lista si viene en JSON
         const lista = document.getElementById("description");
         if (lista) {
@@ -202,7 +219,6 @@
             } catch (e) { /* texto plano, nada que hacer */ }
         }
     });
-
     @if (isUser)
     {
         <text>
