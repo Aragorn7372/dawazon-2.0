@@ -130,10 +130,10 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
             return View("Form", vm);
         }
 
-        // Si se adjuntó imagen, subirla
-        if (vm.Image is not null)
+        // Si se adjuntaron imágenes, subirlas
+        if (vm.Images is { Count: > 0 })
         {
-            await service.UpdateImageAsync(created.Value.Id, [vm.Image]);
+            await service.UpdateImageAsync(created.Value.Id, vm.Images);
         }
 
         TempData["Success"] = $"Producto \"{created.Value.Name}\" creado correctamente.";
@@ -181,10 +181,10 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
         var userId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         if (creatorId.Value != userId) return Forbid();
 
-        // Actualizar imagen si se adjuntó una nueva
-        if (vm.Image is not null)
+        // Actualizar imágenes si se adjuntaron nuevas
+        if (vm.Images is { Count: > 0 })
         {
-            var imgResult = await service.UpdateImageAsync(id, [vm.Image]);
+            var imgResult = await service.UpdateImageAsync(id, vm.Images);
             if (imgResult.IsSuccess)
                 vm.CurrentImages = imgResult.Value.Images;
         }

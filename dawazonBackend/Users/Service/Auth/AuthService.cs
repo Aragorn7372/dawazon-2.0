@@ -1,4 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using dawazonBackend.Cart.Models;
+using dawazonBackend.Cart.Repository;
 using dawazonBackend.Users.Dto;
 using dawazonBackend.Users.Errors;
 using dawazonBackend.Users.Models;
@@ -7,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace dawazonBackend.Users.Service.Auth;
 
-public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, UserManager<User> db) : IAuthService
+public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, UserManager<User> db, ICartRepository cartRepository) : IAuthService
 {
     public async Task<Result<AuthResponseDto, UserError>> SignUpAsync(RegisterDto dto)
     {
@@ -44,6 +46,15 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
         }
 
         await db.AddToRoleAsync(userFound, "User");
+
+        var cart = new Cart.Models.Cart
+        {
+            Id = "CART" + Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper(),
+            UserId = userFound.Id,
+            Purchased = false
+        };
+        await cartRepository.CreateCartAsync(cart);
+
         var authResponse = await GenerateAuthResponseAsync(userFound);
 
         logger.LogInformation("User registered successfully: {Username}", sanitizedUsername);

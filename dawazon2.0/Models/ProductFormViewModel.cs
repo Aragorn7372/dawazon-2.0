@@ -32,9 +32,9 @@ public class ProductFormViewModel
     [Display(Name = "Stock")]
     public int Stock { get; set; }
 
-    /// <summary>Imagen nueva a subir (opcional).</summary>
-    [Display(Name = "Imagen")]
-    public IFormFile? Image { get; set; }
+    /// <summary>Imágenes nuevas a subir (opcional, múltiples).</summary>
+    [Display(Name = "Imágenes")]
+    public List<IFormFile>? Images { get; set; }
 
     /// <summary>Imágenes actuales del producto (solo edición).</summary>
     public List<string> CurrentImages { get; set; } = [];

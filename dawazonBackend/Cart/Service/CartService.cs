@@ -478,7 +478,7 @@ public class CartService : ICartService
 
             var cart = new Models.Cart
             {
-                // El Id se generará por GenerateCustomIdAtribute
+                Id = "CART" + Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper(),
                 UserId = userId,
                 Client = new Client
                 {
@@ -525,6 +525,37 @@ public class CartService : ICartService
         {
             _logger.LogInformation("Obteniendo total de ventas");
             return await _cartRepository.GetTotalSalesCountAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task CleanupExpiredCheckoutsAsync(int expirationMinutes = 5)
+        {
+            _logger.LogDebug("🔍 Buscando carritos con checkout expirado (>{Min} min)...", expirationMinutes);
+
+            var cutoff = DateTime.UtcNow.AddMinutes(-expirationMinutes);
+
+            // Obtenemos todos los carritos no comprados con checkout en progreso
+            var (allCarts, _) = await _cartRepository.GetAllAsync(
+                new FilterCartDto(null, null, false, 0, int.MaxValue));
+
+            var expired = allCarts
+                .Where(c => c.CheckoutInProgress && c.CheckoutStartedAt.HasValue && c.CheckoutStartedAt.Value < cutoff)
+                .ToList();
+
+            if (expired.Count == 0)
+            {
+                _logger.LogDebug("✅ No hay carritos con checkout expirado.");
+                return;
+            }
+
+            _logger.LogInformation("🧹 Limpiando {Count} carrito(s) con checkout expirado.", expired.Count);
+
+            foreach (var cart in expired)
+            {
+                _logger.LogInformation("  → Restaurando stock del carrito {CartId} (checkout iniciado: {Started})",
+                    cart.Id, cart.CheckoutStartedAt);
+                await RestoreStockAsync(cart.Id);
+            }
         }
     }
 }

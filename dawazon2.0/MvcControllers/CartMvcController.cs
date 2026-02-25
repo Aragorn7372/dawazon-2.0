@@ -210,8 +210,16 @@ public class CartMvcController(ICartService cartService, UserManager<User> userM
         var result = await cartService.CheckoutAsync(vm.CartId);
         if (result.IsFailure)
         {
-            TempData["Error"] = result.Error.Message;
-            return RedirectToAction(nameof(Index));
+            // Recargamos líneas para poder repintar el resumen
+            var cartReload = await cartService.GetCartByUserIdAsync(GetUserId());
+            if (cartReload.IsSuccess)
+            {
+                vm.Lines      = cartReload.Value.ToOrderDetailViewModel().Lines;
+                vm.TotalItems = cartReload.Value.TotalItems;
+                vm.Total      = cartReload.Value.Total;
+            }
+            ModelState.AddModelError(string.Empty, result.Error.Message);
+            return View(vm);
         }
 
         return Redirect(result.Value); // URL de Stripe

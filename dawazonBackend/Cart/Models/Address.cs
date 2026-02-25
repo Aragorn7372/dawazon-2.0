@@ -10,8 +10,8 @@ public class Address
     /// <summary>
     /// Número de la calle o vivienda.
     /// </summary>
-    [Range(0,short.MaxValue)]
-    public short Number { get; set; }
+    [Range(0,int.MaxValue)]
+    public int Number { get; set; }
 
     /// <summary>
     /// Nombre de la calle.

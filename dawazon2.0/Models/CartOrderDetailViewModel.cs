@@ -16,7 +16,7 @@ public class CartOrderDetailViewModel
     // Dirección de envío (datos del cliente)
     public string ClientName { get; set; } = string.Empty;
     public string ClientStreet { get; set; } = string.Empty;
-    public short ClientNumber { get; set; }
+    public int ClientNumber { get; set; }
     public string ClientCity { get; set; } = string.Empty;
     public int ClientPostalCode { get; set; }
     public string ClientProvince { get; set; } = string.Empty;

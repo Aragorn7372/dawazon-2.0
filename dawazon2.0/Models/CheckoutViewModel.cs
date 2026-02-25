@@ -35,7 +35,7 @@ public class CheckoutViewModel
     [Required(ErrorMessage = "El número es obligatorio")]
     [Range(1, 99999, ErrorMessage = "Número no válido")]
     [Display(Name = "Número")]
-    public short Number { get; set; }
+    public int Number { get; set; }
 
     [Required(ErrorMessage = "La ciudad es obligatoria")]
     [Display(Name = "Ciudad")]

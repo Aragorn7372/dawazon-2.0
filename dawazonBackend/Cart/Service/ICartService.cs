@@ -100,4 +100,10 @@ public interface ICartService
     /// Obtiene el número total de ventas realizadas.
     /// </summary>
     Task<int> GetTotalSalesCountAsync();
+
+    /// <summary>
+    /// Limpia los carritos con checkout iniciado hace más de <paramref name="expirationMinutes"/> minutos
+    /// restaurando el stock de sus productos y restableciendo el estado de checkout.
+    /// </summary>
+    Task CleanupExpiredCheckoutsAsync(int expirationMinutes = 5);
 }

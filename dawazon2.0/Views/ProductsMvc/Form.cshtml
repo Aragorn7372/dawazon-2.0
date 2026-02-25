@@ -95,26 +95,24 @@
             <span asp-validation-for="Description" class="text-danger small"></span>
         </div>
 
-        @* Imagen *@
+        @* Imágenes *@
         <div class="mb-4">
-            <label asp-for="Image" class="form-label fw-semibold"></label>
-            <input asp-for="Image" class="form-control" type="file" accept="image/*"
-                   onchange="previewImage(event)">
-            <span asp-validation-for="Image" class="text-danger small"></span>
+            <label asp-for="Images" class="form-label fw-semibold"></label>
+            <input name="Images" id="Images" class="form-control" type="file" accept="image/*"
+                   multiple onchange="previewImages(event)">
 
-            @* Previsualización nueva imagen *@
-            <img id="imagePreview" src="#" alt="Previsualización"
-                 class="mt-2 rounded" style="display:none; max-height:200px; object-fit:contain;">
+            @* Previsualización nuevas imágenes *@
+            <div id="imagePreviews" class="d-flex gap-2 flex-wrap mt-2"></div>
 
             @* Imágenes actuales (edición) *@
             @if (Model.IsEdit && Model.CurrentImages.Any())
             {
                 <div class="mt-2">
-                    <small class="text-muted">Imagen actual:</small>
+                    <small class="text-muted">Imágenes actuales:</small>
                     <div class="d-flex gap-2 flex-wrap mt-1">
                         @foreach (var img in Model.CurrentImages)
                         {
-                            <img src="/files/@img" class="rounded border"
+                            <img src="@img" class="rounded border"
                                  style="height:80px; object-fit:cover;" alt="Imagen actual">
                         }
                     </div>
@@ -140,14 +138,17 @@
 
 @section Scripts {
 <script>
-    function previewImage(event) {
-        const preview = document.getElementById('imagePreview');
-        const file = event.target.files[0];
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-        } else {
-            preview.style.display = 'none';
+    function previewImages(event) {
+        const container = document.getElementById('imagePreviews');
+        container.innerHTML = '';
+        const files = event.target.files;
+        for (const file of files) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'rounded border';
+            img.style.cssText = 'height:100px; object-fit:cover;';
+            img.alt = file.name;
+            container.appendChild(img);
         }
     }
 </script>

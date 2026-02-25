@@ -14,7 +14,7 @@ public record ClientDto{
   public string Phone {get; set;} = string.Empty;
   [Required]
   [Range(0, short.MaxValue, ErrorMessage = "El número no es válido")]
-  public short Number {get; set;}
+  public int Number {get; set;}
   [Required]
   [StringLength(100, MinimumLength = 2, ErrorMessage = "La calle no es válida.")]
   public string Street {get; set;} = string.Empty;

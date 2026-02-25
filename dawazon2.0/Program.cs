@@ -43,6 +43,8 @@ services.AddServices();
 services.AddEmail(environment);
 // añado storageService
 services.AddStorage();
+// tarea programada: limpia carritos con checkout expirado cada 2 minutos
+services.AddHostedService<CartCleanupBackgroundService>();
 // añado configuracion de MVC
 services.AddControllersWithViews();
 services.AddServerSideBlazor(options =>
