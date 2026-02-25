@@ -277,8 +277,9 @@ public class CartService : ICartService
                     }
                 };
 
+                // Actualizar el cliente sin perder las líneas cargadas
+                // entity ya trae sus CartLines desde _cartRepository.FindCartByIdAsync
                 await _cartRepository.UpdateCartAsync(id, entity);
-
                 // Control de concurrencia optimista ajustado al repositorio de C#
                 foreach (var line in entity.CartLines)
                 {
@@ -479,7 +480,21 @@ public class CartService : ICartService
             {
                 // El Id se generará por GenerateCustomIdAtribute
                 UserId = userId,
-                Client = user.Client,
+                Client = new Client
+                {
+                    Name = user.Client?.Name ?? string.Empty,
+                    Email = user.Client?.Email ?? string.Empty,
+                    Phone = user.Client?.Phone ?? string.Empty,
+                    Address = new Address
+                    {
+                        Street = user.Client?.Address?.Street ?? string.Empty,
+                        Number = user.Client?.Address?.Number ?? 0,
+                        City = user.Client?.Address?.City ?? string.Empty,
+                        Province = user.Client?.Address?.Province ?? string.Empty,
+                        Country = user.Client?.Address?.Country ?? string.Empty,
+                        PostalCode = user.Client?.Address?.PostalCode ?? 0
+                    }
+                },
                 CartLines = new List<CartLine>(),
                 Purchased = false,
                 TotalItems = 0,
@@ -488,6 +503,21 @@ public class CartService : ICartService
                 UploadAt = DateTime.UtcNow
             };
             return await _cartRepository.CreateCartAsync(cart); 
+        }
+
+        /// <inheritdoc/>
+        public async Task<Result<int, DomainError>> GetNewSalesCountAsync(long managerId, DateTime since)
+        {
+            try
+            {
+                var count = await _cartRepository.CountNewSalesAsync(managerId, since);
+                return Result.Success<int, DomainError>(count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error contando nuevas ventas para manager {ManagerId}", managerId);
+                return Result.Failure<int, DomainError>(new CartError(ex.Message));
+            }
         }
     }
 }

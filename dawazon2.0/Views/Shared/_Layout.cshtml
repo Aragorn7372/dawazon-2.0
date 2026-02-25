@@ -257,10 +257,20 @@
     </div>
 </footer>
 
+@if (User.Identity!.IsAuthenticated && (User.IsInRole("Manager")))
+{
+    var rawNavId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    if (long.TryParse(rawNavId, out long navUserId))
+    {
+        <component type="typeof(dawazon2._0.Components.ManagerSalesNotification)"
+                   render-mode="Server"
+                   param-ManagerId="@navUserId" />
+    }
+}
+
 <script src="/lib/jquery/dist/jquery.min.js"></script>
 <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/site.js" asp-append-version="true"></script>
-@* ── DEBUG: logs de Blazor/SignalR en consola del navegador ─── *@
 
 <script src="/_framework/blazor.server.js"></script>
 @await RenderSectionAsync("Scripts", required: false)

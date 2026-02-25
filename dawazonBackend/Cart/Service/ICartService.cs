@@ -91,4 +91,8 @@ public interface ICartService
     /// Actualiza el estado de una venta.
     /// </summary>
     Task<DomainError?> UpdateSaleStatusAsync(string ventaId, string productId, Models.Status newStatus, long? managerId, bool isAdmin);
+     /// <summary>
+    /// Cuenta las nuevas ventas de un gestor desde una fecha determinada.
+    /// </summary>
+    Task<Result<int, DomainError>> GetNewSalesCountAsync(long managerId, DateTime since);
 }

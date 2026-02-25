@@ -1,0 +1,88 @@
+@namespace dawazon2._0.Components
+@using System.Timers
+@using dawazonBackend.Cart.Service
+@implements IDisposable
+@inject ICartService CartService
+@inject ILogger<ManagerSalesNotification> Logger
+
+@if (_newSalesCount > 0)
+{
+    @* Toast notification container positioned bottom-right *@
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+        <div class="toast show animate__animated animate__fadeInUp align-items-center text-white bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center" style="font-size: 1rem;">
+                    <i class="bi bi-bell-fill me-2 fs-5"></i>
+                    <span>
+                        ¡Tienes <strong>@_newSalesCount</strong> @(_newSalesCount == 1 ? "nueva venta" : "nuevas ventas")!
+                        <a href="/manager/ventas" class="text-white fw-bold text-decoration-underline ms-2">Ver panel</a>
+                    </span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="DismissNotification" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    /// <summary>ID del Manager autenticado.</summary>
+    [Parameter, EditorRequired]
+    public long ManagerId { get; set; }
+
+    private int _newSalesCount;
+    private DateTime _lastChecked;
+    private Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        Logger.LogInformation($"ManagerSalesNotification inicializado para ManagerId: {ManagerId}. Polling cada 10s.");
+        _lastChecked = DateTime.UtcNow;
+
+        _timer = new Timer(10_000);
+        _timer.Elapsed += async (_, _) => await InvokeAsync(CheckNewSalesAsync);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private async Task CheckNewSalesAsync()
+    {
+        try
+        {
+            Logger.LogInformation($"Sondeando nuevas ventas para Manager {ManagerId} desde {_lastChecked:HH:mm:ss}");
+            var result = await CartService.GetNewSalesCountAsync(ManagerId, _lastChecked);
+            if (result.IsSuccess)
+            {
+                var newSales = result.Value;
+                Logger.LogInformation($"Sondeo exitoso. Nuevas ventas encontradas: {newSales}");
+                if (newSales > 0 && newSales != _newSalesCount)
+                {
+                    _newSalesCount = newSales;
+                    StateHasChanged();
+                }
+            }
+            else
+            {
+                Logger.LogWarning($"Error en el sondeo: {result.Error.Message}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Excepción de polling en ManagerSalesNotification: {ex.Message}");
+        }
+    }
+
+    private void DismissNotification()
+    {
+        // Reseteamos el contador ocultando el popup y establecemos el nuevo checkpoint de tiempo.
+        _newSalesCount = 0;
+        _lastChecked = DateTime.UtcNow;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _timer?.Stop();
+        _timer?.Dispose();
+    }
+}

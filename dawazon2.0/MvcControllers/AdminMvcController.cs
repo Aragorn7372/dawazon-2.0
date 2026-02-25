@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace dawazon2._0.MvcControllers;
 
 /// <summary>
@@ -16,7 +18,7 @@ namespace dawazon2._0.MvcControllers;
 /// </summary>
 [Route("admin")]
 [Authorize(Roles = UserRoles.ADMIN)]
-public class AdminMvcController(IUserService userService, ICartService cartService) : Controller
+public class AdminMvcController(IUserService userService, ICartService cartService, UserManager<User> userManager) : Controller
 {
     // ─── USUARIOS ───────────────────────────────────────────────────────────
 
@@ -75,9 +77,13 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
             Ciudad       = dto.Ciudad       ?? string.Empty,
             CodigoPostal = dto.CodigoPostal ?? string.Empty,
             Provincia    = dto.Provincia    ?? string.Empty,
+            Rol          = dto.Roles.FirstOrDefault() // Asumimos un solo rol principal
         };
 
         ViewBag.UserId = id;
+        ViewBag.CurrentUserId = userManager.GetUserId(User);
+        ViewBag.Roles = new List<string> { UserRoles.USER, UserRoles.MANAGER, UserRoles.ADMIN };
+        
         return View(vm);
     }
 
@@ -88,7 +94,10 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
     {
         Log.Information("[AdminMvc] UserEdit POST → id={Id}", id);
 
+        var currentUserId = userManager.GetUserId(User);
         ViewBag.UserId = id;
+        ViewBag.CurrentUserId = currentUserId;
+        ViewBag.Roles = new List<string> { UserRoles.USER, UserRoles.MANAGER, UserRoles.ADMIN };
 
         if (!ModelState.IsValid)
             return View(vm);
@@ -109,6 +118,22 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
         {
             ModelState.AddModelError(string.Empty, result.Error.Message);
             return View(vm);
+        }
+
+        // Actualizar rol si se ha especificado, es válido, y no es el usuario actual modificándose a sí mismo
+        if (!string.IsNullOrEmpty(vm.Rol) && ViewBag.Roles.Contains(vm.Rol) && id != currentUserId)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var currentRoles = await userManager.GetRolesAsync(user);
+                if (vm.Rol != null && !currentRoles.Contains(vm.Rol))
+                {
+                    // Remover roles anteriores y añadir el nuevo
+                    await userManager.RemoveFromRolesAsync(user, currentRoles);
+                    await userManager.AddToRoleAsync(user, vm.Rol);
+                }
+            }
         }
 
         TempData["Success"] = "Usuario actualizado correctamente.";

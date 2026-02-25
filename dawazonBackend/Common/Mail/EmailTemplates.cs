@@ -55,8 +55,8 @@ public static class EmailTemplates
     return $@"
         <div style='background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
             <h3 style='margin-top: 0; color: #1a1a2e;'>Datos del Cliente</h3>
-            <p style='margin: 5px 0;'><strong>Nombre:</strong> {cart.Client.Name}</p>
-            <p style='margin: 5px 0;'><strong>Dirección:</strong> {cart.Client.Address.Street} {cart.Client.Address.Number}, {cart.Client.Address.City}</p>
+            <p style='margin: 5px 0;'><strong>Nombre:</strong> {cart.Client?.Name ?? "N/A"}</p>
+            <p style='margin: 5px 0;'><strong>Dirección:</strong> {cart.Client?.Address?.Street ?? ""} {cart.Client?.Address?.Number.ToString() ?? ""}, {cart.Client?.Address?.City ?? ""}</p>
         </div>
 
         <h3 style='color: #1a1a2e;'>Resumen de tu pedido</h3>

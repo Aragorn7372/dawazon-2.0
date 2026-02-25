@@ -74,4 +74,9 @@ public interface ICartRepository
     /// Obtiene las ventas proyectadas como líneas de pedido individuales.
     /// </summary>
     Task<(List<SaleLineDto> Items, int TotalCount)> GetSalesAsLinesAsync(long? managerId, bool isAdmin, FilterDto filter);
+
+    /// <summary>
+    /// Cuenta las nuevas líneas de productos vendidas de un gestor desde una fecha específica.
+    /// </summary>
+    Task<int> CountNewSalesAsync(long managerId, DateTime since);
 }

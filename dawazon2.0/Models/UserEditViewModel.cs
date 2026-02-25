@@ -39,4 +39,7 @@ public class UserEditViewModel
     
     [Display(Name = "Avatar")]
     public IFormFile? Avatar { get; set; }
+
+    [Display(Name = "Rol del usuario")]
+    public string? Rol { get; set; }
 }

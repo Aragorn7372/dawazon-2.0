@@ -59,6 +59,9 @@ public class UserDto
     /// Provincia o región.
     /// </summary>
     public string? Provincia { get; set; }
+    
+    
+    public string Avatar { get; set; } = string.Empty;
 
     /// <summary>
     /// Limpia y establece el número de teléfono.

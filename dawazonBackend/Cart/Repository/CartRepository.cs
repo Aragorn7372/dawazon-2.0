@@ -172,21 +172,21 @@ public class CartRepository(
         logger.LogInformation($"creando carrito");
         var saved=await context.Carts.AddAsync(cart);
         await context.SaveChangesAsync();
-        await context.Carts.Entry(cart).Reference(c=> c.Client).LoadAsync();
-        await context.Carts.Entry(cart).Collection(c => c.CartLines).LoadAsync();
-        await context.Entry(cart.Client).Reference(cl => cl.Address).LoadAsync();
+        // Cuando se crea un carrito nuevo, el cliente ya está cargado en memoria porque lo hemos asignado nosotros, 
+        // y como es una entidad "Owned", hacer LoadAsync() crashea Entity Framework aquí.
+        // No hace falta hacer LoadAsync() a algo que acabamos de meter nuevo.
         return saved.Entity;
     }
 
     /// <inheritdoc/>
     public async Task<Models.Cart?> UpdateCartAsync(string id, Models.Cart cart)
     {
-        var oldCart = await context.Carts.Include(c => c.CartLines).Include(c => c.Client)
+        var oldCart = await context.Carts.Include(c => c.Client)
             .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.Id == id);
         if (oldCart == null) return null;
         oldCart.Client=cart.Client;
-        oldCart.CartLines.Clear();
-        oldCart.CartLines.AddRange(cart.CartLines);
+        // No tocamos oldCart.CartLines aquí para no interferir con EF Core.
+        // Las líneas se gestionan individualmente con Add/RemoveCartLineAsync.
         oldCart.Total=cart.Total;
         oldCart.TotalItems=cart.TotalItems;
         oldCart.Purchased=cart.Purchased;
@@ -319,4 +319,14 @@ public class CartRepository(
 
     return (finalItems, totalCount);
 }
+
+    public async Task<int> CountNewSalesAsync(long managerId, DateTime since)
+    {
+        return await context.Carts
+            .AsNoTracking()
+            .Where(c => c.Purchased == true && c.UploadAt > since)
+            .SelectMany(cart => cart.CartLines)
+            .Where(line => line.Product != null && line.Product.CreatorId == managerId)
+            .CountAsync();
+    }
 }

@@ -28,6 +28,7 @@ public static class UserMapper
             Telefono = user.PhoneNumber?? "",
             Nombre =  user.Name,
             Provincia = user.Client.Address.Province,
+            Avatar =  user.Avatar,
             Roles = roles.ToHashSet()
         };
     }

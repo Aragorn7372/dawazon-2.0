@@ -43,7 +43,8 @@ public static class IdentitySeeder
             {
                 adminUser = new User
                 {
-                    UserName = "admin@admin.com",
+                    Name = "Administrador Principal",
+                    UserName = "admin",
                     Email = "admin@admin.com",
                     EmailConfirmed = true
                 };
@@ -65,7 +66,8 @@ public static class IdentitySeeder
             {
                 normalUser = new User
                 {
-                    UserName = "user@user.com",
+                    Name = "Usuario Normal",
+                    UserName = "user",
                     Email = "user@user.com",
                     EmailConfirmed = true
                 };
@@ -86,7 +88,8 @@ public static class IdentitySeeder
                 {
                     managerUser = new User
                     {
-                        UserName = "manager@manager.com",
+                        Name = "Manager Principal",
+                        UserName = "manager",
                         Email = "manager@manager.com",
                         EmailConfirmed = true
                     };
