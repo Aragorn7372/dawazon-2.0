@@ -3,6 +3,7 @@ using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -31,7 +32,11 @@ public static class AuthenticationConfig
             {
                 // Esquema selector: elige JWT o Cookie según la ruta
                 options.DefaultScheme = PolicyScheme;
+                // Necesario para que UseAuthentication() asigne el User correctamente
+                options.DefaultAuthenticateScheme = PolicyScheme;
                 options.DefaultChallengeScheme = PolicyScheme;
+                // Necesario para que rol incorrecto devuelva 403 y no 401
+                options.DefaultForbidScheme = PolicyScheme;
             })
             .AddPolicyScheme(PolicyScheme, "JWT o Cookie según ruta", options =>
             {
@@ -41,8 +46,8 @@ public static class AuthenticationConfig
                     if (context.Request.Path.StartsWithSegments("/api"))
                         return JwtBearerDefaults.AuthenticationScheme;
 
-                    // El resto usa cookie (MVC)
-                    return CookieAuthenticationDefaults.AuthenticationScheme;
+                    // El resto usa cookie de Identity (MVC)
+                    return IdentityConstants.ApplicationScheme;
                 };
             })
             .AddJwtBearer(options =>
@@ -58,17 +63,44 @@ public static class AuthenticationConfig
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
-            })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                options.LoginPath = "/login";
-                options.LogoutPath = "/logout";
-                options.AccessDeniedPath = "/";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
-                options.ExpireTimeSpan = TimeSpan.FromHours(8);
-                options.SlidingExpiration = true;
+                options.Events = new JwtBearerEvents
+                {
+                    // Diagnóstico: muestra el error exacto de validación del token
+                    OnAuthenticationFailed = context =>
+                    {
+                        Log.Warning("❌ [JWT] Token inválido: {Error}", context.Exception.Message);
+                        return Task.CompletedTask;
+                    },
+                    // Diagnóstico: muestra por qué se emite un 401
+                    OnChallenge = context =>
+                    {
+                        Log.Warning("⚠️ [JWT] Challenge 401 — Error: {Error} | Descripción: {Desc}",
+                            context.Error ?? "none",
+                            context.ErrorDescription ?? "none");
+                        return Task.CompletedTask;
+                    },
+                    // Cuando usuario autenticado NO tiene el rol requerido → 403
+                    OnForbidden = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        return Task.CompletedTask;
+                    }
+                };
             });
+
+        // Configurar la cookie que Identity usa internamente
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/login";
+            options.LogoutPath = "/logout";
+            options.AccessDeniedPath = "/";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+            // En desarrollo (HTTP) evita que el navegador rechace la cookie por falta de HTTPS
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+            options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            options.SlidingExpiration = true;
+        });
 
         return services;
     }

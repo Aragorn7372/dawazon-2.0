@@ -69,10 +69,11 @@ app.UseHttpsRedirection();
 // archivos estaticos ANTES de routing (blazor.server.js, etc.)
 app.UseStaticFiles();
 app.UseRouting();
+// las sesiones deben estar disponibles ANTES de que la autenticación intente leer la cookie
+app.UseSession();
 // lo que tiene relacion con usuarios
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
 // mapeador de controllers
 app.MapControllers();
 // mapeador de rutas convencionales MVC

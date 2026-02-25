@@ -48,8 +48,16 @@ public class Login(IAuthService auth, ILogger<Login> logger, SignInManager<User>
 
                 if (applicationUser != null)
                 {
-                    // persistencia por cookie (isPersistent: true para que no se borre al cerrar navegador si se desea)
-                    await signInManager.PasswordSignInAsync(applicationUser.UserName!, User.Password, isPersistent: true, lockoutOnFailure: false);
+                    // PasswordSignInAsync es lo que realmente crea la cookie de sesión — verificamos el resultado
+                    var signInResult = await signInManager.PasswordSignInAsync(applicationUser.UserName!, User.Password, isPersistent: true, lockoutOnFailure: false);
+                    
+                    if (!signInResult.Succeeded)
+                    {
+                        logger.LogWarning("PasswordSignInAsync falló para {Email}: Locked={Locked}, NotAllowed={NotAllowed}",
+                            User.UsernameOrEmail, signInResult.IsLockedOut, signInResult.IsNotAllowed);
+                        ErrorMessage = "No se pudo iniciar sesión. Por favor, inténtalo de nuevo.";
+                        return Page();
+                    }
                     
                     logger.LogInformation("Usuario {Email} ha iniciado sesión con éxito (JWT + Cookie).", User.UsernameOrEmail);
                     return LocalRedirect(returnUrl);
