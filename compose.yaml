@@ -1,14 +1,2 @@
-﻿services:
-  dawazon2.0:
-    image: dawazon2.0
-    build:
-      context: .
-      dockerfile: dawazon2.0/Dockerfile
-
-  dawazonbackend:
-    image: dawazonbackend
-    build:
-      context: .
-      dockerfile: dawazonBackend/Dockerfile
-
+﻿
 
