@@ -1,0 +1,399 @@
+dotnet test --settings .\playwright.runsettings                                                            20:36:51 
+Restauración completada (1,2s)
+  dawazonPlayWrite net10.0 realizado correctamente (2,0s) → bin\Debug\net10.0\dawazonPlayWrite.dll
+NUnit Adapter 5.0.0.0: Test execution started
+Running all tests in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\dawazonPlayWrite.dll
+   NUnit3TestExecutor discovered 23 of 23 NUnit test cases using Current Discovery mode, Non-Explicit run
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Logout_LoggedInUser_ShouldLogout: User was not logged in, skipping logout test
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+NUnit Adapter 5.0.0.0: Test execution complete
+  dawazonPlayWrite net10.0 error con 17 errores prueba (117,6s)
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      AdminSales_WithoutLogin_ShouldRedirect (13s 483ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:50
+      41/admin/ventas
+      Call log:
+        - navigating to "http://localhost:5041/admin/ventas", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AdminTests.AdminSales_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AdminTests.cs:line 21
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      AdminStats_WithoutLogin_ShouldRedirect (9s 356ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:504
+      1/admin/estadisticas
+      Call log:
+        - navigating to "http://localhost:5041/admin/estadisticas", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AdminTests.AdminStats_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AdminTests.cs:line 31
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      AdminUsers_AsUser_ShouldBeDenied (2s 307ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:5041/logi
+      n
+      Call log:
+        - navigating to "http://localhost:5041/login", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AdminTests.AdminUsers_AsUser_ShouldBeDenied() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AdminTests.cs:line 41
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      AdminUsers_WithoutLogin_ShouldRedirect (8s 66ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:5041
+      /admin/usuarios
+      Call log:
+        - navigating to "http://localhost:5041/admin/usuarios", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AdminTests.AdminUsers_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AdminTests.cs:line 11
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Login_AccessRestrictedPage_ShouldRedirect (2s 337ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:
+      5041/pedidos
+      Call log:
+        - navigating to "http://localhost:5041/pedidos", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AuthTests.Login_AccessRestrictedPage_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AuthTests.cs:line 11
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Login_InvalidCredentials_ShouldStayOnLoginPage (6s 360ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://local
+      host:5041/login
+      Call log:
+        - navigating to "http://localhost:5041/login", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.AuthTests.Login_InvalidCredentials_ShouldStayOnLoginPage() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\AuthTests.cs:line 21
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.<>c__DisplayClass1_0.<Execute>b__0()
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Cart_Checkout_WithoutLogin_ShouldRedirect (2s 538ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:
+      5041/pedidos/checkout
+      Call log:
+        - navigating to "http://localhost:5041/pedidos/checkout", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title) in /_/src/Playwright/Transport/Connection.cs:line 499
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.CartTests.Cart_Checkout_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\CartTests.cs:line 24
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Cart_Detail_WithoutLogin_ShouldRedirect (8s 751ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:50
+      41/pedidos/anyid
+      Call log:
+        - navigating to "http://localhost:5041/pedidos/anyid", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.CartTests.Cart_Detail_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\CartTests.cs:line 44
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Cart_EmptyCart_ShouldShowEmptyMessage (9s 44ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:5041/
+      pedidos/carrito
+      Call log:
+        - navigating to "http://localhost:5041/pedidos/carrito", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.CartTests.Cart_EmptyCart_ShouldShowEmptyMessage() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\CartTests.cs:line 11
+         at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+         at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      Cart_MyOrders_WithoutLogin_ShouldRedirect (3s 323ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:
+      5041/pedidos
+      Call log:
+        - navigating to "http://localhost:5041/pedidos", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.CartTests.Cart_MyOrders_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\CartTests.cs:line 34
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      ManagerCreateProduct_WithoutLogin_ShouldRedirect (3s 174ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://loc
+      alhost:5041/crear
+      Call log:
+        - navigating to "http://localhost:5041/crear", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.ManagerTests.ManagerCreateProduct_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\ManagerTests.cs:l
+      ine 31
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      ManagerSales_WithoutLogin_ShouldRedirect (5s 625ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:5
+      041/manager/ventas
+      Call log:
+        - navigating to "http://localhost:5041/manager/ventas", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.ManagerTests.ManagerSales_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\ManagerTests.cs:line 11
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      ManagerSalesEdit_WithoutLogin_ShouldRedirect (2s 833ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localho
+      st:5041/manager/ventas/123/editar/456
+      Call log:
+        - navigating to "http://localhost:5041/manager/ventas/123/editar/456", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.ManagerTests.ManagerSalesEdit_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\ManagerTests.cs:line 
+      21
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      ProductsDetail_NotFound_ShouldReturn404 (2s 857ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:50
+      41/productos/INVALID_ID_12345
+      Call log:
+        - navigating to "http://localhost:5041/productos/INVALID_ID_12345", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.ProductsTests.ProductsDetail_NotFound_ShouldReturn404() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\ProductsTests.cs:line 60
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      UserEditProfile_WithoutLogin_ShouldRedirect (8s 168ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhos
+      t:5041/perfil/editar
+      Call log:
+        - navigating to "http://localhost:5041/perfil/editar", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.UserTests.UserEditProfile_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\UserTests.cs:line 31
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      UserFavorites_WithoutLogin_ShouldRedirect (4s 194ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:
+      5041/perfil/favoritos
+      Call log:
+        - navigating to "http://localhost:5041/perfil/favoritos", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.UserTests.UserFavorites_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\UserTests.cs:line 21
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+    /_/src/Playwright/Transport/Connection.cs(201): error TESTERROR: 
+      UserProfile_WithoutLogin_ShouldRedirect (5s 11ms): Mensaje de error: Microsoft.Playwright.PlaywrightException : net::ERR_HTTP_RESPONSE_CODE_FAILURE at http://localhost:504
+      1/perfil
+      Call log:
+        - navigating to "http://localhost:5041/perfil", waiting until "load"
+      Seguimiento de la pila:
+         at Microsoft.Playwright.Transport.Connection.InnerSendMessageToServerAsync[T](ChannelOwner object, String method, Dictionary`2 dictionary, Boolean keepNulls) in /_/src/
+      Playwright/Transport/Connection.cs:line 201
+         at Microsoft.Playwright.Transport.Connection.WrapApiCallAsync[T](Func`1 action, Boolean isInternal, String title)
+         at Microsoft.Playwright.Core.Frame.GotoAsync(String url, FrameGotoOptions options) in /_/src/Playwright/Core/Frame.cs:line 815
+         at dawazonPlayWrite.UserTests.UserProfile_WithoutLogin_ShouldRedirect() in C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\Tests\UserTests.cs:line 11
+         at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+         at NUnit.Framework.Internal.Commands.DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+      
+        Mensajes de salida estándar:
+       Loading .env from: C:\Users\sggz2\RiderProjects\dawazon-2.0\dawazonPlayWrite\bin\Debug\net10.0\.env
+
+Resumen de pruebas: total: 23; con errores: 17; correcto: 6; omitido: 0; duración: 117,4 s
+Compilación error con 17 errores en 123,3s
