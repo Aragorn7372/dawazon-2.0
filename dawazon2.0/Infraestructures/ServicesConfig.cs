@@ -1,4 +1,5 @@
-﻿using dawazonBackend.Cart.Service;
+﻿using dawazon2._0.Pdf;
+using dawazonBackend.Cart.Service;
 using dawazonBackend.Products.Service;
 using dawazonBackend.Stripe;
 using dawazonBackend.Users.Service;
@@ -25,6 +26,7 @@ public static class ServicesConfig
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICartService, CartService>()
             .AddScoped<IStripeService, StripeService>()
-            .AddScoped<IFavService, FavService>();
+            .AddScoped<IFavService, FavService>()
+            .AddScoped<IOrderPdfService, OrderPdfService>();
     }
 }

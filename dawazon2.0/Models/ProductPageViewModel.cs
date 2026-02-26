@@ -24,5 +24,6 @@ namespace dawazon2._0.Models
         public int Stock { get; set; }
         public List<string> Images { get; set; } = new();
         public List<CommentDto> Comments { get; set; } = new();
+        public long CreatorId { get; set; }
     }
 }

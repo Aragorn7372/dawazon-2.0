@@ -20,7 +20,8 @@ public static class ProductMvcMapper
             Price = dto.Price,
             Stock = dto.Stock,
             Category = dto.Category,
-            FirstImage = dto.Images.FirstOrDefault() ?? string.Empty
+            FirstImage = dto.Images.FirstOrDefault() ?? string.Empty,
+            CreatorId = dto.CreatorId
         };
 
     /// <summary>Convierte a ViewModel completo para la vista de detalle.</summary>

@@ -19,8 +19,12 @@ public static class CacheConfig
          Log.Information("💾 Configurando caché Redis (producción)...");
          services.AddStackExchangeRedisCache(options =>
          {
-            options.Configuration = "redis:6379,password=redispass123";
-            options.InstanceName = "FunkoApi:";
+            var host = configuration.GetValue<string>("Redis:Host") ?? "redis";
+            var port = configuration.GetValue<string>("Redis:Port") ?? "6379";
+            var password = configuration.GetValue<string>("Redis:Password") ?? "redispass123";
+            
+            options.Configuration = $"{host}:{port},password={password}";
+            options.InstanceName = "Dawazon2.0:";
          });
       }
       services.TryAddScoped<ICacheService, CacheService>();

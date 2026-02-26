@@ -8,5 +8,6 @@ public record ProductResponseDto(
     string Category,
     string Description,
     List<CommentDto> Comments,
-    List<string> Images
+    List<string> Images,
+    long CreatorId = 0
 );

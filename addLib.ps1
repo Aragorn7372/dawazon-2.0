@@ -37,7 +37,7 @@ $packages = @(
     @{ Name="MailKit"; Version="4.14.1" },
     @{ Name="Microsoft.AspNetCore.Authentication.JwtBearer"; Version="10.0.2" },
     @{ Name="Microsoft.EntityFrameworkCore"; Version="10.0.2" },
-    @{ Name="Microsoft.EntityFrameworkCore.InMemory"; Version="10.0.1" },
+    @{ Name="Microsoft.EntityFrameworkCore.InMemory"; Version="10.0.2" },
     @{ Name="Microsoft.EntityFrameworkCore.Relational"; Version="10.0.2" },
     @{ Name="Microsoft.Extensions.Caching.StackExchangeRedis"; Version="10.0.2" },
     @{ Name="Microsoft.IdentityModel.Tokens"; Version="8.15.0" },
@@ -47,7 +47,8 @@ $packages = @(
     @{ Name="Serilog.AspNetCore"; Version="10.0.0" },
     @{ Name="Serilog.Settings.Configuration"; Version="10.0.0" },
     @{ Name="Serilog.Sinks.Console"; Version="6.1.1" },
-    @{ Name="System.IdentityModel.Tokens.Jwt"; Version="8.15.0" }
+    @{ Name="System.IdentityModel.Tokens.Jwt"; Version="8.15.0" },
+    @{ Name="QuestPDF"; Version="2025.4.0" }
 )
 
 # Instala los paquetes

@@ -1,6 +1,8 @@
 using System.Security.Claims;
+using dawazon2._0.Infraestructures;
 using dawazon2._0.Mapper;
 using dawazon2._0.Models;
+using dawazon2._0.Pdf;
 using dawazonBackend.Cart.Dto;
 using dawazonBackend.Cart.Models;
 using dawazonBackend.Cart.Service;
@@ -18,7 +20,10 @@ namespace dawazon2._0.MvcControllers;
 /// </summary>
 [Route("pedidos")]
 [Authorize(Roles = UserRoles.USER)]
-public class CartMvcController(ICartService cartService, UserManager<User> userManager) : Controller
+public class CartMvcController(
+    ICartService cartService,
+    UserManager<User> userManager,
+    IOrderPdfService pdfService) : Controller
 {
     /// <summary>Muestra el carrito activo (no comprado) del usuario.</summary>
     [HttpGet("carrito")]
@@ -344,6 +349,40 @@ public class CartMvcController(ICartService cartService, UserManager<User> userM
         await cartService.RemoveProductAsync(cartResult.Value.Id, productId);
         TempData["Success"] = "Producto eliminado del carrito.";
         return RedirectToAction(nameof(Index));
+    }
+
+    /// <summary>Descarga el PDF con el resumen de un pedido concreto.</summary>
+    [HttpGet("{id}/pdf")]
+    public async Task<IActionResult> DownloadPdf(string id)
+    {
+        var userId = GetUserId();
+        Log.Information("[CartMvc] DownloadPdf → userId={UserId} cartId={CartId}", userId, id);
+
+        var result = await cartService.GetByIdAsync(id);
+
+        if (result.IsFailure)
+        {
+            Log.Warning("[CartMvc] DownloadPdf: pedido {CartId} no encontrado", id);
+            return NotFound();
+        }
+
+        if (result.Value.UserId != userId)
+        {
+            Log.Warning("[CartMvc] DownloadPdf: acceso denegado userId={UserId} cartId={CartId}", userId, id);
+            return Forbid();
+        }
+
+        if (!result.Value.Purchased)
+        {
+            Log.Warning("[CartMvc] DownloadPdf: carrito {CartId} no está comprado", id);
+            return NotFound();
+        }
+
+        var vm = result.Value.ToOrderDetailViewModel();
+        var bytes = await pdfService.GenerateOrderPdfAsync(vm);
+
+        var fileName = $"pedido-{id}.pdf";
+        return File(bytes, "application/pdf", fileName);
     }
 
     private long GetUserId() =>

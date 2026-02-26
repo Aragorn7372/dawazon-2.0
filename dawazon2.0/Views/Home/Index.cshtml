@@ -1,9 +1,13 @@
 ﻿@model dawazon2._0.Models.ProductPageViewModel 
 
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Home page";
     var currentPath = Context.Request.Path.Value;
     bool isMyProductos = currentPath == "/auth/me/products";
+    var managerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    long.TryParse(managerIdClaim, out long currentManagerId);
+    bool isManager = User.IsInRole("Manager");
 }
 
 <div class="container my-5">
@@ -52,6 +56,10 @@
                                 <span style="font-size: 0.8rem">No disponible</span>
                             }
                             <a href="/products/@product.Id" class="btn btn-amazon">Ver detalles</a>
+                            @if (isManager && currentManagerId != 0 && product.CreatorId == currentManagerId)
+                            {
+                                <a href="/editar/@product.Id" class="btn btn-outline-warning btn-sm mt-2">✏️ Editar</a>
+                            }
                         </div>
                     </div>
                 </div>

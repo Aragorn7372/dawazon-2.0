@@ -21,7 +21,8 @@ public static class ProductMapper
             Category: model.Category?.Name ?? model.CategoryId, // Intenta usar el nombre, si no, usa el ID
             Description: model.Description,
             Comments: model.Comments.Select(c => c.ToDto()).ToList(),
-            Images: model.Images
+            Images: model.Images,
+            CreatorId: model.CreatorId
         );
     }
 

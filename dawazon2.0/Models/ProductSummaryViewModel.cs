@@ -12,4 +12,6 @@ public class ProductSummaryViewModel
     public string Category { get; set; } = string.Empty;
     /// <summary>Primera imagen del producto, o vacío si no tiene.</summary>
     public string FirstImage { get; set; } = string.Empty;
+    /// <summary>ID del manager que creó el producto.</summary>
+    public long CreatorId { get; set; }
 }

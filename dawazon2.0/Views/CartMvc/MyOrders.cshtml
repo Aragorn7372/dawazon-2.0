@@ -64,11 +64,19 @@
                                     <span class="fw-bold">@order.Total.ToString("0.00")&nbsp;€</span>
                                 </td>
                                 <td class="px-4 py-3 text-center">
-                                    <a asp-controller="CartMvc" asp-action="Detail"
-                                       asp-route-id="@order.Id"
-                                       class="btn btn-sm btn-amazon px-3">
-                                        Ver detalles
-                                    </a>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a asp-controller="CartMvc" asp-action="Detail"
+                                           asp-route-id="@order.Id"
+                                           class="btn btn-sm btn-amazon px-3">
+                                            Ver detalles
+                                        </a>
+                                        <a asp-controller="CartMvc" asp-action="DownloadPdf"
+                                           asp-route-id="@order.Id"
+                                           class="btn btn-sm btn-outline-secondary px-3"
+                                           title="Descargar resumen en PDF">
+                                            <i class="bi bi-file-earmark-pdf me-1"></i>PDF
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         }

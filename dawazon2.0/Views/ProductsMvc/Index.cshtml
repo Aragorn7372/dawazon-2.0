@@ -1,7 +1,10 @@
 @model dawazon2._0.Models.ProductListViewModel
 
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Productos";
+    var managerIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    long.TryParse(managerIdClaim, out long currentManagerId);
 }
 
 <div class="container my-5">
@@ -147,7 +150,7 @@
                                    asp-route-id="@product.Id" class="btn btn-amazon flex-grow-1">
                                     Ver detalles
                                 </a>
-                                @if (User.IsInRole("Manager"))
+                                @if (User.IsInRole("Manager") && currentManagerId != 0 && product.CreatorId == currentManagerId)
                                 {
                                     <a asp-controller="ProductsMvc" asp-action="Edit"
                                        asp-route-id="@product.Id" class="btn btn-outline-secondary">
