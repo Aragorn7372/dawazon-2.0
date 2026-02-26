@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Bruno</title>
+<style>
+body { font-family: Arial; background:#f4f6f9; padding:40px; }
+h1 { color:#333; }
+.card {
+    background:dark;
+    padding:20px;
+    margin:15px 0;
+    border-radius:8px;
+    box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+.pass { border-left:8px solid #28a745; }
+.fail { border-left:8px solid #dc3545; }
+a { text-decoration:none; font-weight:bold; color:#007bff; }
+.summary {
+    font-size:18px;
+    margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<h1>Dashboard de Pruebas Bruno</h1>
+<p><strong>Fecha:</strong> 02/26/2026 17:06:27</p>
+<p><strong>Entorno:</strong> Local</p>
+<div class="card fail">
+<h2>ControladorAuth</h2>
+<p>Estado: <strong>FALLÓ</strong></p>
+<p><a href='report-ControladorAuth.html' target='_blank'>Ver Reporte</a></p>
+</div><div class="card fail">
+<h2>ControladorProductos</h2>
+<p>Estado: <strong>FALLÓ</strong></p>
+<p><a href='report-ControladorProductos.html' target='_blank'>Ver Reporte</a></p>
+</div><div class="card fail">
+<h2>ControladorCarrito</h2>
+<p>Estado: <strong>FALLÓ</strong></p>
+<p><a href='report-ControladorCarrito.html' target='_blank'>Ver Reporte</a></p>
+</div><div class="card fail">
+<h2>ControladorAdmin</h2>
+<p>Estado: <strong>FALLÓ</strong></p>
+<p><a href='report-ControladorAdmin.html' target='_blank'>Ver Reporte</a></p>
+</div><div class="summary">
+<h2>Total de Fallos: 4</h2>
+</div>
+
+</body>
+</html>
