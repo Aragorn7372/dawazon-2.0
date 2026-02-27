@@ -3,11 +3,11 @@ using dawazonBackend.Users.Errors;
 namespace dawazonTest.Users.Errors;
 
 [TestFixture]
-[Description("Tests for UserError and its derived records")]
+[Description("Tests para UserError y sus clases derivadas")]
 public class UserErrorTest
 {
     [Test]
-    [Description("UserNotFoundError: Should retain message and inherit from UserError")]
+    [Description("UserNotFoundError: Debería retener el mensaje heredado de UserError")]
     public void UserNotFoundError_ShouldRetainMessage()
     {
         var msg = "User not found";
@@ -18,7 +18,7 @@ public class UserErrorTest
     }
 
     [Test]
-    [Description("UserUpdateError: Should retain message and inherit from UserError")]
+    [Description("UserUpdateError: Debería retener el mensaje y heredar de UserError")]
     public void UserUpdateError_ShouldRetainMessage()
     {
         var msg = "Update failed";
@@ -29,7 +29,7 @@ public class UserErrorTest
     }
 
     [Test]
-    [Description("UserConflictError: Should retain message and inherit from UserError")]
+    [Description("UserConflictError: Debería retener el mensaje heredado de UserError")]
     public void UserConflictError_ShouldRetainMessage()
     {
         var msg = "Conflict";
@@ -40,7 +40,7 @@ public class UserErrorTest
     }
 
     [Test]
-    [Description("UnauthorizedError: Should retain message and inherit from UserError")]
+    [Description("UnauthorizedError: Debería retener el mensaje heredado de UserError")]
     public void UnauthorizedError_ShouldRetainMessage()
     {
         var msg = "Unauthorized";
@@ -51,7 +51,7 @@ public class UserErrorTest
     }
 
     [Test]
-    [Description("UserHasThatProductError: Should retain message and inherit from UserError")]
+    [Description("UserHasThatProductError: Debería retener el mensaje heredado de UserError")]
     public void UserHasThatProductError_ShouldRetainMessage()
     {
         var msg = "Has product";
@@ -62,7 +62,7 @@ public class UserErrorTest
     }
 
     [Test]
-    [Description("Records: Two equal records should be considered equal")]
+    [Description("Records: Dos records iguales deberían equivaler")]
     public void RecordEquality_ShouldBeEqual()
     {
         var error1 = new UserNotFoundError("Same message");

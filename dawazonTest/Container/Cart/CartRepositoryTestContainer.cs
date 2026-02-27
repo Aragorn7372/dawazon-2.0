@@ -10,7 +10,7 @@ using Testcontainers.PostgreSql;
 namespace dawazonTest.Container.Cart;
 
 [TestFixture]
-[Description("Integration Tests for CartRepository using PostgreSQL Testcontainers")]
+[Description("Pruebas de integración para CartRepository utilizando contenedores de prueba PostgreSQL")]
 public class CartRepositoryTestContainer
 {
     private PostgreSqlContainer _dbContainer;

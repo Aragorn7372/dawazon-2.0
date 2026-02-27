@@ -3,11 +3,11 @@ using dawazonBackend.Users.Dto;
 namespace dawazonTest.Users.Dto;
 
 [TestFixture]
-[Description("Tests for UserDto validation and SetTelefono method")]
+[Description("Tests para validación de UserDto y el métoddo SetTeléfono")]
 public class UserDtoTest
 {
     [Test]
-    [Description("SetTelefono: Should clean +34 prefix")]
+    [Description("SetTelefono: Debería limpiar el prefijo +34")]
     public void SetTelefono_WithPlus34_ShouldRemovePrefix()
     {
         var dto = new UserDto();
@@ -16,7 +16,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should clean 0034 prefix")]
+    [Description("SetTelefono: Debería limpiar el prefijo 0034")]
     public void SetTelefono_With0034_ShouldRemovePrefix()
     {
         var dto = new UserDto();
@@ -25,7 +25,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should clean 34 prefix when length > 9")]
+    [Description("SetTelefono: Se debería limpiar el prefijo 34 cuando la longitud es > 9")]
     public void SetTelefono_With34PrefixAndLengthGreaterThan9_ShouldRemovePrefix()
     {
         var dto = new UserDto();
@@ -34,7 +34,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should not clean 34 prefix when length is 9")]
+    [Description("SetTelefono: Debería no limpiar el prefijo 34 cuando la longitud es 9")]
     public void SetTelefono_With34PrefixAndLengthEquals9_ShouldKeepAsIs()
     {
         var dto = new UserDto();
@@ -43,7 +43,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should clean spaces, dashes, and dots")]
+    [Description("SetTelefono: Se deberían limpiar espacios y puntos")]
     public void SetTelefono_WithSpecialCharacters_ShouldRemoveThem()
     {
         var dto = new UserDto();
@@ -58,7 +58,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should handle parentheses")]
+    [Description("SetTelefono: Debería manejar paréntesis")]
     public void SetTelefono_WithParentheses_ShouldRemoveThem()
     {
         var dto = new UserDto();
@@ -67,7 +67,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should handle empty or whitespace")]
+    [Description("SetTelefono: Debería manejar espacios vacíos o en blanco")]
     public void SetTelefono_EmptyOrWhitespace_ShouldReturnEmptyString()
     {
         var dto = new UserDto();
@@ -80,7 +80,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("SetTelefono: Should handle already clean numbers")]
+    [Description("SetTelefono: Debería manejar números limpios")]
     public void SetTelefono_AlreadyClean_ShouldKeepAsIs()
     {
         var dto = new UserDto();
@@ -89,7 +89,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("UserDto: Default values should be initialized correctly")]
+    [Description("UserDto: Los valores por defecto se deberían inicializar correctamente")]
     public void UserDto_DefaultValues_ShouldBeInitialized()
     {
         var dto = new UserDto();
@@ -101,7 +101,7 @@ public class UserDtoTest
     }
 
     [Test]
-    [Description("UserDto: Properties should be settable")]
+    [Description("UserDto: Las propiedades deberian ser setteables")]
     public void UserDto_Properties_ShouldBeSettable()
     {
         var dto = new UserDto

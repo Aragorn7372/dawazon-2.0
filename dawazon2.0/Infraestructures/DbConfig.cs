@@ -23,8 +23,8 @@ public static class DbConfig
                                        ?? configuration.GetConnectionString("DefaultConnection") 
                                        ?? "Host=localhost;Port=5432;Database=dawazon_db;Username=dawazon_user;Password=dawazon_password;";
                 options.UseNpgsql(connectionString);
-                options.EnableSensitiveDataLogging(); // Para producción
-                options.EnableDetailedErrors(); // Para producción
+                options.EnableSensitiveDataLogging(); 
+                options.EnableDetailedErrors(); 
             }
         });
 

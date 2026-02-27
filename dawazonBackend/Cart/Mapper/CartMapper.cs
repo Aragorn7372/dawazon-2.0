@@ -28,8 +28,7 @@ public static class CartMapper
 
     /// <summary>
     /// Convierte un CartResponseDto a un modelo Cart.
-    /// Nota: Campos internos de gestión (como CreatedAt, UploadAt, CheckoutInProgress) 
-    /// se inicializan con valores por defecto.
+    /// Nota: Campos internos de gestión (CreatedAt, UploadAt, CheckoutInProgress) inicializan con valores por defecto.
     /// </summary>
     public static Models.Cart ToModel(this CartResponseDto dto)
     {
@@ -51,27 +50,22 @@ public static class CartMapper
 
     /// <summary>
     /// Convierte un modelo CartLine a SaleLineDto.
-    /// Se le pasa el Cart padre para poder extraer datos que CartLine no tiene (como Client o UserId).
     /// </summary>
     public static SaleLineDto ToDto(this CartLine model, Models.Cart? parentCart = null)
     {
         return new SaleLineDto
         {
-            SaleId = model.CartId, // Mapeamos el CartId al SaleId
+            SaleId = model.CartId, 
             ProductId = model.ProductId,
             ProductName = model.Product?.Name ?? string.Empty,
             Quantity = model.Quantity,
             ProductPrice = model.ProductPrice,
-            TotalPrice = model.TotalPrice, // Propiedad calculada en el modelo
+            TotalPrice = model.TotalPrice, 
             Status = model.Status,
             
-            // Los siguientes campos existen en SaleLineDto pero no en CartLine.
-            // Los rellenamos usando el carrito padre si está disponible.
             Client = parentCart?.Client ?? new Client(),
             UserId = parentCart?.UserId ?? 0,
             
-            // Estos campos no tienen una correspondencia directa, se inicializan por defecto.
-            // (Deberás ajustarlos en tu lógica de negocio si es necesario).
             ManagerId = 0, 
             ManagerName = string.Empty,
             CreateAt = DateTime.UtcNow,
@@ -86,7 +80,7 @@ public static class CartMapper
     {
         return new CartLine
         {
-            CartId = dto.SaleId, // Mapeamos el SaleId de vuelta al CartId
+            CartId = dto.SaleId, 
             ProductId = dto.ProductId,
             Quantity = dto.Quantity,
             ProductPrice = dto.ProductPrice,
@@ -105,7 +99,6 @@ public static class CartMapper
             Email = model.Email,
             Phone = model.Phone,
             
-            // Aplanamos las propiedades del objeto anidado Address
             Number = model.Address?.Number ?? 0,
             Street = model.Address?.Street ?? string.Empty,
             City = model.Address?.City ?? string.Empty,

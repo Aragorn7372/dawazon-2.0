@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Dto;
 
 [TestFixture]
-[Description("Cart Dto Unit Tests — SOLID + FIRST Principles")]
+[Description("Cart Dto Unit Tests ")]
 public class CartDtoTest
 {
     private static IList<ValidationResult> Validate(object obj)

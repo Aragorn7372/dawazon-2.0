@@ -120,13 +120,13 @@ public class UserService(ILogger<UserService> logger,UserManager<User> userManag
 
         if (!result.Succeeded)
         {
-            logger.LogError("Error updating user: {Errors}", result.Errors);
+            logger.LogError("Error actualizando user: {Errors}", result.Errors);
             return Result.Failure<UserDto, UserError>(
                 new UserUpdateError("Error actualizando usuario")
             );
         }
 
-        logger.LogInformation("User updated successfully");
+        logger.LogInformation("User actualizado correctamente");
 
         return Result.Success<UserDto, UserError>(
             await found.ToDtoAsync(userManager)
@@ -139,7 +139,7 @@ public class UserService(ILogger<UserService> logger,UserManager<User> userManag
         var found = await userManager.FindByIdAsync(banUserId);
         if (found==null)
         {
-            logger.LogError($"User with id {banUserId} not found");
+            logger.LogError($"User con id {banUserId} no encontrado");
             return;
         }
         found.IsDeleted = true;

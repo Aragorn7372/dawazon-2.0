@@ -7,7 +7,6 @@
     bool isAdmin = User.IsInRole("Admin");
     bool isManager = User.IsInRole("Manager");
    
-    // Estas variables deben venir del Controller via ViewBag/ViewData
     bool isMine = ViewBag.IsMine ?? false;
     bool isCart = ViewBag.IsInCart ?? false;
     bool isFav = ViewBag.IsInFav ?? false;
@@ -146,7 +145,6 @@
     </section>
 </div>
 
-@* SCRIPTS *@
 <script>
     // Función para obtener el token Anti-Falsificación de ASP.NET Core
     function getCsrfToken() {

@@ -16,7 +16,7 @@ public class FavService(ILogger<FavService> logger,UserManager<User> manager, IP
 {
     public async Task<Result<bool,DomainError>> AddFav(string productId, long userId)
     {
-        logger.LogInformation($"Adding fav {productId}");
+        logger.LogInformation($"Añadiendo a favoritos prodicto con id: {productId}");
         var user = await manager.FindByIdAsync(userId.ToString());
         if(user== null) return Result.Failure<bool,DomainError>(new UserNotFoundError("no se encontro usuario con ese id"));
         if (user.ProductsFavs.Contains(productId)) return Result.Failure<bool,DomainError>(new UserHasThatProductError("Ese usuario tenia ya ese producto guardad"));
@@ -28,7 +28,7 @@ public class FavService(ILogger<FavService> logger,UserManager<User> manager, IP
 
     public async Task<Result<bool,DomainError>> RemoveFav(string productId, long userId)
     {
-        logger.LogInformation($"Removing fav {productId}");
+        logger.LogInformation($"Quitando de favoritos producto con id {productId}");
         var user = await manager.FindByIdAsync(userId.ToString());
         if(user== null) return Result.Failure<bool,DomainError>(new UserNotFoundError("no se encontro usuario con ese id"));
         if (!user.ProductsFavs.Contains(productId)) return Result.Failure<bool,DomainError>(new UserHasThatProductError("Ese usuario tenia no ese producto guardad"));

@@ -1,6 +1,5 @@
 @namespace dawazon2._0.Components
 @using System.Timers
-@using dawazonBackend.Cart.Service
 @implements IDisposable
 @inject ICartService CartService
 
@@ -26,7 +25,7 @@
     {
         await LoadCartCountAsync();
 
-        // Refresca el badge cada 10 s sin bloquear el hilo de UI
+        // Refresca  cada 10 s de manera asincrona
         _timer = new Timer(5_000);
         _timer.Elapsed += async (_, _) => await InvokeAsync(RefreshAsync);
         _timer.AutoReset = true;

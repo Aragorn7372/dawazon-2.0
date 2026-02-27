@@ -36,14 +36,11 @@ public class SessionExtensionsTests
     [Test]
     public void SetJson_ShouldStoreObjectAsJsonString()
     {
-        // Arrange
         var key = "testKey";
         var obj = new { Id = 1, Name = "Test" };
 
-        // Act
         _sessionMock.Object.SetJson(key, obj);
 
-        // Assert
         Assert.That(_sessionStorage.ContainsKey(key), Is.True);
         var jsonString = Encoding.UTF8.GetString(_sessionStorage[key]);
         Assert.That(jsonString, Contains.Substring("\"Id\":1"));
@@ -53,15 +50,12 @@ public class SessionExtensionsTests
     [Test]
     public void GetJson_WhenKeyExists_ShouldReturnDeserializedObject()
     {
-        // Arrange
         var key = "testKey";
         var jsonString = "{\"Id\":1,\"Name\":\"Test\"}";
         _sessionStorage[key] = Encoding.UTF8.GetBytes(jsonString);
 
-        // Act
         var result = _sessionMock.Object.GetJson<TestObject>(key);
 
-        // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Id, Is.EqualTo(1));
         Assert.That(result.Name, Is.EqualTo("Test"));
@@ -70,13 +64,10 @@ public class SessionExtensionsTests
     [Test]
     public void GetJson_WhenKeyDoesNotExist_ShouldReturnDefault()
     {
-        // Arrange
         var key = "missingKey";
 
-        // Act
         var result = _sessionMock.Object.GetJson<TestObject>(key);
 
-        // Assert
         Assert.That(result, Is.Null);
     }
 

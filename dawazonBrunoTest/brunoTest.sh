@@ -50,7 +50,7 @@ do
   OutputPath="$ReportsDir/report-$Carpeta.html"
 
   echo ""
-  echo "📁 Ejecutando: $Carpeta"
+  echo "Ejecutando: $Carpeta"
 
   bru run "$RutaCarpeta" \
     --env "$Env" \
@@ -59,11 +59,11 @@ do
   ExitCode=$?
 
   if [ $ExitCode -ne 0 ]; then
-    echo "⚠️  Fallos en $Carpeta"
+    echo "Fallos en $Carpeta"
     Estado="FALLÓ"
     FailCount=$((FailCount+1))
   else
-    echo "✅ $Carpeta OK"
+    echo "$Carpeta OK"
     Estado="PASÓ"
   fi
 

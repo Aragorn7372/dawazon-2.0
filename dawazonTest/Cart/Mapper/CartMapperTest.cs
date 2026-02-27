@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Mapper;
 
 [TestFixture]
-[Description("CartMapper Unit Tests — SOLID + FIRST Principles para el Backend")]
+[Description("CartMapper Unit Tests")]
 public class CartMapperTest
 {
     private const string CartId = "CART-001";

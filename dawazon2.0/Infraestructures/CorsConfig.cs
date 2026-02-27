@@ -29,7 +29,7 @@ public static class CorsConfig
                             "https://localhost:7001")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials(); // ← necesario para SignalR/Blazor
+                        .AllowCredentials(); 
                 });
                 Log.Information("CORS: AllowAll (desarrollo) con credenciales para SignalR");
             }

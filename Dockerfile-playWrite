@@ -1,6 +1,4 @@
-﻿# -----------------------------
-# STAGE 1: build — restaura y compila
-# -----------------------------
+﻿# fase 1: build — restaura y compila
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
@@ -15,9 +13,7 @@ COPY dawazonPlayWrite/ dawazonPlayWrite/
 # Compilar proyecto en Release
 RUN dotnet build dawazonPlayWrite/dawazonPlayWrite.csproj --no-restore
 
-# -----------------------------
-# STAGE 2: runner — Playwright y tests
-# -----------------------------
+# fase 2: runner — Playwright y tests
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS runner
 
 WORKDIR /app

@@ -21,7 +21,7 @@ public class OrderPdfService : IOrderPdfService
 
     static OrderPdfService()
     {
-        // Licencia comunitaria — gratuita para proyectos open-source / personales
+        // licencia de verga
         QuestPDF.Settings.License = LicenseType.Community;
     }
 

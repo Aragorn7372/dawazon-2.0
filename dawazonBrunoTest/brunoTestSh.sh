@@ -38,7 +38,7 @@ do
   OutputPath="$ReportsDir/report-$Carpeta.html"
 
   echo ""
-  echo "📁 Ejecutando: $Carpeta"
+  echo "Ejecutando: $Carpeta"
 
   # Ejecutar Bruno, ignorando errores para que siga con todas las carpetas
   bru run "$RutaCarpeta" --env "$Env" --reporter-html "$OutputPath" || true
@@ -46,11 +46,11 @@ do
   ExitCode=$?
 
   if [ "$ExitCode" -ne 0 ]; then
-    echo "⚠️  Fallos en $Carpeta"
+    echo "Fallos en $Carpeta"
     Estado="FALLÓ"
     FailCount=$((FailCount+1))
   else
-    echo "✅ $Carpeta OK"
+    echo "$Carpeta OK"
     Estado="PASÓ"
   fi
 

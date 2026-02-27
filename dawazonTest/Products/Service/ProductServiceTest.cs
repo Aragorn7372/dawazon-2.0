@@ -18,7 +18,7 @@ using NUnit.Framework;
 namespace dawazonTest.Products.Service;
 
 [TestFixture]
-[Description("ProductService Unit Tests — SOLID + FIRST Principles (using Moq)")]
+[Description("ProductService Unit Tests")]
 public class ProductServiceTest
 {
     private Mock<ICacheService> _cacheMock;
@@ -667,7 +667,7 @@ public class ProductServiceTest
     }
 
     [Test]
-    [Description("GetStatsAsync: Should aggregate stats from all sub-services")]
+    [Description("GetStatsAsync: Debería añadir las stats de todos los subservicios")]
     public async Task GetStatsAsync_ShouldReturnAggregatedStats()
     {
         var productsByCategory = new Dictionary<string, int> { { "Figuras", 10 }, { "Ropa", 5 } };

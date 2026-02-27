@@ -14,7 +14,7 @@ using Moq;
 namespace dawazonTest.Users.Service.Favs;
 
 [TestFixture]
-[Description("Tests for FavService")]
+[Description("Tests para FavService")]
 public class FavServiceTest
 {
     private Mock<UserManager<User>> _userManagerMock;

@@ -436,7 +436,6 @@ public class CartService : ICartService
 
         if (line.Status == Status.Cancelado && newStatus != Status.Cancelado)
         {
-            // If it was cancelled before, we need to subtract the stock again
             if (product.Stock < line.Quantity)
                 return new CartProductQuantityExceededError($"Stock insuficiente. Solo hay {product.Stock}");
 
@@ -544,11 +543,11 @@ public class CartService : ICartService
 
             if (expired.Count == 0)
             {
-                _logger.LogDebug("✅ No hay carritos con checkout expirado.");
+                _logger.LogDebug("No hay carritos con checkout expirado.");
                 return;
             }
 
-            _logger.LogInformation("🧹 Limpiando {Count} carrito(s) con checkout expirado.", expired.Count);
+            _logger.LogInformation("Limpiando {Count} carrito(s) con checkout expirado.", expired.Count);
 
             foreach (var cart in expired)
             {

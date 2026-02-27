@@ -28,7 +28,6 @@ public class CartRepository(
             query = query.Where(c => c.Purchased == filter.purchased);
         }
 
-        // OBTENEMOS EL TOTAL ANTES DE PAGINAR
         var totalCount = await query.CountAsync();
 
         // Ordenación
@@ -172,9 +171,6 @@ public class CartRepository(
         logger.LogInformation($"creando carrito");
         var saved=await context.Carts.AddAsync(cart);
         await context.SaveChangesAsync();
-        // Cuando se crea un carrito nuevo, el cliente ya está cargado en memoria porque lo hemos asignado nosotros, 
-        // y como es una entidad "Owned", hacer LoadAsync() crashea Entity Framework aquí.
-        // No hace falta hacer LoadAsync() a algo que acabamos de meter nuevo.
         return saved.Entity;
     }
 
@@ -185,8 +181,6 @@ public class CartRepository(
             .ThenInclude(cl => cl.Address).FirstOrDefaultAsync(c => c.Id == id);
         if (oldCart == null) return null;
         oldCart.Client=cart.Client;
-        // No tocamos oldCart.CartLines aquí para no interferir con EF Core.
-        // Las líneas se gestionan individualmente con Add/RemoveCartLineAsync.
         oldCart.Total=cart.Total;
         oldCart.TotalItems=cart.TotalItems;
         oldCart.Purchased=cart.Purchased;
@@ -201,8 +195,6 @@ public class CartRepository(
     /// <inheritdoc/>
     public async Task UpdateCartScalarsAsync(string cartId, int totalItems, double total)
     {
-        // FindAsync usa la clave primaria y devuelve la entidad SIN Include de navegación,
-        // evitando el problema de Clear()+AddRange() sobre la misma referencia EF Core.
         var cart = await context.Carts.FindAsync(cartId);
         if (cart == null) return;
 
@@ -261,7 +253,7 @@ public class CartRepository(
             (objetoAnonimo, manager) => new { objetoAnonimo.cart, objetoAnonimo.line, objetoAnonimo.product, manager }
         );
 
-    // Filtramos por permisos directamente en la consulta a la BBDD
+    // Filtramos por permisos en la consulta a la BBDD
     if (!isAdmin && managerId.HasValue)
     {
         query = query.Where(x => x.product!.CreatorId == managerId.Value);

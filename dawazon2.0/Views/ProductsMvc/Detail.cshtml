@@ -105,7 +105,6 @@
             @if (isUser)
             {
                 
-                    // Asumimos por defecto que NO es favorito
                     bool isFav = false;
                     // Comprobamos si hay un booleano guardado
                     if (ViewBag.IsFav is bool)
@@ -162,7 +161,6 @@
         </div>
     </div>
 
-    @* Comentarios — componente Blazor con tiempo real (Timer + SignalR) *@
     @{
         long currentUserId = 0;
         if (isUser)
@@ -207,7 +205,6 @@
             current = (current + 1) % imgs.length;
             show(current);
         });
-        // Descripción como lista si viene en JSON
         const lista = document.getElementById("description");
         if (lista) {
             const text = lista.textContent.trim();
@@ -216,7 +213,7 @@
                 if (Array.isArray(data)) {
                     lista.innerHTML = "<li>Características:</li>" + data.map(item => `<li>${item}</li>`).join("");
                 }
-            } catch (e) { /* texto plano, nada que hacer */ }
+            } catch (e) {  }
         }
     });
     @if (isUser)

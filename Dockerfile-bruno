@@ -1,6 +1,5 @@
-﻿# ─────────────────────────────────────────────
-# STAGE: runner — instala Bruno CLI y ejecuta tests
-# ─────────────────────────────────────────────
+﻿# STAGE: runner — instala Bruno CLI y ejecuta tests
+
 FROM node:20-alpine AS runner
 
 # Directorio de trabajo

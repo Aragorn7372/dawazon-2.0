@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace dawazonTest.Products.Repository;
 
 [TestFixture]
-[Description("CategoryRepository Tests — SOLID + FIRST con EF Core InMemory")]
+[Description("CategoryRepository Tests")]
 public class CategoryRepositoryTest
 {
     private DawazonDbContext _context = null!;

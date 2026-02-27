@@ -13,7 +13,7 @@ using Moq;
 namespace dawazonTest.Cart.Repository;
 
 [TestFixture]
-[Description("CartRepository Tests — SOLID + FIRST con EF Core InMemory")]
+[Description("CartRepository Tests")]
 public class CartRepositoryTest
 {
     private DawazonDbContext _context = null!;

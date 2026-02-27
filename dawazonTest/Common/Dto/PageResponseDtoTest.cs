@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Dto;
 
 [TestFixture]
-[Description("PageResponseDto Unit Tests — SOLID + FIRST Principles")]
+[Description("PageResponseDto Unit Tests")]
 public class PageResponseDtoTest
 {
     private static PageResponseDto<string> MakePage(

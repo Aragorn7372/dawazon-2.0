@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Email;
 
 [TestFixture]
-[Description("MailKitEmailService Unit Tests — SOLID + FIRST Principles (using Moq)")]
+[Description("MailKitEmailService Unit Tests")]
 public class EmailMailKitEmailServiceTest
 {
     private Mock<IConfiguration> _configMock;

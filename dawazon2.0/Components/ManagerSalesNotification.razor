@@ -7,7 +7,7 @@
 
 @if (_newSalesCount > 0)
 {
-    @* Toast notification container positioned bottom-right *@
+    @*  notification container *@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
         <div class="toast show animate__animated animate__fadeInUp align-items-center text-white bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -74,7 +74,7 @@
 
     private void DismissNotification()
     {
-        // Reseteamos el contador ocultando el popup y establecemos el nuevo checkpoint de tiempo.
+        // Reseteamos el contador ocultando el popup y establecemos el nuevo tiempo.
         _newSalesCount = 0;
         _lastChecked = DateTime.UtcNow;
         StateHasChanged();

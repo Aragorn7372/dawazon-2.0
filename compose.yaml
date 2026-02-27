@@ -85,6 +85,7 @@
     restart: always
     networks:
       - webnet
+
   # SERVICIO PUNTUAL: TESTS BRUNO
   # Ejecuta los tests, genera HTMLs por carpeta
   # y un index.html que los enlaza a todos

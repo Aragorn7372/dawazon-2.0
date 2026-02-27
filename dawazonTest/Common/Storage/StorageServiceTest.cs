@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Storage;
 
 [TestFixture]
-[Description("Storage Unit Tests — SOLID + FIRST Principles (using Moq + ConfigurationBuilder)")]
+[Description("Storage Unit Tests")]
 public class StorageServiceTest
 {
     private Mock<ILogger<dawazonBackend.Common.Storage.Storage>> _loggerMock;
@@ -299,10 +299,6 @@ public class StorageServiceTest
 
         Assert.That(result.IsSuccess, Is.True);
     }
-
-    // ──────────────────────────────────────────
-    //  Constructor: crea directorio si no existe
-    // ──────────────────────────────────────────
 
     [Test]
     [Description("Constructor: debe crear la carpeta de uploads si no existía previamente")]

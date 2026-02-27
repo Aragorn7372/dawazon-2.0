@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Error;
 
 [TestFixture]
-[Description("CartError Unit Tests — SOLID + FIRST Principles")]
+[Description("CartError Unit Tests")]
 public class CartErrorTest
 {
     [Test]

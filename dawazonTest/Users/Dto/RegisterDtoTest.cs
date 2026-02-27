@@ -3,11 +3,11 @@ using dawazonBackend.Users.Dto;
 namespace dawazonTest.Users.Dto;
 
 [TestFixture]
-[Description("Tests for RegisterDto validation")]
+[Description("Tests para validdacion de RegisterDto")]
 public class RegisterDtoTest
 {
     [Test]
-    [Description("RegisterDto: Should create instance with required properties")]
+    [Description("RegisterDto: Debería crear con propiedades Requeridas")]
     public void RegisterDto_ShouldCreateWithRequiredProperties()
     {
         var dto = new RegisterDto { Username = "juanperez", Email = "juan@example.com", Password = "password123" };
@@ -18,7 +18,7 @@ public class RegisterDtoTest
     }
 
     [Test]
-    [Description("RegisterDto: Record equality should work")]
+    [Description("RegisterDto: Los re")]
     public void RegisterDto_Equality_ShouldWork()
     {
         var dto1 = new RegisterDto { Username = "user", Email = "user@test.com", Password = "pass" };
@@ -28,7 +28,7 @@ public class RegisterDtoTest
     }
 
     [Test]
-    [Description("RegisterDto: Should allow alphanumeric and underscore in username")]
+    [Description("RegisterDto: Debería permitir alfanuméricos y guión bajo")]
     public void RegisterDto_ValidUsernameCharacters_ShouldWork()
     {
         var dto = new RegisterDto { Username = "user_123", Email = "test@test.com", Password = "pass123" };
@@ -37,7 +37,7 @@ public class RegisterDtoTest
     }
 
     [Test]
-    [Description("RegisterDto: Different instances should not be equal")]
+    [Description("RegisterDto: Distintas instancias deberían diferir")]
     public void RegisterDto_DifferentInstances_ShouldNotBeEqual()
     {
         var dto1 = new RegisterDto { Username = "user1", Email = "user1@test.com", Password = "pass" };

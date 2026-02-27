@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Cache;
 
 [TestFixture]
-[Description("CacheService Unit Tests — SOLID + FIRST Principles (using Moq)")]
+[Description("CacheService Unit Tests")]
 public class CacheServiceTest
 {
     private Mock<IDistributedCache> _cacheMock;

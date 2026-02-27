@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using dawazon2._0.Infraestructures;
 using dawazon2._0.Mapper;
 using dawazon2._0.Models;
 using dawazon2._0.Pdf;
@@ -253,7 +252,7 @@ public class CartMvcController(
         if (cart != null)
         {
             // Marcar como comprado y crear nuevo carrito vacío para el usuario
-            var saveResult = await cartService.SaveAsync(cart);
+            await cartService.SaveAsync(cart);
 
             TempData["OrderId"] = cartId;
 
@@ -322,7 +321,7 @@ public class CartMvcController(
 
         if (currentQty <= 1)
         {
-            // Cantidad llega a 0 → eliminar del carrito
+            // Cantidad llega a 0 eliminar del carrito
             await cartService.RemoveProductAsync(cart.Id, productId);
         }
         else

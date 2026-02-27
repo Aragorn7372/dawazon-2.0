@@ -21,7 +21,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Service;
 
 [TestFixture]
-[Description("CartService Unit Tests — SOLID + FIRST Principles (using Moq)")]
+[Description("CartService Unit Tests")]
 public class CartServiceTest
 {
     private Mock<IProductRepository> _productRepositoryMock;

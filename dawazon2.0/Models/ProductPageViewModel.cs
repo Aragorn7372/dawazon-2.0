@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using dawazonBackend.Products.Models.Dto;
+﻿using dawazonBackend.Products.Models.Dto;
 
 namespace dawazon2._0.Models
 {

@@ -1,6 +1,4 @@
-﻿# ==========================================
-# CONFIGURACIÓN
-# ==========================================
+﻿# CONFIGURACIÓN
 
 $BaseDir = $PSScriptRoot
 $Env = "Local"
@@ -24,18 +22,14 @@ Write-Host "Directorio base: $BaseDir"
 Write-Host "Entorno: $Env"
 Write-Host "========================================="
 
-# ==========================================
 # INSTALAR BRUNO CLI SI NO EXISTE
-# ==========================================
 
 if (-not (Get-Command bru -ErrorAction SilentlyContinue)) {
     Write-Host "Instalando Bruno CLI..."
     npm install -g @usebruno/cli
 }
 
-# ==========================================
 # INSTALAR REPORTER HTML SI NO EXISTE
-# ==========================================
 
 $ReporterInstalled = npm list -g @usebruno/reporter-html 2>$null
 if (-not $ReporterInstalled) {
@@ -43,9 +37,7 @@ if (-not $ReporterInstalled) {
     npm install -g @usebruno/reporter-html
 }
 
-# ==========================================
 # EJECUTAR CARPETAS
-# ==========================================
 
 $Resumen = @()
 
@@ -151,9 +143,7 @@ $Html | Out-File $IndexPath -Encoding utf8
 
 Write-Host "`n Dashboard generado en: $IndexPath"
 
-# ==========================================
 # RESUMEN FINAL
-# ==========================================
 
 Write-Host "`n========================================="
 if ($FailCount -eq 0) {

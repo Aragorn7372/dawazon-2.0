@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace dawazon2._0.RestControllers;
 
 /// <summary>
-/// Proporciona endpoints API para la gestión de productos Funko Pop.
+/// Proporciona endpoints API para la gestión de productos Producto Pop.
 /// </summary>
 /// <remarks>
 /// Este controlador maneja todas las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
-/// para los productos Funko, incluyendo la gestión de imágenes asociadas.
+/// para los productos Producto, incluyendo la gestión de imágenes asociadas.
 /// Soporta operaciones con archivos mediante multipart/form-data para las imágenes de los productos.
 /// </remarks>
 [ApiController]
@@ -25,15 +25,15 @@ namespace dawazon2._0.RestControllers;
 public class ProductsController(IProductService service) : ControllerBase
 {
     /// <summary>
-    /// Obtiene todos los productos Funko disponibles.
+    /// Obtiene todos los productos Producto disponibles.
     /// </summary>
     /// <returns>
-    /// Una colección de objetos <see cref="FunkoResponseDto"/> que representan todos los productos Funko.
+    /// Una colección de objetos <see cref="ProductResponseDto"/> que representan todos los productos Producto.
     /// </returns>
-    /// <response code="200">Devuelve la lista completa de productos Funko.</response>
+    /// <response code="200">Devuelve la lista completa de productos Producto.</response>
     /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <example>
-    /// GET /api/funkos
+    /// GET /api/Productos
     /// </example>
     [HttpGet]
     [ProducesResponseType(typeof(PageResponseDto<ProductResponseDto>), StatusCodes.Status200OK)]
@@ -51,17 +51,17 @@ public class ProductsController(IProductService service) : ControllerBase
     }
     
     /// <summary>
-    /// Obtiene un producto Funko específico por su identificador único.
+    /// Obtiene un producto  específico por su identificador único.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto Funko.</param>
+    /// <param name="id">El identificador numérico único del producto.</param>
     /// <returns>
-    /// Un objeto <see cref="FunkoResponseDto"/> que representa el producto Funko solicitado.
+    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  solicitado.
     /// </returns>
-    /// <response code="200">Devuelve el producto Funko encontrado.</response>
-    /// <response code="404">Si no se encuentra el producto Funko con el ID especificado.</response>
+    /// <response code="200">Devuelve el producto  encontrado.</response>
+    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
     /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <example>
-    /// GET /api/funkos/123
+    /// GET /api/Productos/123
     /// </example>
     [HttpGet("{id:long}")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
@@ -79,16 +79,14 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Crea un nuevo producto Funko con imagen opcional.
+    /// Crea un nuevo producto  con imagen opcional.
     /// </summary>
-    /// <param name="nombre">El nombre descriptivo del producto Funko.</param>
-    /// <param name="price">El precio del producto en la moneda base del sistema.</param>
-    /// <param name="categoria">La categoría a la que pertenece el producto Funko.</param>
+    /// <param name="request">datos de producto</param>
     /// <param name="file">Archivo de imagen opcional del producto. Formatos aceptados: JPG, PNG, GIF.</param>
     /// <returns>
-    /// Un objeto <see cref="FunkoResponseDto"/> que representa el producto Funko creado.
+    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  creado.
     /// </returns>
-    /// <response code="201">El producto Funko se creó correctamente. Devuelve la ubicación del recurso en el header Location.</response>
+    /// <response code="201">El producto  se creó correctamente. Devuelve la ubicación del recurso en el header Location.</response>
     /// <response code="400">Si los datos de entrada son inválidos, no cumplen las reglas de validación, o hay un error al procesar la imagen.</response>
     /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
@@ -96,10 +94,10 @@ public class ProductsController(IProductService service) : ControllerBase
     /// El archivo de imagen es opcional, pero si se proporciona, debe cumplir con las restricciones de tamaño y formato.
     /// </remarks>
     /// <example>
-    /// POST /api/funkos
+    /// POST /api/Productos
     /// Content-Type: multipart/form-data
     /// 
-    /// nombre=Funko Pop Batman
+    /// nombre=Producto Pop Batman
     /// price=29.99
     /// categoria=DC Comics
     /// file=[binary_image_data]
@@ -132,20 +130,17 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Actualiza un producto Funko existente, incluyendo opcionalmente su imagen.
+    /// Actualiza un producto  existente, incluyendo opcionalmente su imagen.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto Funko a actualizar.</param>
-    /// <param name="nombre">El nombre actualizado del producto Funko.</param>
-    /// <param name="price">El precio actualizado del producto.</param>
-    /// <param name="categoria">La categoría actualizada del producto Funko.</param>
-    /// <param name="file">Archivo de imagen opcional para reemplazar la imagen actual. Formatos aceptados: JPG, PNG, GIF.</param>
-    /// <param name="request"></param>
+    /// <param name="id">El identificador numérico único del producto  a actualizar.</param>
+    /// <param name="files">Archivo de imagen opcional para reemplazar la imagen actual. Formatos aceptados: JPG, PNG, GIF.</param>
+    /// <param name="request">datos de producto</param>
     /// <returns>
-    /// Un objeto <see cref="FunkoResponseDto"/> que representa el producto Funko actualizado.
+    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  actualizado.
     /// </returns>
-    /// <response code="200">El producto Funko se actualizó correctamente.</response>
+    /// <response code="200">El producto  se actualizó correctamente.</response>
     /// <response code="400">Si los datos de entrada son inválidos o hay un error al procesar la imagen.</response>
-    /// <response code="404">Si no se encuentra el producto Funko con el ID especificado.</response>
+    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
     /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
     /// Este endpoint acepta datos en formato multipart/form-data para soportar la actualización de archivos.
@@ -153,10 +148,10 @@ public class ProductsController(IProductService service) : ControllerBase
     /// Si no se proporciona archivo, se mantendrá la imagen existente.
     /// </remarks>
     /// <example>
-    /// PUT /api/funkos/123
+    /// PUT /api/Productos/123
     /// Content-Type: multipart/form-data
     /// 
-    /// nombre=Funko Pop Batman Actualizado
+    /// nombre=Producto Pop Batman Actualizado
     /// price=34.99
     /// categoria=DC Comics
     /// file=[binary_image_data]
@@ -207,21 +202,21 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Elimina un producto Funko existente del sistema.
+    /// Elimina un producto  existente del sistema.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto Funko a eliminar.</param>
+    /// <param name="id">El identificador numérico único del producto  a eliminar.</param>
     /// <returns>
-    /// Un objeto <see cref="FunkoResponseDto"/> que representa el producto Funko eliminado.
+    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  eliminado.
     /// </returns>
-    /// <response code="200">El producto Funko se eliminó correctamente.</response>
-    /// <response code="404">Si no se encuentra el producto Funko con el ID especificado.</response>
+    /// <response code="200">El producto  se eliminó correctamente.</response>
+    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
     /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
     /// ADVERTENCIA: Esta operación es irreversible y también eliminará la imagen asociada al producto si existe.
     /// Asegúrese de que el producto no tenga referencias pendientes en otros módulos del sistema antes de eliminarlo.
     /// </remarks>
     /// <example>
-    /// DELETE /api/funkos/123
+    /// DELETE /api/Productos/123
     /// </example>
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]

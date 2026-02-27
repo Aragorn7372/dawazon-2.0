@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Dto;
 
 [TestFixture]
-[Description("FilterDto Unit Tests — SOLID + FIRST Principles")]
+[Description("FilterDto Unit Tests")]
 public class FilterDtoTest
 {
     [Test]

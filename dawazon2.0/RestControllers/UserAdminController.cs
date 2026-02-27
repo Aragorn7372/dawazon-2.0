@@ -74,7 +74,7 @@ public class UsersController(IUserService userService, ILogger<UsersController> 
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> BanUser(string id)
     {
-        logger.LogInformation($"Endpoint called: DELETE api/users/{id}");
+        logger.LogInformation($"Endpoint llamado: DELETE api/users/{id}");
         var found = await userService.GetByIdAsync(id);
         if (found.IsFailure)
             return found.Error switch

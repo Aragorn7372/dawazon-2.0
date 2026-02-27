@@ -12,7 +12,7 @@ using Moq;
 namespace dawazonTest.Users.Service.Jwt;
 
 [TestFixture]
-[Description("Tests for JwtService")]
+[Description("Tests para JwtService")]
 public class JwtServiceTest
 {
     private Mock<IConfiguration> _configMock;

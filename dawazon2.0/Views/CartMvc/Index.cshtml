@@ -40,7 +40,7 @@
     {
         <div class="row g-4">
 
-            @* ── Columna izquierda: líneas del carrito ── *@
+            @* ── líneas del carrito ── *@
             <div class="col-12 col-lg-8">
                 <div class="card shadow-sm border-0">
                     <div class="card-header d-flex justify-content-between align-items-center" style="background:#f8f9fa;">
@@ -85,7 +85,7 @@
 
                                         <span class="text-muted small mx-1">|</span>
 
-                                        @* Botón Eliminar → redirige al carrito *@
+                                        @* Botón Eliminar redirige al carrito *@
                                         <form asp-controller="CartMvc" asp-action="DeleteLine"
                                               asp-route-productId="@line.ProductId" method="post" style="margin:0">
                                             @Html.AntiForgeryToken()
@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            @* ── Columna derecha: resumen y checkout ── *@
+            @* ──  resumen y checkout ── *@
             <div class="col-12 col-lg-4">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">

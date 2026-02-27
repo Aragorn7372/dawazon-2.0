@@ -8,7 +8,7 @@ using Testcontainers.PostgreSql;
 namespace dawazonTest.Container.Categorias;
 
 [TestFixture]
-[Description("Integration Tests for CategoryRepository using PostgreSQL Testcontainers")]
+[Description("Test de integración para CategoryRepository usando testcontainers con PostgreSQL")]
 public class CategoriaRepositoryTestContainer
 {
     private PostgreSqlContainer _dbContainer;
@@ -53,7 +53,7 @@ public class CategoriaRepositoryTestContainer
     }
 
     [Test]
-    [Description("GetCategoriesAsync: Should return all category names")]
+    [Description("GetCategoriesAsync: Debería devolver todos los nombres de las categorías")]
     public async Task GetCategoriesAsync_ShouldReturnListOfCategoryNames()
     {
         var categoryNames = await _categoryRepository.GetCategoriesAsync();
@@ -66,7 +66,7 @@ public class CategoriaRepositoryTestContainer
     }
 
     [Test]
-    [Description("GetCategoryAsync: Should return a category by its ID")]
+    [Description("GetCategoryAsync: Debería devolver una categoría pur su ID")]
     public async Task GetCategoryAsync_ShouldReturnCategoryById()
     {
         var category = await _categoryRepository.GetCategoryAsync("COM000000001");
@@ -77,7 +77,7 @@ public class CategoriaRepositoryTestContainer
     }
 
     [Test]
-    [Description("GetCategoryAsync: Should return null when ID does not exist")]
+    [Description("GetCategoryAsync: Debería devolver null cuando no existe")]
     public async Task GetCategoryAsync_ShouldReturnNullWhenIdDoesNotExist()
     {
         var category = await _categoryRepository.GetCategoryAsync("CAT99999999");
@@ -86,7 +86,7 @@ public class CategoriaRepositoryTestContainer
     }
 
     [Test]
-    [Description("GetByNameAsync: Should return a category by its name, ignoring case")]
+    [Description("GetByNameAsync: Debería devolver una categoría por su nombre, ignoranddo mayúscula")]
     public async Task GetByNameAsync_ShouldReturnCategoryByNameCaseInsensitive()
     {
         var category = await _categoryRepository.GetByNameAsync("fIgUrAs");
@@ -97,7 +97,7 @@ public class CategoriaRepositoryTestContainer
     }
 
     [Test]
-    [Description("GetByNameAsync: Should return null when name does not exist")]
+    [Description("GetByNameAsync: Debe devolver null cuando el nombre no existe")]
     public async Task GetByNameAsync_ShouldReturnNullWhenNameDoesNotExist()
     {
         var category = await _categoryRepository.GetByNameAsync("NonExistingCategory");

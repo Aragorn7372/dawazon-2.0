@@ -3,11 +3,11 @@ using dawazonBackend.Users.Dto;
 namespace dawazonTest.Users.Dto;
 
 [TestFixture]
-[Description("Tests for LoginDto validation")]
+[Description("Test para validación de LoginDto")]
 public class LoginDtoTest
 {
     [Test]
-    [Description("LoginDto: Should create instance with required properties")]
+    [Description("LoginDto: debería crear instancia con las propiedades requeridas")]
     public void LoginDto_ShouldCreateWithRequiredProperties()
     {
         var dto = new LoginDto { UsernameOrEmail = "username", Password = "password" };
@@ -17,7 +17,7 @@ public class LoginDtoTest
     }
 
     [Test]
-    [Description("LoginDto: Should allow empty username")]
+    [Description("LoginDto: Debería devolver username vacío")]
     public void LoginDto_EmptyUsername_ShouldBeAllowed()
     {
         var dto = new LoginDto { UsernameOrEmail = "", Password = "password" };
@@ -26,7 +26,7 @@ public class LoginDtoTest
     }
 
     [Test]
-    [Description("LoginDto: Should allow email as username")]
+    [Description("LoginDto: Debería permitir email como username")]
     public void LoginDto_EmailAsUsername_ShouldBeAllowed()
     {
         var dto = new LoginDto { UsernameOrEmail = "user@example.com", Password = "password" };
@@ -35,7 +35,7 @@ public class LoginDtoTest
     }
 
     [Test]
-    [Description("LoginDto: Record equality should work")]
+    [Description("LoginDto: Son iguales")]
     public void LoginDto_Equality_ShouldWork()
     {
         var dto1 = new LoginDto { UsernameOrEmail = "user", Password = "pass" };
@@ -45,7 +45,7 @@ public class LoginDtoTest
     }
 
     [Test]
-    [Description("LoginDto: Different instances should not be equal")]
+    [Description("LoginDto: Diferentes instancias deberían no ser iguales")]
     public void LoginDto_DifferentInstances_ShouldNotBeEqual()
     {
         var dto1 = new LoginDto { UsernameOrEmail = "user1", Password = "pass" };

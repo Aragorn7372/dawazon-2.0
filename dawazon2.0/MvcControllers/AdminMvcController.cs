@@ -20,7 +20,6 @@ namespace dawazon2._0.MvcControllers;
 [Authorize(Roles = UserRoles.ADMIN)]
 public class AdminMvcController(IUserService userService, ICartService cartService, UserManager<User> userManager) : Controller
 {
-    // ─── USUARIOS ───────────────────────────────────────────────────────────
 
     /// <summary>Lista paginada de todos los usuarios activos.</summary>
     [HttpGet("usuarios")]
@@ -28,7 +27,7 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
     {
         Log.Information("[AdminMvc] Users → page={Page} size={Size}", page, size);
 
-        var filter = new FilterDto(null, null, page, size, "id", "asc");
+        var filter = new FilterDto(null, null, page, size);
         var result = await userService.GetAllAsync(filter);
 
         var vm = new AdminUserListViewModel
@@ -113,7 +112,7 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
             Provincia    = vm.Provincia
         };
 
-        var result = await userService.UpdateByIdAsync(long.Parse(id), dto, null); // Null porque admin no va a cambiar la imagen
+        var result = await userService.UpdateByIdAsync(long.Parse(id), dto, null);
         if (result.IsFailure)
         {
             ModelState.AddModelError(string.Empty, result.Error.Message);
@@ -153,7 +152,6 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
         return RedirectToAction(nameof(Users));
     }
 
-    // ─── VENTAS ─────────────────────────────────────────────────────────────
 
     /// <summary>Lista paginada de todas las ventas.</summary>
     [HttpGet("ventas")]
@@ -184,8 +182,6 @@ public class AdminMvcController(IUserService userService, ICartService cartServi
     {
         Log.Information("[AdminMvc] SaleEdit GET → id={Id}, productId={ProductId}", id, productId);
 
-        // Fetch the sale line via find all since we don't have a single line fetch by id easily, 
-        // or we can fetch the cart and find the line.
         var cartResult = await cartService.GetByIdAsync(id);
         if (cartResult.IsFailure) return NotFound();
 

@@ -81,7 +81,6 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
             
                 builder.HasKey("CartId", "ProductId");
             
-                // LA CORRECCIÓN DEL ENUM: Así EF Core lo guarda como string automáticamente
                 builder.Property(cl => cl.Status)
                     .HasConversion<string>()
                     .IsRequired();

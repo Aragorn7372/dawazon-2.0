@@ -1,7 +1,4 @@
 ﻿using System.Text;
-using dawazonBackend.Users.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -30,9 +27,7 @@ public static class AuthenticationConfig
 
         services.AddAuthentication(options =>
             {
-                // Esquema selector: elige JWT o Cookie según la ruta
                 options.DefaultScheme = PolicyScheme;
-                // Necesario para que UseAuthentication() asigne el User correctamente
                 options.DefaultAuthenticateScheme = PolicyScheme;
                 options.DefaultChallengeScheme = PolicyScheme;
                 // Necesario para que rol incorrecto devuelva 403 y no 401
@@ -65,13 +60,11 @@ public static class AuthenticationConfig
                 };
                 options.Events = new JwtBearerEvents
                 {
-                    // Diagnóstico: muestra el error exacto de validación del token
                     OnAuthenticationFailed = context =>
                     {
                         Log.Warning("[JWT] Token inválido: {Error}", context.Exception.Message);
                         return Task.CompletedTask;
                     },
-                    // Diagnóstico: muestra por qué se emite un 401
                     OnChallenge = context =>
                     {
                         Log.Warning("[JWT] Challenge 401 — Error: {Error} | Descripción: {Desc}",
@@ -79,7 +72,6 @@ public static class AuthenticationConfig
                             context.ErrorDescription ?? "none");
                         return Task.CompletedTask;
                     },
-                    // Cuando usuario autenticado NO tiene el rol requerido → 403
                     OnForbidden = context =>
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
@@ -88,15 +80,13 @@ public static class AuthenticationConfig
                 };
             });
 
-        // Configurar la cookie que Identity usa internamente
         services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/login";
             options.LogoutPath = "/logout";
             options.AccessDeniedPath = "/";
             options.Cookie.HttpOnly = true;
-            options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
-            // En desarrollo (HTTP) evita que el navegador rechace la cookie por falta de HTTPS
+            options.Cookie.SameSite = SameSiteMode.Lax;
             options.Cookie.SecurePolicy = CookieSecurePolicy.None;
             options.ExpireTimeSpan = TimeSpan.FromHours(8);
             options.SlidingExpiration = true;

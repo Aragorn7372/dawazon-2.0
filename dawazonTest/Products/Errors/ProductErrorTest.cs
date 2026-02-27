@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace dawazonTest.Products.Errors;
 
 [TestFixture]
-[Description("ProductError Unit Tests — SOLID + FIRST Principles")]
+[Description("ProductError Tests Unitarios — Principios SOLID + FIRST")]
 public class ProductErrorTest
 {
     [Test]

@@ -15,7 +15,7 @@ using Moq;
 namespace dawazonTest.Users.Service;
 
 [TestFixture]
-[Description("Tests for UserService")]
+[Description("Tests para UserService")]
 public class UserServiceTest
 {
     private Mock<UserManager<User>> _userManagerMock;
@@ -49,7 +49,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetAllAsync: Should return paginated users excluding deleted ones")]
+    [Description("GetAllAsync: Debe devolver usuarios paginados excluyendo los eliminados.")]
     public async Task GetAllAsync_ShouldReturnPaginatedActiveUsers()
     {
         var filter = new FilterDto(Nombre: null, Categoria: null, Page: 0, Size: 10, SortBy: "nombre", Direction: "asc");
@@ -72,7 +72,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetByIdAsync: Should return user DTO if found")]
+    [Description("GetByIdAsync: Debe devolver el DTO del usuario si se encuentra.")]
     public async Task GetByIdAsync_WhenFound_ShouldReturnDto()
     {
         var user = BuildUser(1, "Alice");
@@ -86,7 +86,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetByIdAsync: Should return UserNotFoundError if not found")]
+    [Description("GetByIdAsync: Debería devolver UserNotFoundError si no se encuentra")]
     public async Task GetByIdAsync_WhenNotFound_ShouldReturnError()
     {
         _userManagerMock.Setup(um => um.FindByIdAsync("1")).ReturnsAsync((User)null!);
@@ -98,7 +98,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("UpdateByIdAsync: Should update fields and return DTO on success")]
+    [Description("UpdateByIdAsync: Debería actualizar los campos y devolver un DTO en caso de éxito")]
     public async Task UpdateByIdAsync_Success_ShouldReturnUpdatedDto()
     {
         var id = 1L;
@@ -129,7 +129,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("UpdateByIdAsync: Should update image if provided")]
+    [Description("UpdateByIdAsync:Debería actualizar la imagen si no se le da")]
     public async Task UpdateByIdAsync_WithImage_ShouldUpdateImage()
     {
         var id = 1L;
@@ -153,7 +153,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("BanUserById: Should set IsDeleted to true")]
+    [Description("BanUserById: Debería cambiar IsDeleted a true")]
     public async Task BanUserById_WhenFound_ShouldLogicalDelete()
     {
         var user = BuildUser(1, "To Ban");
@@ -166,7 +166,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("BanUserById: Should do nothing when user is not found")]
+    [Description("BanUserById:Debería no hacer nada cuando no se encuentra usuario")]
     public async Task BanUserById_WhenNotFound_ShouldReturnWithoutUpdate()
     {
         _userManagerMock.Setup(um => um.FindByIdAsync("99")).ReturnsAsync((User)null!);
@@ -177,7 +177,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetTotalUsersCountAsync: Should return count of non-deleted users")]
+    [Description("GetTotalUsersCountAsync: Debería devolver el número de usuarios no eliminados")]
     public async Task GetTotalUsersCountAsync_ShouldReturnActiveUserCount()
     {
         var users = new List<User>
@@ -196,7 +196,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("UpdateByIdAsync: Should return UserNotFoundError when user does not exist")]
+    [Description("UpdateByIdAsync:Debería devolver UserNotFoundError cuando no existe usuario")]
     public async Task UpdateByIdAsync_WhenUserNotFound_ShouldReturnError()
     {
         var emptyUsers = new List<User>().BuildMock();
@@ -210,7 +210,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("UpdateByIdAsync: Should return UserUpdateError when UpdateAsync fails")]
+    [Description("UpdateByIdAsync: Debería devolver UserUpdateError cuando UpdateAsync falla")]
     public async Task UpdateByIdAsync_WhenUpdateFails_ShouldReturnError()
     {
         var id = 1L;
@@ -239,7 +239,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("UpdateByIdAsync: Should return UserUpdateError when image upload fails")]
+    [Description("UpdateByIdAsync: Debería devolver UserUpdateError cuando la subida de la imagen falla")]
     public async Task UpdateByIdAsync_WhenImageUploadFails_ShouldReturnError()
     {
         var id = 1L;
@@ -260,7 +260,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetAllAsync: Should sort by id when sortBy is unknown field")]
+    [Description("GetAllAsync: Debe ordenar por id cuando sortBy es un campo desconocido")]
     public async Task GetAllAsync_WithDefaultSorting_ShouldReturnUsersById()
     {
         var filter = new FilterDto(Nombre: null, Categoria: null, Page: 0, Size: 10, SortBy: "id", Direction: "asc");
@@ -281,7 +281,7 @@ public class UserServiceTest
     }
 
     [Test]
-    [Description("GetAllAsync: Should sort by nombre descending when direction is desc")]
+    [Description("GetAllAsync: Se debe ordenar por nombre descendente cuando la dirección es descendente")]
     public async Task GetAllAsync_WithDescendingSort_ShouldReturnUsersInReverseOrder()
     {
         var filter = new FilterDto(Nombre: null, Categoria: null, Page: 0, Size: 10, SortBy: "nombre", Direction: "desc");

@@ -68,15 +68,13 @@ public class StripeService : IStripeService
             }
             catch (StripeException e)
             {
-                // Errores específicos de la API de Stripe (tarjeta rechazada, datos inválidos...
-                // e.StripeError puede ser null en errores de red/configuración, de ahí el uso de ?.
+                // e.StripeError puede ser null en errores de red/configuración, por eso usamos la ?.
                 _logger.LogWarning($"Error de Stripe al crear sesión de pago: {e.StripeError?.Message ?? e.Message}");
                 return Result.Failure<string, DomainError>(
                     new StripePaymentError($"Error en la pasarela de pago: {e.StripeError?.Message ?? e.Message}"));
             }
             catch (Exception e)
             {
-                // Errores inesperados
                 _logger.LogError($"Error inesperado creando sesión de pago: {e.Message}");
                 return Result.Failure<string, DomainError>(
                     new StripePaymentError("Ocurrió un error inesperado al procesar el pago."));

@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace dawazonTest.Users.Service.Jwt;
 
 [TestFixture]
-[Description("Tests for JwtTokenExtractor")]
+[Description("Tests para JwtTokenExtractor")]
 public class JwtTokenExtractorTest
 {
     private Mock<ILogger<JwtTokenExtractor>> _loggerMock;

@@ -15,19 +15,16 @@ public class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger
 )
 {
-    private readonly RequestDelegate _next = next;
-    private readonly ILogger<GlobalExceptionHandler> _logger = logger;
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
             var errorId = Guid.NewGuid().ToString()[..8];
-            _logger.LogError(ex, "Excepción no manejada. ErrorId: {ErrorId}, Message: {Message}",
+            logger.LogError(ex, "Excepción no manejada. ErrorId: {ErrorId}, Message: {Message}",
                 errorId, ex.Message);
             await HandleExceptionAsync(context, ex, errorId);
         }

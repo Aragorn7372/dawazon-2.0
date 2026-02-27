@@ -8,19 +8,19 @@ public class CategoryRepository(ILogger<CategoryRepository> logger,DawazonDbCont
 {
     public async Task<List<string>> GetCategoriesAsync()
     {
-        logger.LogDebug($"Getting categories for {nameof(CategoryRepository)}");
+        logger.LogDebug($"Obteniendo categorías {nameof(CategoryRepository)}");
         return await db.Categorias.Select(c => c.Name).ToListAsync();
     }
 
     public async Task<Category?> GetCategoryAsync(string id)
     {
-        logger.LogDebug($"Getting categorie with id {id}");
+        logger.LogDebug($"Obteniendo categtía con id {id}");
         return await db.Categorias.FirstOrDefaultAsync(c => c.Id == id);
     }
     
     public async Task<Category?> GetByNameAsync(string name)
     {
-        logger.LogDebug($"Getting category by name: {name}");
+        logger.LogDebug($"Obteniendo categoría con nombre: {name}");
         return await db.Categorias
             .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }

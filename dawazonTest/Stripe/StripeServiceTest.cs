@@ -16,7 +16,7 @@ using System;
 namespace dawazonTest.Stripe;
 
 [TestFixture]
-[Description("Tests for StripeService")]
+[Description("Tests para StripeService")]
 public class StripeServiceTest
 {
     private Mock<IConfiguration> _configurationMock;

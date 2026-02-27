@@ -11,7 +11,7 @@ using dawazonBackend.Cart.Repository;
 namespace dawazonTest.Users.Service.Auth;
 
 [TestFixture]
-[Description("Tests for AuthService")]
+[Description("Tests para AuthService")]
 public class AuthServiceTest
 {
     private Mock<UserManager<User>> _userManagerMock;
@@ -156,9 +156,6 @@ public class AuthServiceTest
         _userManagerMock.Setup(um => um.FindByEmailAsync(dto.Email)).ReturnsAsync((User)null!);
         _userManagerMock.Setup(um => um.CreateAsync(It.IsAny<User>(), dto.Password))
             .ReturnsAsync(IdentityResult.Success);
-
-        // Even after CreateAsync succeeds, FindByEmailAsync still returns null
-        // (already set up above as null)
 
         var result = await _authService.SignUpAsync(dto);
 

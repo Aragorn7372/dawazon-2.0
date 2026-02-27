@@ -5,7 +5,6 @@
 @inject IProductService ProductService
 @inject ILogger<ProductComments> Logger
 
-@* ── Lista de comentarios ──────────────────────────────────────── *@
 <section class="comments-section mt-5">
     <h3 class="mb-4">
         <i class="bi bi-chat-dots me-2"></i>Comentarios
@@ -59,7 +58,6 @@
     }
 </section>
 
-@* ── Formulario (solo rol User) — SIN EditForm para evitar HTTP POST accidental *@
 @if (IsUser)
 {
     <div class="comment-form-card mb-4">
@@ -104,7 +102,6 @@
             </label>
         </div>
 
-        @* type="button" — nunca hace HTTP POST, el @onclick lo maneja Blazor *@
         <button type="button" class="btn btn-gradient" @onclick="HandleSubmit" disabled="@_submitting">
             @if (_submitting)
             {

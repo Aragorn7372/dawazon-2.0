@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Email;
 
 [TestFixture]
-[Description("EmailTemplates Unit Tests — SOLID + FIRST Principles")]
+[Description("EmailTemplates Unit Tests")]
 public class EmailTemplatesTest
 {
     [Test]

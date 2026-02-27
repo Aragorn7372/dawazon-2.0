@@ -283,6 +283,6 @@ public class ProductsMvcController(IProductService service, UserManager<User> us
     /// <summary>Puebla ViewBag.Categorias para el navbar.</summary>
     private async Task SetCategoriasBagAsync()
     {
-        await GetCategorySelectListAsync(); // reutiliza la lógica y pone el ViewBag
+        await GetCategorySelectListAsync(); 
     }
 }

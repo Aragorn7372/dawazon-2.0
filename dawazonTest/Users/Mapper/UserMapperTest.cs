@@ -7,7 +7,7 @@ using Moq;
 namespace dawazonTest.Users.Mapper;
 
 [TestFixture]
-[Description("Tests for UserMapper")]
+[Description("Tests para UserMapper")]
 public class UserMapperTest
 {
     private Mock<UserManager<User>> _userManagerMock;
@@ -20,7 +20,7 @@ public class UserMapperTest
     }
 
     [Test]
-    [Description("ToDtoAsync: Should map User and Roles to UserDto correctly")]
+    [Description("ToDtoAsync: Debe asignar correctamente el usuario y los roles a UserDto.")]
     public async Task ToDtoAsync_ShouldMapCorrectly()
     {
         var user = new User

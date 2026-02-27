@@ -9,7 +9,7 @@ namespace dawazon2._0.Components;
 /// </summary>
 public class LoggingCircuitHandler : CircuitHandler
 {
-    private static int _activeCircuits = 0;
+    private static int _activeCircuits;
 
     public override Task OnConnectionUpAsync(Circuit circuit, CancellationToken cancellationToken)
     {
@@ -22,7 +22,7 @@ public class LoggingCircuitHandler : CircuitHandler
     public override Task OnConnectionDownAsync(Circuit circuit, CancellationToken cancellationToken)
     {
         int active = Interlocked.Decrement(ref _activeCircuits);
-        Log.Warning("🔌 [Blazor] Circuito DESCONECTADO — Id: {CircuitId} | Activos: {Active}",
+        Log.Warning("[Blazor] Circuito DESCONECTADO — Id: {CircuitId} | Activos: {Active}",
             circuit.Id, active);
         return Task.CompletedTask;
     }
@@ -35,7 +35,7 @@ public class LoggingCircuitHandler : CircuitHandler
 
     public override Task OnCircuitClosedAsync(Circuit circuit, CancellationToken cancellationToken)
     {
-        Log.Warning(" [Blazor] Circuito CERRADO — Id: {CircuitId}", circuit.Id);
+        Log.Warning("[Blazor] Circuito CERRADO — Id: {CircuitId}", circuit.Id);
         return Task.CompletedTask;
     }
 }

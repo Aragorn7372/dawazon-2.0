@@ -3,11 +3,11 @@ using dawazonBackend.Users.Dto;
 namespace dawazonTest.Users.Dto;
 
 [TestFixture]
-[Description("Tests for UserRequestDto logic")]
+[Description("Tests para lógica de UserRequestDtofor")]
 public class UserRequestDtoTest
 {
     [Test]
-    [Description("Telefono setter: Should clean spaces, dashes, dots, and prefixes correctly")]
+    [Description("Telefono setter: Debería limpiar espacios, tabulaciones, puntos....")]
     public void Telefono_Setter_ShouldCleanPrefixesAndSymbols()
     {
         var dto = new UserRequestDto();

@@ -10,7 +10,7 @@ using Testcontainers.PostgreSql;
 namespace dawazonTest.Container.Productos;
 
 [TestFixture]
-[Description("Integration Tests for Product/Category Repositories using PostgreSQL Testcontainers")]
+[Description("Tests de integración para Product/Category Repositories usando PostgreSQL Testcontainers")]
 public class ProductsRepositoryTestContainer
 {
     private PostgreSqlContainer _dbContainer;

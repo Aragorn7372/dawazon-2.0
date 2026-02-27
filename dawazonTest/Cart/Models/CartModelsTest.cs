@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Models;
 
 [TestFixture]
-[Description("Cart Models Unit Tests — SOLID + FIRST Principles")]
+[Description("Cart Models Unit Tests")]
 public class CartModelsTest
 {
     [Test]

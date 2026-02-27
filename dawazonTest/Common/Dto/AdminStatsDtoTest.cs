@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace dawazonTest.Common.Dto;
 
 [TestFixture]
-[Description("AdminStatsDto Unit Tests — property access and default values")]
+[Description("AdminStatsDto Unit Tests")]
 public class AdminStatsDtoTest
 {
     [Test]

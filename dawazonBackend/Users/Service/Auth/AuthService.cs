@@ -14,7 +14,7 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
     public async Task<Result<AuthResponseDto, UserError>> SignUpAsync(RegisterDto dto)
     {
         var sanitizedUsername = dto.Username.Replace("\n", "").Replace("\r", "");
-        logger.LogInformation("SignUp request for username: {Username}", sanitizedUsername);
+        logger.LogInformation("Petición de signUp para el username: {Username}", sanitizedUsername);
 
 
         var duplicateCheck = await CheckDuplicatesAsync(dto);
@@ -57,7 +57,7 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
 
         var authResponse = await GenerateAuthResponseAsync(userFound);
 
-        logger.LogInformation("User registered successfully: {Username}", sanitizedUsername);
+        logger.LogInformation("User registrado correctamente: {Username}", sanitizedUsername);
 
         return Result.Success<AuthResponseDto, UserError>(authResponse);
     }
@@ -65,7 +65,7 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
     public async Task<Result<AuthResponseDto, UserError>> SignInAsync(LoginDto dto)
     {
         var sanitizedUsername = dto.UsernameOrEmail.Replace("\n", "").Replace("\r", "");
-        logger.LogInformation("SignIn request for username: {Username}", sanitizedUsername);
+        logger.LogInformation("SignIn request para username: {Username}", sanitizedUsername);
         if (dto.UsernameOrEmail.Contains("@"))
         {
             var user = await db.FindByEmailAsync(dto.UsernameOrEmail);

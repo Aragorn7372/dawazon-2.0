@@ -132,7 +132,6 @@ public class GlobalExceptionHandlerTests
     {
         var appBuilderMock = new Mock<Microsoft.AspNetCore.Builder.IApplicationBuilder>();
         
-        // Mock IApplicationBuilder properties required by UseMiddleware
         var serviceProviderMock = new Mock<IServiceProvider>();
         appBuilderMock.Setup(a => a.ApplicationServices).Returns(serviceProviderMock.Object);
         

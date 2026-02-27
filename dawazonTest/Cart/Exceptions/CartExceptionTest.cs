@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace dawazonTest.Cart.Exceptions;
 
 [TestFixture]
-[Description("CartException Unit Tests — SOLID + FIRST Principles")]
+[Description("CartException Unit Tests")]
 public class CartExceptionTest
 {
     [Test]
