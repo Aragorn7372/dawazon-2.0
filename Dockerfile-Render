@@ -1,5 +1,5 @@
-﻿# STAGE 1: base - imagen runtime minima
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
+# STAGE 1: base - imagen runtime minima
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -26,6 +26,14 @@ COPY dawazonTest/ dawazonTest/
 
 # Build del proyecto principal
 RUN dotnet build "dawazon2.0/dawazon2.0.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# STAGE 3: publish - publicar la app para producción
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS publish
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+COPY --from=build /app/build . 
+RUN dotnet publish "dawazon2.0/dawazon2.0.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 # STAGE 5: final - imagen minima solo para ejecutar la app
 FROM base AS final
