@@ -1,10 +1,9 @@
 ﻿Run dotnet restore
   
-  Determining projects to restore...
-  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonTest/dawazonTest.csproj (in 3.21 sec).
-  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/dawazonBackend.csproj (in 4.58 sec).
-  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazon2.0/dawazon2.0.csproj (in 5.15 sec).
-  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonPlayWrite/dawazonPlayWrite.csproj (in 7.66 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonTest/dawazonTest.csproj (in 5.44 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/dawazonBackend.csproj (in 5.52 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazon2.0/dawazon2.0.csproj (in 6.43 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonPlayWrite/dawazonPlayWrite.csproj (in 8.76 sec).
   Determining projects to restore...
   All projects are up-to-date for restore.
   dawazonBackend -> /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/bin/Release/net10.0/dawazonBackend.dll
@@ -12,56 +11,58 @@
 Build succeeded.
     0 Warning(s)
     0 Error(s)
-Time Elapsed 00:00:19.18
+Time Elapsed 00:00:15.40
   Determining projects to restore...
   All projects are up-to-date for restore.
   dawazonBackend -> /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/bin/Release/net10.0/dawazonBackend.dll
 Build succeeded.
     0 Warning(s)
     0 Error(s)
-Time Elapsed 00:00:01.36
-1s
+Time Elapsed 00:00:01.30
+2s
 Run actions/setup-node@v4
   
 Found in cache @ /opt/hostedtoolcache/node/20.20.0/x64
 Environment details
   
-13s
+15s
 Run npm install -g @usebruno/cli
-  npm install -g @usebruno/cli
-  shell: /usr/bin/bash -e {0}
-  env:
-    Development: true
-    ASPNETCORE_ENVIRONMENT: Development
-    JWT_KEY: 
-    JWT_ISSUER: 
-    JWT_AUDIENCE: 
-    STRIPE_KEY: 
-    Server__Url: 
-    DOTNET_ROOT: /usr/share/dotnet
   
 npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
-added 422 packages in 13s
+added 422 packages in 15s
 60 packages are looking for funding
   run `npm fund` for details
 5s
 Run echo "Starting server..."
 Starting server...
 Using launch settings from ./dawazon2.0/Properties/launchSettings.json...
-[07:14:14 INF] Configurando controladores MVC...
-4s
+[07:19:32 INF] Configurando controladores MVC...
+[07:19:32 INF] Configurando CORS para DESARROLLO...
+[07:19:32 INF] 🔐 Configurando autenticación JWT...
+[07:19:32 INF]  Registrando repositorios...
+[07:19:32 INF] ⚙️ Registrando servicios...
+[07:19:32 INF] Configurando servicio de email con MailKit (producción)...
+[07:19:32 INF] Configurando servicio de almacenamiento...
+[07:19:33 INF] Aplicando política CORS: AllowAll
+[07:19:33 WRN] The property 'Product.Images' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+[07:19:33 WRN] The property 'User.ProductsFavs' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+[07:19:34 INF] Inicializando roles y usuarios...
+[07:19:34 INF] Rol 'Admin' creado
+[07:19:34 INF] Rol 'User' creado
+[07:19:34 INF] Rol 'Manager' creado
+1s
 Run for i in {1..30}; do
   
-Server ready after 5 seconds
+Server ready after 2 seconds
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-100    63    0    63    0     0   9734      0 --:--:-- --:--:-- --:--:-- 10500
-{"status":"healthy","timestamp":"2026-02-27T07:14:19.8153516Z"}
-2s
+100    63    0    63    0     0  10593      0 --:--:-- --:--:-- --:--:-- 12600
+{"status":"healthy","timestamp":"2026-02-27T07:19:35.5772074Z"}
+7s
 Run cd dawazonBrunoTest
   
-System proxy detection failed after 63ms: Linux proxy detection failed: No Linux proxy configuration found
+System proxy detection failed after 71ms: Linux proxy detection failed: No Linux proxy configuration found
 Error getting system proxy: Error: Linux proxy detection failed: No Linux proxy configuration found
     at LinuxProxyResolver.detect (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:129682)
     at async SystemProxyResolver.detectByPlatform (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133637)
@@ -69,60 +70,146 @@ Error getting system proxy: Error: Linux proxy detection failed: No Linux proxy 
     at async SystemProxyResolver.getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133025)
     at async getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:134299)
     at async Object.handler (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/src/commands/run.js:778:40)
-ControladorProductos/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/01-GetAll-Productos (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/02-GetAll-FiltroNombre (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/03-GetById-OK (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/04-GetById-NotFound (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/05-Post-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/06-Post-Producto-ConManagerToken (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/07-Put-Producto-OK (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/08-Put-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/09-Delete-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorProductos/10-Delete-Producto-OK (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAuth/01-Register-OK (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAuth/02-Register-Conflict (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAuth/03-Login-OK (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAuth/04-Login-WrongPassword (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAuth/05-Login-Admin (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/00b-Login-Admin-Setup (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/01-GetCarrito-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/02-GetCarrito-ConAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/03-AddProducto-AlCarrito (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/04-AddProducto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/05-RemoveProducto-AlCarrito (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/06-GetCarritosPurchased-ConAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/07-GetSaleLines-Admin (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorCarrito/08-GetSaleLines-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/01-GetAll-Usuarios-Admin (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/02-GetAll-Usuarios-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/03-GetById-Usuario-Admin (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/04-GetById-Usuario-NotFound (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/05-UpdateById-Usuario-Admin (getaddrinfo ENOTFOUND {{baseurl}})
-ControladorAdmin/06-BanUser-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/00-Login-Setup (200 OK) - 216 ms
+Tests
+   ✓ Setup: Login como admin OK
+ControladorProductos/01-GetAll-Productos (200 OK) - 76 ms
+Tests
+   ✓ GET todos los productos devuelve 200
+   ✓ Respuesta contiene campo content
+   ✓ Respuesta contiene paginacion
+ControladorProductos/02-GetAll-FiltroNombre (200 OK) - 8 ms
+Tests
+   ✓ GET con filtro de nombre devuelve 200
+   ✓ Respuesta es un PageResponseDto
+ControladorProductos/03-GetById-OK (404 Not Found) - 3 ms
+Tests
+   ✓ GET producto por ID devuelve 200 o 404
+   ✓ Si existe: tiene id y name
+ControladorProductos/04-GetById-NotFound (404 Not Found) - 39 ms
+Tests
+   ✓ GET producto inexistente devuelve 404
+   ✓ Respuesta contiene mensaje de error
+ControladorProductos/05-Post-Producto-SinAuth (401 Unauthorized) - 9 ms
+Tests
+   ✓ POST sin autenticación devuelve 401
+ControladorProductos/06-Post-Producto-ConManagerToken (403 Forbidden) - 34 ms
+Tests
+   ✓ POST producto con token devuelve 201 o 403
+ControladorProductos/07-Put-Producto-OK (403 Forbidden) - 5 ms
+Tests
+   ✓ PUT producto devuelve 200, 403 o 404
+ControladorProductos/08-Put-Producto-SinAuth (401 Unauthorized) - 3 ms
+Tests
+   ✓ PUT sin autenticacion devuelve 401
+ControladorProductos/09-Delete-Producto-SinAuth (401 Unauthorized) - 3 ms
+Tests
+   ✓ DELETE sin autenticacion devuelve 401
+ControladorProductos/10-Delete-Producto-OK (404 Not Found) - 14 ms
+Tests
+   ✓ DELETE producto con token devuelve 200, 403 o 404
+   ✓ Si OK, respuesta contiene el producto eliminado
+ControladorAuth/01-Register-OK (200 OK) - 106 ms
+Tests
+   ✓ Registro exitoso devuelve 200
+   ✓ Respuesta contiene token
+ControladorAuth/02-Register-Conflict (409 Conflict) - 7 ms
+Tests
+   ✓ Registro duplicado devuelve 409 Conflict
+   ✓ Respuesta contiene mensaje de error
+ControladorAuth/03-Login-OK (200 OK) - 77 ms
+Tests
+   ✓ Login exitoso devuelve 200
+   ✓ Respuesta contiene token JWT
+ControladorAuth/04-Login-WrongPassword (401 Unauthorized) - 77 ms
+Tests
+   ✓ Login con contraseña incorrecta devuelve 401
+   ✓ Respuesta contiene mensaje de error
+ControladorAuth/05-Login-Admin (200 OK) - 75 ms
+Tests
+   ✓ Login como admin devuelve 200
+   ✓ Respuesta contiene token JWT de admin
+ControladorCarrito/00-Login-Setup (200 OK) - 78 ms
+Tests
+   ✓ Setup: Login usuario OK
+ControladorCarrito/00b-Login-Admin-Setup (200 OK) - 81 ms
+Tests
+   ✓ Setup: Login admin OK (para test 07)
+ControladorCarrito/01-GetCarrito-SinAuth (401 Unauthorized) - 4 ms
+Tests
+   ✓ GET carrito sin autenticación devuelve 401
+ControladorCarrito/02-GetCarrito-ConAuth (200 OK) - 57 ms
+Tests
+   ✓ GET carrito con token de usuario devuelve 200 o 404
+   ✓ Si hay carrito, contiene id
+ControladorCarrito/03-AddProducto-AlCarrito (200 OK) - 73 ms
+Tests
+   ✓ Añadir producto al carrito devuelve 200 o 404 o 409
+   ✓ Si OK, respuesta contiene id del carrito
+ControladorCarrito/04-AddProducto-SinAuth (401 Unauthorized) - 2 ms
+Tests
+   ✓ Añadir producto sin auth devuelve 401
+ControladorCarrito/05-RemoveProducto-AlCarrito (200 OK) - 17 ms
+Tests
+   ✓ Eliminar producto del carrito devuelve 200 o 404
+   ✓ Si OK, respuesta contiene id del carrito
+ControladorCarrito/06-GetCarritosPurchased-ConAuth (200 OK) - 46 ms
+Tests
+   ✓ GET carritos comprados devuelve 200
+   ✓ Respuesta contiene campo content
+ControladorCarrito/07-GetSaleLines-Admin (200 OK) - 78 ms
+Tests
+   ✓ GET lineas de venta como admin devuelve 200
+   ✓ Respuesta contiene campo content
+ControladorCarrito/08-GetSaleLines-SinAuth (401 Unauthorized) - 2 ms
+Tests
+   ✓ GET líneas de venta sin auth devuelve 401
+ControladorAdmin/00-Login-Setup (200 OK) - 76 ms
+Tests
+   ✓ Setup: Login admin OK
+ControladorAdmin/01-GetAll-Usuarios-Admin (200 OK) - 45 ms
+Tests
+   ✓ GET usuarios como admin devuelve 200
+   ✓ Respuesta contiene campo content paginado
+ControladorAdmin/02-GetAll-Usuarios-SinAuth (401 Unauthorized) - 2 ms
+Tests
+   ✓ GET usuarios sin auth devuelve 401
+ControladorAdmin/03-GetById-Usuario-Admin (200 OK) - 27 ms
+Tests
+   ✓ GET usuario por ID como admin devuelve 200
+   ✓ Respuesta contiene id del usuario
+ControladorAdmin/04-GetById-Usuario-NotFound (404 Not Found) - 5 ms
+Tests
+   ✓ GET usuario inexistente devuelve 404
+   ✓ Respuesta contiene mensaje de error
+ControladorAdmin/05-UpdateById-Usuario-Admin (200 OK) - 46 ms
+Tests
+   ✓ PUT usuario como admin devuelve 200 o 404
+   ✓ Si OK, respuesta contiene id del usuario actualizado
+ControladorAdmin/06-BanUser-Admin (204 No Content) - 11 ms
+Tests
+   ✓ DELETE (ban) usuario como admin devuelve 204 o 404
 📊 Execution Summary
 ┌───────────────┬────────────────┐
 │ Metric        │     Result     │
 ├───────────────┼────────────────┤
-│ Status        │     ✗ FAIL     │
+│ Status        │     ✓ PASS     │
 ├───────────────┼────────────────┤
-│ Requests      │ 33 (33 Failed) │
+│ Requests      │ 33 (33 Passed) │
 ├───────────────┼────────────────┤
-│ Tests         │      0/0       │
+│ Tests         │     53/53      │
 ├───────────────┼────────────────┤
 │ Assertions    │      0/0       │
 ├───────────────┼────────────────┤
-│ Duration (ms) │       0        │
+│ Duration (ms) │      1402      │
 └───────────────┴────────────────┘
-EISDIR: illegal operation on a directory, open 'reports'
 Something went wrong
+EISDIR: illegal operation on a directory, open 'reports'
 Error: Process completed with exit code 255.
 0s
 Run actions/upload-artifact@v4
 Warning: No files were found with the provided path: dawazonBrunoTest/reports. No artifacts will be uploaded.
-1s
+0s
 Run if [ -n "$SERVER_PID" ]; then
   
 0s
@@ -131,7 +218,7 @@ Run if [ -n "$SERVER_PID" ]; then
 Post job cleanup.
 /usr/bin/git version
 git version 2.53.0
-Temporarily overriding HOME='/home/runner/work/_temp/5f81f0e4-4b45-49e6-ba0b-323adf4d9128' before making global git config changes
+Temporarily overriding HOME='/home/runner/work/_temp/13015916-50f9-42e2-b43c-c398a3669899' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
 /usr/bin/git config --global --add safe.directory /home/runner/work/dawazon-2.0/dawazon-2.0
 /usr/bin/git config --local --name-only --get-regexp core\.sshCommand
@@ -142,3 +229,9 @@ http.https://github.com/.extraheader
 /usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
 /usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
 /usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+0s
+Cleaning up orphan processes
+Terminate orphan process: pid (2576) (dotnet)
+Terminate orphan process: pid (2577) (dotnet)
+Terminate orphan process: pid (2578) (dotnet)
+Terminate orphan process: pid (2702) (VBCSCompiler)
