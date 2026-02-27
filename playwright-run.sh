@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
 
+# Configuración para Docker
+export ASPNETCORE_ENVIRONMENT=Development
+export ASPNETCORE_URLS=http://0.0.0.0:8080
+export DAWAZON_BASE_URL=http://app:8080
+export DAWAZON_HEADLESS=true
+
 SRC_DIR="/src/dawazonPlayWrite"
 REPORTS_DIR="/app/reports"
 TRX_FILE="$REPORTS_DIR/test-results.trx"
@@ -10,16 +16,17 @@ mkdir -p "$REPORTS_DIR"
 mkdir -p "$HTML_DIR"
 
 echo "=== Compilando proyecto ==="
-dotnet build "$SRC_DIR/dawazonPlayWrite.csproj" -c Release
+dotnet build "$SRC_DIR/dawazonPlayWrite.csproj" 
 
 echo ""
 echo "Ejecutando tests Playwright (.NET + NUnit)..."
+echo "Base URL: $DAWAZON_BASE_URL"
 
 # Ejecutar tests
-dotnet test "$SRC_DIR/dawazonPlayWrite.csproj" \
-    -c Release \
+dotnet test "$SRC_DIR/dawazonPlayWrite.csproj" --settings "$SRC_DIR/playwright.runsettings" \
+#    -c Release \
     --no-build \
-    -v n \
+#    -v n \
     --logger "trx;LogFileName=test-results.trx" \
     --results-directory "$REPORTS_DIR" \
     || true

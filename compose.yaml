@@ -41,6 +41,7 @@
     env_file: .env
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://0.0.0.0:8080
       Jwt__Key: ${JWT_KEY}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE} 
@@ -120,6 +121,13 @@
       context: .
       dockerfile: Dockerfile-playWrite
     env_file: .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+      - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/ms-playwright/chromium-1155/chrome-linux/chrome
+      - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       app:
         condition: service_healthy
@@ -127,7 +135,7 @@
       - ./playwright-reports:/app/reports  
     networks:
       - webnet
-    restart: "no"                     
+    restart: "no"
 
   # nginx que sirve el reporte HTML de Playwright
   playwrightweb:

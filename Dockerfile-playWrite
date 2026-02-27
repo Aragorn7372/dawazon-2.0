@@ -13,7 +13,7 @@ RUN dotnet restore dawazonPlayWrite/dawazonPlayWrite.csproj
 COPY dawazonPlayWrite/ dawazonPlayWrite/
 
 # Compilar proyecto en Release
-RUN dotnet build dawazonPlayWrite/dawazonPlayWrite.csproj -c Release --no-restore
+RUN dotnet build dawazonPlayWrite/dawazonPlayWrite.csproj --no-restore
 
 # -----------------------------
 # STAGE 2: runner — Playwright y tests
@@ -41,7 +41,13 @@ RUN apt-get update && apt-get install -y \
     libpango-1.0-0 \
     libcairo2 \
     libatspi2.0-0 \
+    ca-certificates \
+    curl \
+    && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Configurar NuGet para confiar en certificados
+RUN dotnet nuget update config trusted-sources add --source https://api.nuget.org/v3/index.json 2>/dev/null || true
 
 # Instalar herramientas globales
 RUN dotnet tool install --global Microsoft.Playwright.CLI \
@@ -60,7 +66,7 @@ RUN mkdir -p /app/reports
 
 # Copiar script de ejecución y dar permisos
 COPY playwright-run.sh /app/playwright-run.sh
-RUN chmod +x /app/playwright-run.sh
+RUN sed -i 's/\r$//' /app/playwright-run.sh && chmod +x /app/playwright-run.sh
 
 # Comando por defecto
 CMD ["sh", "/app/playwright-run.sh"]

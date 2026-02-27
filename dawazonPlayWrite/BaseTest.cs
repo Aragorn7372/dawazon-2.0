@@ -86,7 +86,8 @@ public abstract class BaseTest : PageTest
 
         var options = new BrowserNewContextOptions()
         {
-            IgnoreHTTPSErrors = true
+            IgnoreHTTPSErrors = true,
+            AcceptDownloads = true
         };
 
         if (RecordVideo)
@@ -103,6 +104,7 @@ public abstract class BaseTest : PageTest
     {
         LoadEnvFile();
         TestConfig.Reload();
+        Console.WriteLine($"[TEST] BaseUrl being used: {BaseUrl}");
     }
 
     [TearDown]
