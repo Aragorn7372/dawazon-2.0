@@ -1,0 +1,146 @@
+﻿Run cd dawazonBrunoTest
+  
+System proxy detection failed after 102ms: Linux proxy detection failed: No Linux proxy configuration found
+Error getting system proxy: Error: Linux proxy detection failed: No Linux proxy configuration found
+    at LinuxProxyResolver.detect (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:129682)
+    at async SystemProxyResolver.detectByPlatform (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133637)
+    at async SystemProxyResolver.detectSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133144)
+    at async SystemProxyResolver.getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133025)
+    at async getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:134299)
+    at async Object.handler (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/src/commands/run.js:778:40)
+ControladorProductos/00-Login-Setup (200 OK) - 219 ms
+Tests
+   ✓ Setup: Login como admin OK
+ControladorProductos/01-GetAll-Productos (200 OK) - 77 ms
+Tests
+   ✓ GET todos los productos devuelve 200
+   ✓ Respuesta contiene campo content
+   ✓ Respuesta contiene paginacion
+ControladorProductos/02-GetAll-FiltroNombre (200 OK) - 8 ms
+Tests
+   ✓ GET con filtro de nombre devuelve 200
+   ✓ Respuesta es un PageResponseDto
+ControladorProductos/03-GetById-OK (404 Not Found) - 2 ms
+Tests
+   ✓ GET producto por ID devuelve 200 o 404
+   ✓ Si existe: tiene id y name
+ControladorProductos/04-GetById-NotFound (404 Not Found) - 38 ms
+Tests
+   ✓ GET producto inexistente devuelve 404
+   ✓ Respuesta contiene mensaje de error
+ControladorProductos/05-Post-Producto-SinAuth (401 Unauthorized) - 10 ms
+Tests
+   ✓ POST sin autenticación devuelve 401
+ControladorProductos/06-Post-Producto-ConManagerToken (403 Forbidden) - 33 ms
+Tests
+   ✓ POST producto con token devuelve 201 o 403
+ControladorProductos/07-Put-Producto-OK (403 Forbidden) - 5 ms
+Tests
+   ✓ PUT producto devuelve 200, 403 o 404
+ControladorProductos/08-Put-Producto-SinAuth (401 Unauthorized) - 3 ms
+Tests
+   ✓ PUT sin autenticacion devuelve 401
+ControladorProductos/09-Delete-Producto-SinAuth (401 Unauthorized) - 3 ms
+Tests
+   ✓ DELETE sin autenticacion devuelve 401
+ControladorProductos/10-Delete-Producto-OK (404 Not Found) - 25 ms
+Tests
+   ✓ DELETE producto con token devuelve 200, 403 o 404
+   ✓ Si OK, respuesta contiene el producto eliminado
+ControladorAuth/01-Register-OK (200 OK) - 105 ms
+Tests
+   ✓ Registro exitoso devuelve 200
+   ✓ Respuesta contiene token
+ControladorAuth/02-Register-Conflict (409 Conflict) - 7 ms
+Tests
+   ✓ Registro duplicado devuelve 409 Conflict
+   ✓ Respuesta contiene mensaje de error
+ControladorAuth/03-Login-OK (200 OK) - 82 ms
+Tests
+   ✓ Login exitoso devuelve 200
+   ✓ Respuesta contiene token JWT
+ControladorAuth/04-Login-WrongPassword (401 Unauthorized) - 76 ms
+Tests
+   ✓ Login con contraseña incorrecta devuelve 401
+   ✓ Respuesta contiene mensaje de error
+ControladorAuth/05-Login-Admin (200 OK) - 82 ms
+Tests
+   ✓ Login como admin devuelve 200
+   ✓ Respuesta contiene token JWT de admin
+ControladorCarrito/00-Login-Setup (200 OK) - 91 ms
+Tests
+   ✓ Setup: Login usuario OK
+ControladorCarrito/00b-Login-Admin-Setup (200 OK) - 82 ms
+Tests
+   ✓ Setup: Login admin OK (para test 07)
+ControladorCarrito/01-GetCarrito-SinAuth (401 Unauthorized) - 2 ms
+Tests
+   ✓ GET carrito sin autenticación devuelve 401
+ControladorCarrito/02-GetCarrito-ConAuth (200 OK) - 58 ms
+Tests
+   ✓ GET carrito con token de usuario devuelve 200 o 404
+   ✓ Si hay carrito, contiene id
+ControladorCarrito/03-AddProducto-AlCarrito (200 OK) - 81 ms
+Tests
+   ✓ Añadir producto al carrito devuelve 200 o 404 o 409
+   ✓ Si OK, respuesta contiene id del carrito
+ControladorCarrito/04-AddProducto-SinAuth (401 Unauthorized) - 3 ms
+Tests
+   ✓ Añadir producto sin auth devuelve 401
+ControladorCarrito/05-RemoveProducto-AlCarrito (200 OK) - 18 ms
+Tests
+   ✓ Eliminar producto del carrito devuelve 200 o 404
+   ✓ Si OK, respuesta contiene id del carrito
+ControladorCarrito/06-GetCarritosPurchased-ConAuth (200 OK) - 47 ms
+Tests
+   ✓ GET carritos comprados devuelve 200
+   ✓ Respuesta contiene campo content
+ControladorCarrito/07-GetSaleLines-Admin (200 OK) - 84 ms
+Tests
+   ✓ GET lineas de venta como admin devuelve 200
+   ✓ Respuesta contiene campo content
+ControladorCarrito/08-GetSaleLines-SinAuth (401 Unauthorized) - 1 ms
+Tests
+   ✓ GET líneas de venta sin auth devuelve 401
+ControladorAdmin/00-Login-Setup (200 OK) - 83 ms
+Tests
+   ✓ Setup: Login admin OK
+ControladorAdmin/01-GetAll-Usuarios-Admin (200 OK) - 46 ms
+Tests
+   ✓ GET usuarios como admin devuelve 200
+   ✓ Respuesta contiene campo content paginado
+ControladorAdmin/02-GetAll-Usuarios-SinAuth (401 Unauthorized) - 2 ms
+Tests
+   ✓ GET usuarios sin auth devuelve 401
+ControladorAdmin/03-GetById-Usuario-Admin (200 OK) - 27 ms
+Tests
+   ✓ GET usuario por ID como admin devuelve 200
+   ✓ Respuesta contiene id del usuario
+ControladorAdmin/04-GetById-Usuario-NotFound (404 Not Found) - 5 ms
+Tests
+   ✓ GET usuario inexistente devuelve 404
+   ✓ Respuesta contiene mensaje de error
+ControladorAdmin/05-UpdateById-Usuario-Admin (200 OK) - 40 ms
+Tests
+   ✓ PUT usuario como admin devuelve 200 o 404
+   ✓ Si OK, respuesta contiene id del usuario actualizado
+ControladorAdmin/06-BanUser-Admin (204 No Content) - 11 ms
+Tests
+   ✓ DELETE (ban) usuario como admin devuelve 204 o 404
+📊 Execution Summary
+┌───────────────┬────────────────┐
+│ Metric        │     Result     │
+├───────────────┼────────────────┤
+│ Status        │     ✓ PASS     │
+├───────────────┼────────────────┤
+│ Requests      │ 33 (33 Passed) │
+├───────────────┼────────────────┤
+│ Tests         │     53/53      │
+├───────────────┼────────────────┤
+│ Assertions    │      0/0       │
+├───────────────┼────────────────┤
+│ Duration (ms) │      1456      │
+└───────────────┴────────────────┘
+Something went wrong
+EISDIR: illegal operation on a directory, open 'reports'
+Error: Process completed with exit code 255.
