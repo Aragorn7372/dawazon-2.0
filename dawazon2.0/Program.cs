@@ -65,7 +65,10 @@ if (!app.Environment.IsDevelopment())
 app.UseGlobalExceptionHandler();
 // politicas de corps (ANTES de routing para que las pre-flights pasen)
 app.UseCorsPolicy();
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 // archivos estaticos ANTES de routing (blazor.server.js, etc.)
 app.UseStaticFiles();
 app.UseRouting();
