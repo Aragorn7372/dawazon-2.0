@@ -32,6 +32,8 @@ RUN dotnet build "dawazon2.0/dawazon2.0.csproj" -c $BUILD_CONFIGURATION -o /app/
 # continua al stage publish ni final
 FROM build AS test
 WORKDIR /src
+ARG DOCKER_HOST_ARG=tcp://host.docker.internal:2375
+ENV DOCKER_HOST=$DOCKER_HOST_ARG
 
 # Instalamos ReportGenerator como tool global de .NET en el contenedor
 # No necesitas instalar nada en tu proyecto, solo tener coverlet.collector

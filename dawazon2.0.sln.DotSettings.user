@@ -4,6 +4,6 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F31c1bbbdff27593f10b6fa7ff1412c78ec09d9c43a81c0d98d7564cfe7b421_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ca759008_002D579d_002D4782_002D83d6_002D93506a8e6c59/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::A4371C24-1366-69CF-D670-9600FE965F1A::net10.0::dawazonPlayWrite.AdminTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::A4371C24-1366-69CF-D670-9600FE965F1A::net10.0::dawazonPlayWrite.Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
