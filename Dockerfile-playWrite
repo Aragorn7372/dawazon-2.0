@@ -50,8 +50,7 @@ RUN apt-get update && apt-get install -y \
 RUN dotnet nuget update config trusted-sources add --source https://api.nuget.org/v3/index.json 2>/dev/null || true
 
 # Instalar herramientas globales
-RUN dotnet tool install --global Microsoft.Playwright.CLI \
-    && dotnet tool install --global dotnet-reportgenerator-globaltool
+RUN dotnet tool install --global Microsoft.Playwright.CLI
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Copiar proyecto compilado desde stage build
