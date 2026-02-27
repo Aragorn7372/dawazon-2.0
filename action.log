@@ -1,0 +1,144 @@
+﻿Run dotnet restore
+  
+  Determining projects to restore...
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonTest/dawazonTest.csproj (in 3.21 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/dawazonBackend.csproj (in 4.58 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazon2.0/dawazon2.0.csproj (in 5.15 sec).
+  Restored /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonPlayWrite/dawazonPlayWrite.csproj (in 7.66 sec).
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  dawazonBackend -> /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/bin/Release/net10.0/dawazonBackend.dll
+  dawazon2.0 -> /home/runner/work/dawazon-2.0/dawazon-2.0/dawazon2.0/bin/Release/net10.0/dawazon2.0.dll
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+Time Elapsed 00:00:19.18
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  dawazonBackend -> /home/runner/work/dawazon-2.0/dawazon-2.0/dawazonBackend/bin/Release/net10.0/dawazonBackend.dll
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+Time Elapsed 00:00:01.36
+1s
+Run actions/setup-node@v4
+  
+Found in cache @ /opt/hostedtoolcache/node/20.20.0/x64
+Environment details
+  
+13s
+Run npm install -g @usebruno/cli
+  npm install -g @usebruno/cli
+  shell: /usr/bin/bash -e {0}
+  env:
+    Development: true
+    ASPNETCORE_ENVIRONMENT: Development
+    JWT_KEY: 
+    JWT_ISSUER: 
+    JWT_AUDIENCE: 
+    STRIPE_KEY: 
+    Server__Url: 
+    DOTNET_ROOT: /usr/share/dotnet
+  
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+added 422 packages in 13s
+60 packages are looking for funding
+  run `npm fund` for details
+5s
+Run echo "Starting server..."
+Starting server...
+Using launch settings from ./dawazon2.0/Properties/launchSettings.json...
+[07:14:14 INF] Configurando controladores MVC...
+4s
+Run for i in {1..30}; do
+  
+Server ready after 5 seconds
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100    63    0    63    0     0   9734      0 --:--:-- --:--:-- --:--:-- 10500
+{"status":"healthy","timestamp":"2026-02-27T07:14:19.8153516Z"}
+2s
+Run cd dawazonBrunoTest
+  
+System proxy detection failed after 63ms: Linux proxy detection failed: No Linux proxy configuration found
+Error getting system proxy: Error: Linux proxy detection failed: No Linux proxy configuration found
+    at LinuxProxyResolver.detect (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:129682)
+    at async SystemProxyResolver.detectByPlatform (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133637)
+    at async SystemProxyResolver.detectSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133144)
+    at async SystemProxyResolver.getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:133025)
+    at async getSystemProxy (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/node_modules/@usebruno/requests/dist/cjs/index.js:98:134299)
+    at async Object.handler (/opt/hostedtoolcache/node/20.20.0/x64/lib/node_modules/@usebruno/cli/src/commands/run.js:778:40)
+ControladorProductos/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/01-GetAll-Productos (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/02-GetAll-FiltroNombre (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/03-GetById-OK (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/04-GetById-NotFound (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/05-Post-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/06-Post-Producto-ConManagerToken (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/07-Put-Producto-OK (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/08-Put-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/09-Delete-Producto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorProductos/10-Delete-Producto-OK (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAuth/01-Register-OK (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAuth/02-Register-Conflict (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAuth/03-Login-OK (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAuth/04-Login-WrongPassword (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAuth/05-Login-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/00b-Login-Admin-Setup (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/01-GetCarrito-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/02-GetCarrito-ConAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/03-AddProducto-AlCarrito (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/04-AddProducto-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/05-RemoveProducto-AlCarrito (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/06-GetCarritosPurchased-ConAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/07-GetSaleLines-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorCarrito/08-GetSaleLines-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/00-Login-Setup (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/01-GetAll-Usuarios-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/02-GetAll-Usuarios-SinAuth (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/03-GetById-Usuario-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/04-GetById-Usuario-NotFound (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/05-UpdateById-Usuario-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+ControladorAdmin/06-BanUser-Admin (getaddrinfo ENOTFOUND {{baseurl}})
+📊 Execution Summary
+┌───────────────┬────────────────┐
+│ Metric        │     Result     │
+├───────────────┼────────────────┤
+│ Status        │     ✗ FAIL     │
+├───────────────┼────────────────┤
+│ Requests      │ 33 (33 Failed) │
+├───────────────┼────────────────┤
+│ Tests         │      0/0       │
+├───────────────┼────────────────┤
+│ Assertions    │      0/0       │
+├───────────────┼────────────────┤
+│ Duration (ms) │       0        │
+└───────────────┴────────────────┘
+EISDIR: illegal operation on a directory, open 'reports'
+Something went wrong
+Error: Process completed with exit code 255.
+0s
+Run actions/upload-artifact@v4
+Warning: No files were found with the provided path: dawazonBrunoTest/reports. No artifacts will be uploaded.
+1s
+Run if [ -n "$SERVER_PID" ]; then
+  
+0s
+0s
+0s
+Post job cleanup.
+/usr/bin/git version
+git version 2.53.0
+Temporarily overriding HOME='/home/runner/work/_temp/5f81f0e4-4b45-49e6-ba0b-323adf4d9128' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/dawazon-2.0/dawazon-2.0
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
