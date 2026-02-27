@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-size: 14px;
@@ -12,7 +13,11 @@ body {
   align-items: stretch;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -282,8 +287,10 @@ footer {
 /* Fondo grisaceo para simular la imagen de producto sin tenerla */
 .img-placeholder {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Cuadrado perfecto */
-  background-color: #555; /* Gris oscuro como en tu foto */
+  aspect-ratio: 1 / 1;
+  /* Cuadrado perfecto */
+  background-color: #555;
+  /* Gris oscuro como en tu foto */
   border-radius: 8px;
 }
 
@@ -295,7 +302,8 @@ footer {
 }
 
 .product-link:hover {
-  color: #c7511f; /* Color naranja hover típico */
+  color: #c7511f;
+  /* Color naranja hover típico */
   text-decoration: underline;
 }
 
@@ -305,13 +313,15 @@ footer {
 
 .delete-btn:hover {
   text-decoration: underline !important;
-  color: #b12704 !important; /* Rojo oscuro hover */
+  color: #b12704 !important;
+  /* Rojo oscuro hover */
 }
 
 /* Tarjeta lateral (Resumen) */
 .cart-summary {
   position: sticky;
-  top: 20px; /* Se queda fija al hacer scroll */
+  top: 20px;
+  /* Se queda fija al hacer scroll */
 }
 
 /* Modificación sutil al botón gradiente existente para el checkout */
@@ -326,9 +336,12 @@ footer {
 /* Estilo para la imagen real del producto dentro del carrito */
 .cart-product-img {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Mantiene la imagen cuadrada */
-  object-fit: contain; /* Asegura que la imagen se vea completa sin cortar */
-  background-color: #fff; /* Fondo blanco por si la imagen tiene transparencias */
+  aspect-ratio: 1 / 1;
+  /* Mantiene la imagen cuadrada */
+  object-fit: contain;
+  /* Asegura que la imagen se vea completa sin cortar */
+  background-color: #fff;
+  /* Fondo blanco por si la imagen tiene transparencias */
   border: 1px solid #eee;
 }
 
@@ -343,14 +356,17 @@ footer {
 /* Estilo para destacar visualmente una fila con problemas de stock */
 .item-stock-warning {
   /* Color de fondo sutil para la fila afectada */
-  background-color: #fff9e6; /* Amarillo muy claro */
-  border-left: 5px solid #ffc107 !important; /* Borde izquierdo amarillo de Bootstrap warning */
+  background-color: #fff9e6;
+  /* Amarillo muy claro */
+  border-left: 5px solid #ffc107 !important;
+  /* Borde izquierdo amarillo de Bootstrap warning */
   padding-left: 15px !important;
   transition: background-color 0.3s ease;
 }
 
 .item-stock-warning:hover {
-  background-color: #fff3cd; /* Un poco más oscuro al pasar el ratón */
+  background-color: #fff3cd;
+  /* Un poco más oscuro al pasar el ratón */
 }
 
 .card {
@@ -633,7 +649,8 @@ footer {
 }
 
 /* Indicador de número de filas */
-#shownCount, #totalCount {
+#shownCount,
+#totalCount {
   font-weight: 700;
 }
 
@@ -649,6 +666,7 @@ footer {
   display: block;
   margin-top: 2px;
 }
+
 /* Estilos para los badges de estado */
 .status-badge {
   padding: 0.5em 1em;
@@ -664,7 +682,7 @@ footer {
 }
 
 .status-enviado {
-  background-color:  #0dcaf0;
+  background-color: #0dcaf0;
   color: #000;
 }
 
@@ -674,13 +692,13 @@ footer {
 }
 
 .status-cancelado {
-  background-color:  #dc3545;
+  background-color: #dc3545;
   color: #fff;
 }
 
 .status-en_carrito {
-  background-color:  #6c757d;
-  color:  #fff;
+  background-color: #6c757d;
+  color: #fff;
 }
 
 /* Estilos para las cards */
@@ -702,30 +720,32 @@ footer {
 }
 
 .form-select:focus {
-  border-color:  #0d6efd;
+  border-color: #0d6efd;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 /* Estilos para código */
 code {
   background-color: #f8f9fa;
-  padding:  0.2rem 0.4rem;
+  padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .card-body . row > div {
+  .card-body . row>div {
     margin-bottom: 1rem;
   }
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+.form-floating>.form-control-plaintext::placeholder,
+.form-floating>.form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating>.form-control-plaintext:focus::placeholder,
+.form-floating>.form-control:focus::placeholder {
   text-align: start;
 }
