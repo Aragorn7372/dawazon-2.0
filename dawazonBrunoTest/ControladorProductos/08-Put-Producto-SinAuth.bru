@@ -6,10 +6,16 @@ meta {
 
 put {
   url: {{baseUrl}}/api/products/{{newProductId}}
-  body: none
+  body: multipartForm
   auth: none
 }
-
+body:multipart-form {
+  ~nombre: Producto Test E2E
+  ~price: 29.99
+  ~stock: 10
+  ~categoria: Figuras
+  ~description: Producto creado en test E2E
+}
 script:pre-request {
   if (!bru.getVar("newProductId")) {
     bru.setVar("newProductId", "1");

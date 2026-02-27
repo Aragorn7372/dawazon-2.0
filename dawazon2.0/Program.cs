@@ -84,11 +84,28 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapBlazorHub();
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
 // init de datos
 await app.SeedIdentityAsync();
 await app.InitializeDatabaseAsync();
 // init del storage
 app.InitializeStorage();
+
+Log.Information("=== CONFIGURATION VALUES ===");
+Log.Information("Storage: UploadPath={UploadPath}, MaxFileSize={MaxFileSize}, AllowedExtensions={AllowedExtensions}, AllowedContentTypes={AllowedContentTypes}",
+    configuration["Storage:UploadPath"], configuration["Storage:MaxFileSize"], configuration["Storage:AllowedExtensions"], configuration["Storage:AllowedContentTypes"]);
+Log.Information("Stripe: Key={StripeKey}", configuration["Stripe:Key"]);
+Log.Information("Server: Url={ServerUrl}", configuration["Server:Url"]);
+Log.Information("Development: {Development}", configuration["Development"]);
+Log.Information("Jwt: Key={JwtKey}, Issuer={JwtIssuer}, Audience={JwtAudience}", 
+    configuration["Jwt:Key"], configuration["Jwt:Issuer"], configuration["Jwt:Audience"]);
+Log.Information("Smtp: Host={SmtpHost}, Port={SmtpPort}, Username={SmtpUsername}, AdminEmail={SmtpAdminEmail}",
+    configuration["Smtp:Host"], configuration["Smtp:Port"], configuration["Smtp:Username"], configuration["Smtp:AdminEmail"]);
+Log.Information("ConnectionStrings: DefaultConnection={DefaultConnection}", configuration["ConnectionStrings:DefaultConnection"]);
+Log.Information("Redis: Host={RedisHost}, Password={RedisPassword}, Port={RedisPort}",
+    configuration["Redis:Host"], configuration["Redis:Password"], configuration["Redis:Port"]);
+Log.Information("=== END CONFIGURATION ===");
+
 try
 {
     Log.Information("Iniciando aplicación FunkoApi...");

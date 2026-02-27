@@ -1,5 +1,8 @@
 ﻿namespace dawazonPlayWrite;
 
+/// <summary>
+/// Suite de pruebas End-to-End (E2E) para Dawazon 2.0 utilizando Playwright.
+/// </summary>
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 public class Tests : PageTest

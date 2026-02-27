@@ -68,13 +68,13 @@ public static class AuthenticationConfig
                     // Diagnóstico: muestra el error exacto de validación del token
                     OnAuthenticationFailed = context =>
                     {
-                        Log.Warning("❌ [JWT] Token inválido: {Error}", context.Exception.Message);
+                        Log.Warning("[JWT] Token inválido: {Error}", context.Exception.Message);
                         return Task.CompletedTask;
                     },
                     // Diagnóstico: muestra por qué se emite un 401
                     OnChallenge = context =>
                     {
-                        Log.Warning("⚠️ [JWT] Challenge 401 — Error: {Error} | Descripción: {Desc}",
+                        Log.Warning("[JWT] Challenge 401 — Error: {Error} | Descripción: {Desc}",
                             context.Error ?? "none",
                             context.ErrorDescription ?? "none");
                         return Task.CompletedTask;

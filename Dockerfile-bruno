@@ -1,0 +1,22 @@
+﻿# ─────────────────────────────────────────────
+# STAGE: runner — instala Bruno CLI y ejecuta tests
+# ─────────────────────────────────────────────
+FROM node:20-alpine AS runner
+
+# Directorio de trabajo
+WORKDIR /app/dawazonBrunoTest
+
+# Instalar Bruno CLI globalmente
+RUN npm install -g @usebruno/cli
+
+# Copiar los tests y el script de generación de reportes
+COPY dawazonBrunoTest/ ./
+
+# Dar permisos de ejecución al script
+RUN chmod +x ./brunoTestSh.sh
+
+# Crear carpeta de reportes
+RUN mkdir -p ./reports
+
+# Ejecutar tests + generar reportes
+CMD ["sh", "./brunoTestSh.sh", "."]

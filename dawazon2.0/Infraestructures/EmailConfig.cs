@@ -16,7 +16,7 @@ public static class EmailConfig
     {
         services.AddSingleton(Channel.CreateUnbounded<EmailMessage>());
 
-            Log.Information("📧 Configurando servicio de email con MailKit (producción)...");
+            Log.Information("Configurando servicio de email con MailKit (producción)...");
             services.TryAddScoped<IEmailService, MailKitEmailService>();
             services.AddHostedService<EmailBackgroundService>();
 
