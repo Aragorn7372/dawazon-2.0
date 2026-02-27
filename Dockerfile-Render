@@ -33,7 +33,9 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY --from=build /src/ ./
-RUN dotnet publish "dawazon2.0/dawazon2.0.csproj" -c $BUILD_CONFIGURATION -o /app/publish --no-build
+RUN dotnet restore "dawazonBackend/dawazonBackend.csproj"
+RUN dotnet restore "dawazon2.0/dawazon2.0.csproj"
+RUN dotnet publish "dawazon2.0/dawazon2.0.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 # STAGE 5: final - imagen minima solo para ejecutar la app
 FROM base AS final
