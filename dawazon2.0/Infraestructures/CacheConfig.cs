@@ -8,7 +8,7 @@ public static class CacheConfig
 {
    public static IServiceCollection AddCache(this IServiceCollection services, IConfiguration configuration)
    {
-      var isDevelopment = configuration.GetValue<bool?>("IsDevelopment") ?? true;
+      var isDevelopment = configuration.GetValue<bool?>("Development") ?? true;
       if (isDevelopment)
       {
          services.AddMemoryCache();
@@ -16,7 +16,7 @@ public static class CacheConfig
       }
       else
       {
-         Log.Information("💾 Configurando caché Redis (producción)...");
+         Log.Information("Configurando caché Redis (producción)...");
          services.AddStackExchangeRedisCache(options =>
          {
             var host = configuration.GetValue<string>("Redis:Host") ?? "redis";

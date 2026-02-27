@@ -107,18 +107,13 @@ public class AuthService(ILogger<AuthService> logger, IJwtService jwtService, Us
 
     private async Task<UnitResult<UserError>> CheckDuplicatesAsync(RegisterDto dto)
     {
-        var usernameCheckTask = db.FindByNameAsync(dto.Username);
-        var emailCheckTask = db.FindByEmailAsync(dto.Email);
-
-        await Task.WhenAll(usernameCheckTask, emailCheckTask);
-
-        var existingUser = await usernameCheckTask;
+        var existingUser = await db.FindByNameAsync(dto.Username);
         if (existingUser is not null)
         {
             return UnitResult.Failure<UserError>(new UserConflictError("username ya en uso:"+existingUser.Name));
         }
 
-        var existingEmail = await emailCheckTask;
+        var existingEmail = await db.FindByEmailAsync(dto.Email);
         return existingEmail is not null ? 
             UnitResult.Failure<UserError>(new UserConflictError("email ya en uso"+existingEmail.Email)) 
             : UnitResult.Success<UserError>();

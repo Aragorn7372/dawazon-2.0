@@ -2,6 +2,7 @@
 using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace dawazon2._0.Infraestructures;
 
@@ -12,11 +13,12 @@ public static class DbConfig
         //BBDD de Productos y categorías
         services.AddDbContext<DawazonDbContext>(options =>
         {
-            var isDevelopment = configuration.GetValue<bool?>("IsDevelopment") ?? true;
+            var isDevelopment = configuration.GetValue<bool?>("Development") ?? true;
             
             if(isDevelopment) options.UseInMemoryDatabase("DawazonDatabase");
             else
             {
+                Log.Information("modo produccion activado conectando a base de datos");
                 var connectionString = configuration["DATABASE_URL"] 
                                        ?? configuration.GetConnectionString("DefaultConnection") 
                                        ?? "Host=localhost;Port=5432;Database=dawazon_db;Username=dawazon_user;Password=dawazon_password;";

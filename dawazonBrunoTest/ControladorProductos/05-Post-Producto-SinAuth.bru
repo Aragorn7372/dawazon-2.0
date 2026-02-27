@@ -6,10 +6,16 @@ meta {
 
 post {
   url: {{baseUrl}}/api/products
-  body: none
+  body: multipartForm
   auth: none
 }
-
+body:multipart-form {
+  ~nombre: Producto Test E2E
+  ~price: 29.99
+  ~stock: 10
+  ~categoria: Figuras
+  ~description: Producto creado en test E2E
+}
 tests {
   test("POST sin autenticación devuelve 401", function() {
     expect(res.status).to.equal(401);

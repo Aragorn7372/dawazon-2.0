@@ -10,7 +10,7 @@ public static class ControllerConfig
     /// </summary>
     public static IMvcBuilder AddMvcControllers(this IServiceCollection services)
     {
-        Log.Information("📦 Configurando controladores MVC...");
+        Log.Information("Configurando controladores MVC...");
         return services.AddControllers(options =>
             {
                 options.RespectBrowserAcceptHeader = true;
