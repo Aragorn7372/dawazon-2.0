@@ -5,10 +5,34 @@ using NUnit.Framework;
 
 namespace dawazonTest.Cart.Dto;
 
+/// <summary>
+/// Suite de pruebas unitarias para los Data Transfer Objects (DTOs) del módulo de Carrito de Compras.
+/// </summary>
+/// <remarks>
+/// Esta clase contiene pruebas de validación, propiedades por defecto, y comportamiento de igualdad
+/// para los siguientes DTOs:
+/// <list type="bullet">
+///     <item><see cref="ClientDto"/> - DTO de información del cliente</item>
+///     <item><see cref="SaleLineDto"/> - DTO de líneas de venta/carrito</item>
+///     <item><see cref="CartResponseDto"/> - DTO de respuesta del carrito</item>
+///     <item><see cref="FilterCartDto"/> - DTO de filtros para búsquedas de carrito</item>
+///     <item><see cref="LineRequestDto"/> - DTO de solicitud de líneas de carrito</item>
+///     <item><see cref="CartStockRequestDto"/> - DTO de solicitud de stock</item>
+/// </list>
+/// </remarks>
 [TestFixture]
 [Description("Cart Dto Unit Tests ")]
 public class CartDtoTest
 {
+    /// <summary>
+    /// Valida un objeto contra sus atributos de validación de datos.
+    /// </summary>
+    /// <param name="obj">Objeto a validar.</param>
+    /// <returns>Lista de resultados de validación contendo errores encontrados.</returns>
+    /// <remarks>
+    /// Utiliza el <see cref="ValidationContext"/> y <see cref="Validator.TryValidateObject"/>
+    /// para ejecutar todas las validaciones definidas por DataAnnotations en el objeto.
+    /// </remarks>
     private static IList<ValidationResult> Validate(object obj)
     {
         var results = new List<ValidationResult>();
@@ -17,6 +41,14 @@ public class CartDtoTest
         return results;
     }
 
+    /// <summary>
+    /// Verifica que el constructor sin parámetros de <see cref="ClientDto"/> inicialice
+    /// todas las propiedades de tipo string con valores por defecto seguros.
+    /// </summary>
+    /// <remarks>
+    /// Es importante que los strings se inicialicen en string.Empty en lugar de null
+    /// para evitar NullReferenceExceptions al acceder a las propiedades en views o APIs.
+    /// </remarks>
     [Test]
     [Description("ClientDto new() debe inicializar strings en string.Empty")]
     public void ClientDto_New_ShouldHaveEmptyStringDefaults()
@@ -31,6 +63,14 @@ public class CartDtoTest
         Assert.That(dto.Country,  Is.EqualTo(string.Empty));
     }
 
+    /// <summary>
+    /// Verifica que un <see cref="ClientDto"/> con todos los campos válidos pase la validación
+    /// sin errores.
+    /// </summary>
+    /// <remarks>
+    /// Este test utiliza un DTO con datos completos y válidos según las reglas de validación
+    /// definidas en el modelo (Email con formato válido, teléfono de 9 dígitos, todos los campos requeridos presentes).
+    /// </remarks>
     [Test]
     [Description("ClientDto válido no debe generar errores de validación")]
     public void ClientDto_WhenValid_ShouldPassValidation()
@@ -52,6 +92,14 @@ public class CartDtoTest
         Assert.That(errors, Is.Empty);
     }
 
+    /// <summary>
+    /// Verifica que un <see cref="ClientDto"/> con formato de email inválido genere
+    /// un error de validación en la propiedad Email.
+    /// </summary>
+    /// <remarks>
+    /// El validador debe detectar que "no-es-email" no es un formato de email válido
+    /// según el atributo [EmailAddress] esperado en la propiedad.
+    /// </remarks>
     [Test]
     [Description("ClientDto con Email inválido debe generar error de validación")]
     public void ClientDto_WithInvalidEmail_ShouldFailValidation()
@@ -67,6 +115,14 @@ public class CartDtoTest
         Assert.That(errors.Any(e => e.MemberNames.Contains("Email")), Is.True);
     }
 
+    /// <summary>
+    /// Verifica que un <see cref="ClientDto"/> con teléfono que no cumpla el patrón de 9 dígitos
+    /// falle la validación.
+    /// </summary>
+    /// <remarks>
+    /// Se espera que la propiedad Phone tenga una validación mediante Regex que requiera exactamente
+    /// 9 dígitos para números de teléfono españoles. Un valor como "123" (3 dígitos) debe fallar.
+    /// </remarks>
     [Test]
     [Description("ClientDto con teléfono que no cumple el patrón (9 dígitos) debe fallar validación")]
     public void ClientDto_WithInvalidPhone_ShouldFailValidation()
@@ -81,6 +137,14 @@ public class CartDtoTest
         Assert.That(errors.Any(e => e.MemberNames.Contains("Phone")), Is.True);
     }
 
+    /// <summary>
+    /// Verifica que <see cref="ClientDto"/> es un record de C# y por lo tanto implementa
+    /// igualdad por valor automáticamente.
+    /// </summary>
+    /// <remarks>
+    /// Los records en C# sobrescriben Equals() y GetHashCode() para comparar por valor
+    /// en lugar de por referencia. Dos instancias con los mismos valores deben ser iguales.
+    /// </remarks>
     [Test]
     [Description("ClientDto es un record: instancias con mismos valores deben ser iguales")]
     public void ClientDto_WithSameValues_ShouldBeEqual()
@@ -90,6 +154,15 @@ public class CartDtoTest
         Assert.That(a, Is.EqualTo(b));
     }
 
+    /// <summary>
+    /// Verifica los valores por defecto seguros de <see cref="SaleLineDto"/> y el funcionamiento
+    /// de los métodos de ayuda GetUserName() y GetUserEmail() que obtienen datos del cliente asociado.
+    /// </summary>
+    /// <remarks>
+    /// La línea de venta debe inicializar los campos de ID en string.Empty para evitar nulls,
+    /// y debe crear una instancia de Client por defecto (no null). Los métodos de ayuda permiten
+    /// obtener el nombre y email del cliente de forma segura aunque la propiedad Client sea null.
+    /// </remarks>
     [Test]
     [Description("SaleLineDto new() debe tener defaults seguros y GetUserName/GetUserEmail deben retornar los datos del cliente")]
     public void SaleLineDto_DefaultsAndClientHelpers_ShouldWork()
@@ -109,6 +182,13 @@ public class CartDtoTest
         Assert.That(withClient.GetUserEmail(), Is.EqualTo("cliente@shop.com"));
     }
 
+    /// <summary>
+    /// Verifica que todas las propiedades de <see cref="SaleLineDto"/> sean asignables y recuperables correctamente.
+    /// </summary>
+    /// <remarks>
+    /// Este test cubre la asignación de campos incluyendo: IDs, nombre de producto, precios,
+    /// cantidad, estado del pedido, IDs de manager y usuario, y fechas de creación/actualización.
+    /// </remarks>
     [Test]
     [Description("SaleLineDto permite asignar todos sus campos y recuperarlos correctamente")]
     public void SaleLineDto_Properties_ShouldBeAssignableAndReadable()
@@ -140,6 +220,13 @@ public class CartDtoTest
         Assert.That(dto.UserId,       Is.EqualTo(10L));
     }
 
+    /// <summary>
+    /// Verifica que el constructor de <see cref="CartResponseDto"/> asigne correctamente todos los parámetros.
+    /// </summary>
+    /// <remarks>
+    /// El DTO debe aceptar: ID del carrito, ID de usuario, flag de comprado, cliente asociado,
+    /// líneas del carrito, total de items y precio total.
+    /// </remarks>
     [Test]
     [Description("CartResponseDto constructor")]
     public void CartResponseDto_Constructor_ShouldSetAllProperties()
@@ -157,6 +244,14 @@ public class CartDtoTest
         Assert.That(dto.Client,     Is.EqualTo(client));
     }
 
+    /// <summary>
+    /// Verifica que <see cref="CartResponseDto"/> es un record y por lo tanto implementa
+    /// igualdad por valor automáticamente.
+    /// </summary>
+    /// <remarks>
+    /// Dos instancias del record con los mismos valores en todas las propiedades
+    /// deben ser consideradas iguales mediante Equals().
+    /// </remarks>
     [Test]
     [Description("CartResponseDto record: valores iguales")]
     public void CartResponseDto_WithSameValues_ShouldBeEqual()
@@ -169,6 +264,18 @@ public class CartDtoTest
         Assert.That(a, Is.EqualTo(b));
     }
 
+    /// <summary>
+    /// Verifica los valores por defecto y personalizados de <see cref="FilterCartDto"/>,
+    /// incluyendo la paginación, ordenación y filtros de búsqueda.
+    /// </summary>
+    /// <remarks>
+    /// El DTO debe proporcionar:
+    /// <list type="bullet">
+    ///     <item>Valores por defecto: Page=0, Size=10, SortBy="id", Direction="asc"</item>
+    ///     <item>Posibilidad de personalizar todos los campos</item>
+    ///     <item>Igualdad por valor (es un record)</item>
+    /// </list>
+    /// </remarks>
     [Test]
     [Description("FilterCartDto defaults y personalizados")]
     public void FilterCartDto_DefaultsCustomAndEquality_ShouldWork()
@@ -180,11 +287,11 @@ public class CartDtoTest
         Assert.That(defaults.Direction, Is.EqualTo("asc"));
 
         var custom = new FilterCartDto(
-            managerId: 1L, isAdmin: true, purchased: false,
+            ManagerId: 1L, IsAdmin: true, Purchased: false,
             Page: 2, Size: 5, SortBy: "total", Direction: "desc");
-        Assert.That(custom.managerId,  Is.EqualTo(1L));
-        Assert.That(custom.isAdmin,    Is.True);
-        Assert.That(custom.purchased,  Is.False);
+        Assert.That(custom.ManagerId,  Is.EqualTo(1L));
+        Assert.That(custom.IsAdmin,    Is.True);
+        Assert.That(custom.Purchased,  Is.False);
         Assert.That(custom.Page,       Is.EqualTo(2));
         Assert.That(custom.Size,       Is.EqualTo(5));
         Assert.That(custom.SortBy,     Is.EqualTo("total"));
@@ -195,6 +302,13 @@ public class CartDtoTest
         Assert.That(eq1, Is.EqualTo(eq2));
     }
 
+    /// <summary>
+    /// Verifica los valores por defecto y la asignación de propiedades de <see cref="LineRequestDto"/>.
+    /// </summary>
+    /// <remarks>
+    /// Este DTO se utiliza para las solicitudes de líneas de carrito, incluyendo
+    /// el ID del carrito, ID del producto, y el estado de la línea de venta.
+    /// </remarks>
     [Test]
     [Description("LineRequestDto, defaults y campos asignables")]
     public void LineRequestDto_DefaultsAndProperties_ShouldWork()
@@ -214,6 +328,14 @@ public class CartDtoTest
         Assert.That(dto.Status,    Is.EqualTo(Status.Enviado));
     }
 
+    /// <summary>
+    /// Verifica los valores por defecto, igualdad por valor y asignación de propiedades de <see cref="CartStockRequestDto"/>.
+    /// </summary>
+    /// <remarks>
+    /// Este DTO se utiliza para las solicitudes de gestión de stock en el carrito.
+    /// Contiene: ID del carrito (nullable), ID de usuario, y cantidad.
+    /// Es un record, por lo que implementa igualdad por valor automáticamente.
+    /// </remarks>
     [Test]
     [Description("CartStockRequestDto defaults, igualdad y campos asignables")]
     public void CartStockRequestDto_DefaultsEqualityAndProperties_ShouldWork()

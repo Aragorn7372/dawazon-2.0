@@ -5,8 +5,19 @@ using Microsoft.AspNetCore.Identity;
 namespace dawazonBackend.Users.Models;
 
 /// <summary>
-/// Representa a un usuario en el sistema, extendiendo la funcionalidad de IdentityUser.
+/// Entidad de usuario que extiende IdentityUser.
 /// </summary>
+/// <remarks>
+/// Hereda de IdentityUser<long> para integración con ASP.NET Core Identity.
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Borrado lógico: IsDeleted</item>
+///     <item>Productos favoritos: ProductsFavs</item>
+///     <item>Datos de cliente: Client (dirección)</item>
+///     <li>Avatar: Imagen de perfil</item>
+/// </list>
+/// </remarks>
 public class User: IdentityUser<long>
 {
     /// <summary>

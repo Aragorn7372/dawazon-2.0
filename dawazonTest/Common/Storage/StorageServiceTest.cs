@@ -8,6 +8,26 @@ using NUnit.Framework;
 
 namespace dawazonTest.Common.Storage;
 
+/// <summary>
+/// Suite de pruebas unitarias para el servicio de almacenamiento de archivos.
+/// </summary>
+/// <remarks>
+/// Esta clase prueba el comportamiento del <see cref="dawazonBackend.Common.Storage.Storage"/>:
+/// <list type="bullet">
+///     <item>Generación de rutas relativas y absolutas</item>
+///     <item>Verificación de existencia de archivos</item>
+///     <item>Guardado de archivos con validaciones</item>
+///     <item>Eliminación de archivos</item>
+///     <item>Creación automática de directorios</item>
+/// </list>
+/// 
+/// <para><b>Configuración de tests:</b></para>
+/// <list type="bullet">
+///     <item>MaxFileSize: 5MB por defecto</li>
+///     <item>Extensiones permitidas: .jpg, .jpeg, .png, .gif</li>
+///     <item>ContentTypes permitidos: image/jpeg, image/png, image/gif</li>
+/// </list>
+/// </remarks>
 [TestFixture]
 [Description("Storage Unit Tests")]
 public class StorageServiceTest
@@ -19,6 +39,11 @@ public class StorageServiceTest
 
     private static IConfiguration BuildConfig(long maxFileSizeBytes = 5 * 1024 * 1024)
     {
+        /// <summary>
+        /// Construye una configuración en memoria para los tests.
+        /// </summary>
+        /// <param name="maxFileSizeBytes">Tamaño máximo de archivo en bytes.</param>
+        /// <returns>IConfiguration con valores de Storage.</returns>
         var dict = new Dictionary<string, string?>
         {
             ["Storage:UploadPath"]    = "uploads",

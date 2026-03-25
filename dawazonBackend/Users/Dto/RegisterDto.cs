@@ -2,6 +2,13 @@
 
 namespace dawazonBackend.Users.Dto;
 
+/// <summary>
+/// DTO para solicitudes de registro de nuevos usuarios.
+/// </summary>
+/// <remarks>
+/// Se utiliza en el endpoint POST /auth/register.
+/// Valida username único, email válido y contraseña segura.
+/// </remarks>
 public record RegisterDto
 {
     /// <summary>

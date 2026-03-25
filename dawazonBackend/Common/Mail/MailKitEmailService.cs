@@ -5,9 +5,12 @@ using MimeKit;
 namespace dawazonBackend.Common.Mail;
 
 /// <summary>
-/// Implementación del servicio de correo electrónico utilizando MailKit.
-/// Proporciona funcionalidades tanto para envío inmediato como para encolado en canales.
+/// Implementación del servicio de correo usando MailKit.
 /// </summary>
+/// <remarks>
+/// Proporciona envío inmediato y encolado de emails.
+/// Usa SMTP configurado en appsettings.json.
+/// </remarks>
 public class MailKitEmailService(
     IConfiguration configuration,
     ILogger<MailKitEmailService> logger,
@@ -19,6 +22,17 @@ public class MailKitEmailService(
     private readonly Channel<EmailMessage> _emailChannel = emailChannel;
     
     /// <inheritdoc/>
+    /// <summary>
+    /// Envía un email de forma síncrona usando SMTP.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Lee configuración SMTP de appsettings.json</item>
+    ///     <item>Crea mensaje MimeKit</item>
+    ///     <item>Conecta a SMTP con StartTLS</item>
+    ///     <li>Autentica y envía</item>
+    /// </list>
+    /// </remarks>
     public async Task SendEmailAsync(EmailMessage message)
     {
         try
@@ -37,7 +51,7 @@ public class MailKitEmailService(
             }
 
             var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(new MailboxAddress(fromName, fromEmail));
+            if (fromEmail != null) mimeMessage.From.Add(new MailboxAddress(fromName, fromEmail));
             mimeMessage.To.Add(MailboxAddress.Parse(message.To));
             mimeMessage.Subject = message.Subject;
 
@@ -69,6 +83,13 @@ public class MailKitEmailService(
 
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Encola un email para ser procesado por el BackgroundService.
+    /// </summary>
+    /// <remarks>
+    /// Escribe el mensaje en un Channel para procesamiento asíncrono.
+    /// No bloquea el hilo actual.
+    /// </remarks>
     public async Task EnqueueEmailAsync(EmailMessage message)
     {
         try

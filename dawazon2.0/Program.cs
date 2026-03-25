@@ -2,10 +2,7 @@ using System.Text;
 using dawazon2._0.Components;
 using dawazon2._0.Infraestructures;
 using dawazon2._0.Middleware;
-using dawazonBackend.Common.Database;
-using dawazonBackend.Users.Models;
 using Microsoft.AspNetCore.Components.Server.Circuits;
-using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 Log.Logger= SerilogConfig.Configure().CreateLogger();
@@ -111,7 +108,7 @@ Log.Information("=== END CONFIGURATION ===");
 
 try
 {
-    Log.Information("Iniciando aplicación FunkoApi...");
+    Log.Information("Iniciando aplicación Dawazon2.0...");
     app.Run();
 }
 catch (Exception ex)

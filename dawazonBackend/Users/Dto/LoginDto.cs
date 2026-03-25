@@ -2,6 +2,13 @@
 
 namespace dawazonBackend.Users.Dto;
 
+/// <summary>
+/// DTO para solicitudes de inicio de sesión.
+/// </summary>
+/// <remarks>
+/// Se utiliza en el endpoint POST /auth/login.
+/// Permite identificación por username o email.
+/// </remarks>
 public record LoginDto
 {
     /// <summary>

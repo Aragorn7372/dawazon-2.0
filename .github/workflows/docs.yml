@@ -35,12 +35,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
+      - name: Install HTML Report Generator
+        run: dotnet tool install --global Microsoft.TestPlatform.Extensions.HtmlReportGenerator
       - name: Run Unit Tests
         run: |
           mkdir -p UnitTestResults
           dotnet test ./dawazonTest/dawazonTest.csproj \
             --configuration Release \
-            --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx"
+            --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx" \
+            --logger "html;LogFileName=UnitTestResults/UnitTestResults.html"
 
       - name: Upload Unit Test Results
         uses: actions/upload-artifact@v4
@@ -98,7 +101,7 @@ jobs:
       - name: Run Bruno Tests
         run: |
           cd dawazonBrunoTest
-          bru run --env Local --format json
+          bru run --env Local --format html
 
       - name: Upload Bruno Test Results
         uses: actions/upload-artifact@v4
@@ -143,6 +146,8 @@ jobs:
           cd dawazonPlayWrite
           dotnet tool install --global Microsoft.Playwright.CLI || true
           playwright install --with-deps chromium
+      - name: Install HTML Report Generator
+        run: dotnet tool install --global Microsoft.TestPlatform.Extensions.HtmlReportGenerator
       - name: Start backend server
         run: |
           dotnet run --project ./dawazon2.0/dawazon2.0.csproj \
@@ -167,7 +172,8 @@ jobs:
           dotnet test ./dawazonPlayWrite/dawazonPlayWrite.csproj \
             --configuration Release \
             --no-build \
-            --logger "trx;LogFileName=E2ETestResults/PlaywrightResults.trx"
+            --logger "trx;LogFileName=E2ETestResults/PlaywrightResults.trx" \
+            --logger "html;LogFileName=E2ETestResults/PlaywrightResults.html"
 
       - name: Upload Playwright Test Results
         uses: actions/upload-artifact@v4
@@ -199,6 +205,21 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.102
+
+      - name: Install HTML Report Generator
+        run: dotnet tool install --global Microsoft.TestPlatform.Extensions.HtmlReportGenerator
+
+      - name: Generate HTML from TRX if missing
+        run: |
+          if [ -f "test-results/unit-test-results/UnitTestResults.trx" ] && [ ! -f "test-results/unit-test-results/UnitTestResults.html" ]; then
+            mkdir -p test-results/unit-test-results
+            dotnet-trx2html test-results/unit-test-results/UnitTestResults.trx -o test-results/unit-test-results/UnitTestResults.html
+          fi
+          
+          if [ -f "test-results/playwright-test-results/PlaywrightResults.trx" ] && [ ! -f "test-results/playwright-test-results/PlaywrightResults.html" ]; then
+            mkdir -p test-results/playwright-test-results
+            dotnet-trx2html test-results/playwright-test-results/PlaywrightResults.trx -o test-results/playwright-test-results/PlaywrightResults.html
+          fi
 
       - name: Install Doxygen
         run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
@@ -261,7 +282,7 @@ jobs:
             cp -r test-results/playwright-test-results/* generated/playwright-tests/ 2>/dev/null || true
           fi
 
-      - name: Create simple index.html
+      - name: Create index.html with test results
         run: |
           cat > generated/index.html << 'HTMLEOF'
           <!DOCTYPE html>
@@ -271,9 +292,14 @@ jobs:
             <style>
               body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
               h1 { color: #333; }
+              h2 { color: #555; }
               .card { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
               a { color: #0066cc; text-decoration: none; }
               a:hover { text-decoration: underline; }
+              .status { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+              .status-pass { background: #d4edda; color: #155724; }
+              .status-fail { background: #f8d7da; color: #721c24; }
+              .status-na { background: #e2e3e5; color: #383d41; }
             </style>
           </head>
           <body>
@@ -283,11 +309,11 @@ jobs:
               <p><a href="html/index.html">Browse Doxygen API Documentation</a></p>
             </div>
             <div class="card">
-              <h2>Test Results (Artifacts)</h2>
+              <h2>Test Results</h2>
               <ul>
-                <li><a href="unit-tests/">Unit Tests Results</a></li>
-                <li><a href="bruno-tests/">Bruno API Tests Results</a></li>
-                <li><a href="playwright-tests/">Playwright E2E Tests Results</a></li>
+                <li><a href="unit-tests/UnitTestResults.html">Unit Tests Report (HTML)</a></li>
+                <li><a href="bruno-tests/results.html">Bruno API Tests Report (HTML)</a></li>
+                <li><a href="playwright-tests/PlaywrightResults.html">Playwright E2E Tests Report (HTML)</a></li>
               </ul>
             </div>
             <p><small>Generated: HTMLEOF

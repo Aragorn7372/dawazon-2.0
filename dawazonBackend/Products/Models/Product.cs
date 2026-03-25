@@ -5,8 +5,19 @@ using dawazonBackend.Common.Attribute;
 namespace dawazonBackend.Products.Models;
 
 /// <summary>
-/// Representa un producto en el catálogo de Dawazon.
+/// Modelo de dominio que representa un producto en el catálogo.
 /// </summary>
+/// <remarks>
+/// Entidad principal del módulo de productos. Representa un artículo vendible
+/// con precio, stock, imágenes y comentarios.
+///
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Borrado lógico: IsDeleted en lugar de eliminar</item>
+///     <item>Control de concurrencia: Version para optimistic locking</item>
+///     <item>ID automático: Generado por IdGenerator</item>
+/// </list>
+/// </remarks>
 public class Product
 {
     /// <summary>

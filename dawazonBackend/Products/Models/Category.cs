@@ -4,8 +4,12 @@ using dawazonBackend.Common.Attribute;
 namespace dawazonBackend.Products.Models;
 
 /// <summary>
-/// Representa una categoría de productos.
+/// Modelo de dominio que representa una categoría de productos.
 /// </summary>
+/// <remarks>
+/// Las categorías organizan los productos en grupos (Figuras, Comics, Ropa).
+/// Se utiliza para filtrar y buscar productos.
+/// </remarks>
 public class Category
 {
     /// <summary>

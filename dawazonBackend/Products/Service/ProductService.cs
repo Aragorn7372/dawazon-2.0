@@ -14,8 +14,27 @@ using dawazonBackend.Users.Service;
 namespace dawazonBackend.Products.Service;
 
 /// <summary>
-/// Implementación del servicio de gestión de productos con soporte para caché y almacenamiento de imágenes.
+/// Implementación del servicio de gestión de productos.
 /// </summary>
+/// <remarks>
+/// Proporciona lógica de negocio para productos con soporte de caché y almacenamiento.
+/// 
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>ICacheService: Caché Redis</item>
+///     <item>IProductRepository: Acceso a datos</item>
+///     <item>ICategoriaRepository: Categorías</item>
+///     <item>IStorage: Almacenamiento de imágenes</item>
+///     <item>ICartService: Carrito y ventas</item>
+///     <item>IUserService: Usuarios</item>
+/// </list>
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Caché: 5 minutos de TTL</item>
+///     <item>Resultado: Patrón Result de CSharpFunctionalExtensions</item>
+/// </list>
+/// </remarks>
 public class ProductService(
     ICacheService cache,
     IProductRepository repository,
@@ -27,10 +46,24 @@ public class ProductService(
     : IProductService
 {
     private const string CacheKeyPrefix = "Product_";
+    
+    /// <summary>
+    /// Duración del caché para productos (5 minutos).
+    /// </summary>
     private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
 
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Obtiene un producto por ID con caché.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Busca en caché primero</item>
+    ///     <item>Si no está, busca en BD</item>
+    ///     <item>Guarda en caché por 5 minutos</item>
+    /// </list>
+    /// </remarks>
     public async Task<Result<ProductResponseDto, ProductError>> GetByIdAsync(string id)
     {
         logger.LogDebug("Buscando Product con id: {Id}", id);
@@ -113,6 +146,16 @@ public class ProductService(
     }
     
     /// <inheritdoc/>
+    /// <summary>
+    /// Crea un nuevo producto.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Valida que la categoría exista</item>
+    ///     <item>Genera ID si no se proporcionó</item>
+    ///     <item>Guarda en repositorio</item>
+    /// </list>
+    /// </remarks>
     public async Task<Result<ProductResponseDto, ProductError>> CreateAsync(ProductRequestDto dto)
     {
         logger.LogInformation("Creando nuevo Product: {Name}", dto.Name);
@@ -279,6 +322,17 @@ public class ProductService(
     }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Elimina un producto (físico) y sus imágenes asociadas.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Busca el producto en BD</item>
+    ///     <item>Elimina el registro</item>
+    ///     <item>Elimina las imágenes del almacenamiento</item>
+    ///     <item>Invalidar caché</item>
+    /// </list>
+    /// </remarks>
     public async Task<Result<ProductResponseDto, ProductError>> DeleteAsync(string id)
     {
         logger.LogInformation("Eliminando Product con id: {Id}", id);
@@ -319,6 +373,17 @@ public class ProductService(
     }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Obtiene estadísticas agregadas del sistema.
+    /// </summary>
+    /// <remarks>
+    /// Agrega datos de:
+    /// <list type="bullet">
+    ///     <item>Productos: total y sin stock</item>
+    ///     <item>Usuarios: total registrado</item>
+    ///     <item>Ventas: total y ganancias</item>
+    /// </list>
+    /// </remarks>
     public async Task<AdminStatsDto> GetStatsAsync()
     {
         logger.LogInformation("Obteniendo estadísticas del sistema");

@@ -77,9 +77,9 @@ public class CartRepositoryTestContainer
     public async Task GetAllAsync_ShouldReturnPagedAndFilteredCarts()
     {
         var filter = new FilterCartDto(
-            managerId: null, 
-            isAdmin: null, 
-            purchased: true, 
+            ManagerId: null, 
+            IsAdmin: null, 
+            Purchased: true, 
             Page: 0, 
             Size: 10, 
             SortBy: "id", 

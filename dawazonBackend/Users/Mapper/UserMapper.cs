@@ -5,16 +5,34 @@ using Microsoft.AspNetCore.Identity;
 namespace dawazonBackend.Users.Mapper;
 
 /// <summary>
-/// Clase de utilidad para mapear entre la entidad User y UserDto.
+/// Clase de utilidad estática para mapear entre la entidad User y DTOs.
 /// </summary>
+/// <remarks>
+/// Proporciona métodos de extensión para convertir entre:
+/// <list type="bullet">
+///     <item>User (entidad de Identity) ↔ UserDto</item>
+/// </list>
+/// 
+/// <para><b>Patrón:</b></para>
+/// Métodos de extensión asíncronos que usan UserManager para obtener roles.
+/// </remarks>
 public static class UserMapper
 {
     /// <summary>
-    /// Convierte una instancia de User a UserDto de forma asíncrona, incluyendo sus roles.
+    /// Convierte una entidad User a UserDto de forma asíncrona.
     /// </summary>
-    /// <param name="user">La entidad de usuario.</param>
-    /// <param name="userManager">El gestor de usuarios de Identity.</param>
-    /// <returns>Un DTO con la información del usuario.</returns>
+    /// <param name="user">Entidad de usuario de Identity.</param>
+    /// <param name="userManager">UserManager para obtener roles.</param>
+    /// <returns>UserDto con la información del usuario y sus roles.</returns>
+    /// <remarks>
+    /// Mapea:
+    /// <list type="bullet">
+    ///     <item>Id, Email, Nombre, Avatar</item>
+    ///     <item>Dirección: Calle, Ciudad, CodigoPostal, Provincia</item>
+    ///     <item>Teléfono desde PhoneNumber</item>
+    ///     <item>Roles desde UserManager</item>
+    /// </list>
+    /// </remarks>
     public static async Task<UserDto> ToDtoAsync(this User user,UserManager<User> userManager)
     {
         var roles = await userManager.GetRolesAsync(user);

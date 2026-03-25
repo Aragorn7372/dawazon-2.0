@@ -128,7 +128,7 @@ public class CartRepositoryTest
     [Description("GetAllAsync: filtrando por purchased=true debe devolver solo los carritos comprados")]
     public async Task GetAllAsync_ShouldFilterByPurchasedAndPaginate()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: true, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: true, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount,          Is.EqualTo(2));
@@ -140,7 +140,7 @@ public class CartRepositoryTest
     [Description("GetAllAsync: sin filtro de purchased debe devolver todos los carritos")]
     public async Task GetAllAsync_WithNoPurchasedFilter_ShouldReturnAll()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "id", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "id", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -150,7 +150,7 @@ public class CartRepositoryTest
     [Description("GetAllAsync: paginación (Size=1, Page=0) debe devolver solo 1 elemento")]
     public async Task GetAllAsync_WithPagination_ShouldRespectPageSize()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 1, SortBy: "id", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 1, SortBy: "id", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount,    Is.EqualTo(4));
@@ -346,7 +346,7 @@ public class CartRepositoryTest
     [Description("FindByUserIdAsync: debe lanzar NotImplementedException")]
     public void FindByUserIdAsync_ShouldThrowNotImplementedException()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "id", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "id", Direction: "asc");
         Assert.ThrowsAsync<NotImplementedException>(() => _repository.FindByUserIdAsync(1, filter));
     }
 
@@ -441,7 +441,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por precio ascendente")]
     public async Task GetAllAsync_SortByPrice_Ascending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -452,7 +452,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por precio descendente")]
     public async Task GetAllAsync_SortByPrice_Descending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "desc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "desc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -463,7 +463,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por Comprado ascendente")]
     public async Task GetAllAsync_SortByComprado_Ascending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -474,7 +474,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por Comprado descendente")]
     public async Task GetAllAsync_SortByComprado_Descending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "desc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "desc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -485,7 +485,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por createdat ascendente")]
     public async Task GetAllAsync_SortByCreatedAt_Ascending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -496,7 +496,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por createdat descendente")]
     public async Task GetAllAsync_SortByCreatedAt_Descending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "desc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "desc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -507,7 +507,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por ultima modificacion ascendente")]
     public async Task GetAllAsync_SortByUltimaModificacion_Ascending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -518,7 +518,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenando por ultima modificacion descendente")]
     public async Task GetAllAsync_SortByUltimaModificacion_Descending()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "desc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "createdat", Direction: "desc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -529,7 +529,7 @@ public class CartRepositoryTest
     [Description("ApplySorting: campo desconocido usa ordenacion por defecto por Id")]
     public async Task GetAllAsync_SortByUnknownField_DefaultsToId()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "campo_desconocido", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "campo_desconocido", Direction: "asc");
         var (items, totalCount) = await _repository.GetAllAsync(filter);
 
         Assert.That(totalCount, Is.EqualTo(4));
@@ -539,8 +539,8 @@ public class CartRepositoryTest
     [Description("ApplySorting: ordenacion case insensitive para direction")]
     public async Task GetAllAsync_SortDirection_CaseInsensitive()
     {
-        var filterAsc = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "ASC");
-        var filterDesc = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "DESC");
+        var filterAsc = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "ASC");
+        var filterDesc = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "total", Direction: "DESC");
 
         var (itemsAsc, _) = await _repository.GetAllAsync(filterAsc);
         var (itemsDesc, _) = await _repository.GetAllAsync(filterDesc);
@@ -553,7 +553,7 @@ public class CartRepositoryTest
     [Description("Cubre la línea 233: case 'Comprado'")]
     public async Task GetAllAsync_SortByComprado_CorrectPath()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "Comprado", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "Comprado", Direction: "asc");
         var (items, _) = await _repository.GetAllAsync(filter);
     
         Assert.That(items.First().Purchased, Is.True);
@@ -563,7 +563,7 @@ public class CartRepositoryTest
     [Description("Cubre la línea 234: case 'precio'")]
     public async Task GetAllAsync_SortByPrecio_CorrectPath()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "precio", Direction: "asc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "precio", Direction: "asc");
         var (items, _) = await _repository.GetAllAsync(filter);
     
         Assert.That(items.Select(c => c.Id).ToList(), Is.EqualTo(new[] { CartId1, CartId2, CartId3, CartId4 }));
@@ -573,7 +573,7 @@ public class CartRepositoryTest
     [Description("Cubre la línea 236: case 'ultima modificacion'")]
     public async Task GetAllAsync_SortByUltimaModificacion_CorrectPath()
     {
-        var filter = new FilterCartDto(managerId: null, isAdmin: null, purchased: null, Page: 0, Size: 10, SortBy: "ultima modificacion", Direction: "desc");
+        var filter = new FilterCartDto(ManagerId: null, IsAdmin: null, Purchased: null, Page: 0, Size: 10, SortBy: "ultima modificacion", Direction: "desc");
         var (items, _) = await _repository.GetAllAsync(filter);
     
         Assert.That(items.Select(c => c.Id).ToList(), Is.EqualTo(new[] { CartId4, CartId3, CartId2, CartId1 }));

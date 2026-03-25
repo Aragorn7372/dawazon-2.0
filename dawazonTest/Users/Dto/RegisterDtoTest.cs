@@ -2,6 +2,17 @@ using dawazonBackend.Users.Dto;
 
 namespace dawazonTest.Users.Dto;
 
+/// <summary>
+/// Suite de pruebas unitarias para el DTO de registro de usuarios.
+/// </summary>
+/// <remarks>
+/// Tests que verifican el comportamiento del <see cref="RegisterDto"/>:
+/// <list type="bullet">
+///     <item>Creación con propiedades requeridas (Username, Email, Password)</li>
+///     <item>Validación de caracteres permitidos en username</li>
+///     <item>Comportamiento de igualdad entre instancias</li>
+/// </list>
+/// </remarks>
 [TestFixture]
 [Description("Tests para validdacion de RegisterDto")]
 public class RegisterDtoTest

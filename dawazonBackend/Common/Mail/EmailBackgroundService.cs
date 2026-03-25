@@ -1,40 +1,58 @@
 ﻿using System.Threading.Channels;
 
 namespace dawazonBackend.Common.Mail;
-
+/// <summary>
+/// Servicio en segundo plano que procesa emails de la cola.
+/// </summary>
+/// <remarks>
+/// Implementa <see cref="BackgroundService"/> de ASP.NET Core.
+/// Procesa mensajes de forma asíncrona desde un Channel.
+///
+/// <para><b>Flujo:</b></para>
+/// <list type="number">
+///     <item>Lee mensajes del channel</item>
+///     <item>Crea un scope para obtener IEmailService</item>
+///     <li>Envía el email usando MailKit</item>
+///     <li>Registra éxito o error</item>
+/// </list>
+/// </remarks>
 public class EmailBackgroundService(
     Channel<EmailMessage> emailChannel,
     IServiceProvider serviceProvider,
     ILogger<EmailBackgroundService> logger
 ) : BackgroundService
 {
-    private readonly Channel<EmailMessage> _emailChannel = emailChannel;
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
-    private readonly ILogger<EmailBackgroundService> _logger = logger;
-
+    /// <inheritdoc/>
+    /// <summary>
+    /// Bucle principal que procesa emails de la cola.
+    /// </summary>
+    /// <remarks>
+    /// Se ejecuta continuamente hasta que se cancela el token.
+    /// Lee mensajes del channel y los envía de forma asíncrona.
+    /// </remarks>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Servicio de email en segundo plano iniciado");
+        logger.LogInformation("Servicio de email en segundo plano iniciado");
 
-        await foreach (var emailMessage in _emailChannel.Reader.ReadAllAsync(stoppingToken))
+        await foreach (var emailMessage in emailChannel.Reader.ReadAllAsync(stoppingToken))
         {
             try
             {
-                using var scope = _serviceProvider.CreateScope();
+                using var scope = serviceProvider.CreateScope();
                 var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                _logger.LogInformation("Procesando email de la cola para: {To}", emailMessage.To);
+                logger.LogInformation("Procesando email de la cola para: {To}", emailMessage.To);
 
                 await emailService.SendEmailAsync(emailMessage);
 
-                _logger.LogInformation("Email procesado exitosamente para: {To}", emailMessage.To);
+                logger.LogInformation("Email procesado exitosamente para: {To}", emailMessage.To);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error procesando email para: {To}", emailMessage.To);
+                logger.LogError(ex, "Error procesando email para: {To}", emailMessage.To);
             }
         }
 
-        _logger.LogInformation("Servicio de email en segundo plano detenido");
+        logger.LogInformation("Servicio de email en segundo plano detenido");
     }
 }

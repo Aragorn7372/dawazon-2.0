@@ -3,14 +3,33 @@ using dawazonBackend.Products.Models.Dto;
 
 namespace dawazonBackend.Products.Mapper;
 
+using dawazonBackend.Products.Models;
+using dawazonBackend.Products.Models.Dto;
+
 /// <summary>
-/// Clase de utilidad para mapear entre modelos de producto y DTOs.
+/// Clase de utilidad estática para mapear entre modelos de dominio y DTOs de productos.
 /// </summary>
+/// <remarks>
+/// Proporciona métodos de extensión para convertir entre:
+/// <list type="bullet">
+///     <item>Product ↔ ProductResponseDto</item>
+///     <item>ProductRequestDto ↔ Product</item>
+///     <item>Comment ↔ CommentDto</item>
+/// </list>
+/// 
+/// <para><b>Patrón:</b></b>
+/// Métodos de extensión estáticos (ToDto, ToModel).
+/// </remarks>
 public static class ProductMapper
 {
     /// <summary>
-    /// Convierte un modelo de base de datos Product a un ProductResponseDto.
+    /// Convierte un modelo Product a ProductResponseDto.
     /// </summary>
+    /// <param name="model">Modelo de base de datos.</param>
+    /// <returns>DTO de respuesta.</returns>
+    /// <remarks>
+    /// Mapea Category: usa Name si está cargado, sino usa CategoryId.
+    /// </remarks>
     public static ProductResponseDto ToDto(this Product model)
     {
         return new ProductResponseDto(
@@ -27,9 +46,13 @@ public static class ProductMapper
     }
 
     /// <summary>
-    /// Convierte un ProductRequestDto (Create/Update) a un modelo Product.
-    /// Nota: Campos como Id, CreatedAt, UpdatedAt se manejan en el servicio/repositorio.
+    /// Convierte un ProductRequestDto a modelo Product.
     /// </summary>
+    /// <param name="dto">DTO de solicitud.</param>
+    /// <returns>Modelo de producto.</returns>
+    /// <remarks>
+    /// Id, CategoryId, CreatedAt, UpdatedAt se manejan en servicio/repositorio.
+    /// </remarks>
     public static Product ToModel(this ProductRequestDto dto)
     {
         return new Product
@@ -51,6 +74,11 @@ public static class ProductMapper
     /// <summary>
     /// Convierte un modelo Comment a CommentDto.
     /// </summary>
+    /// <param name="model">Modelo de comentario.</param>
+    /// <returns>DTO de comentario.</returns>
+    /// <remarks>
+    /// El userName se mapea desde UserId como string.
+    /// </remarks>
     public static CommentDto ToDto(this Comment model)
     {
         
@@ -63,9 +91,21 @@ public static class ProductMapper
     }
 
     /// <summary>
-    /// Crea una copia de un ProductRequestDto permitiendo sobrescribir campos específicos.
-    /// Útil para pruebas o transformaciones rápidas.
+    /// Crea una copia de ProductRequestDto permitiendo sobrescribir campos.
     /// </summary>
+    /// <param name="original">DTO original.</param>
+    /// <param name="Id">Nuevo ID (opcional).</param>
+    /// <param name="Name">Nuevo nombre.</param>
+    /// <param name="Price">Nuevo precio.</param>
+    /// <param name="Category">Nueva categoría.</param>
+    /// <param name="Description">Nueva descripción.</param>
+    /// <param name="Images">Nuevas imágenes.</param>
+    /// <param name="Stock">Nuevo stock.</param>
+    /// <param name="CreatorId">Nuevo CreatorId.</param>
+    /// <returns>Nuevo DTO con los valores sobrescritos.</returns>
+    /// <remarks>
+    /// Útil para tests o transformaciones rápidas. Null mantiene el valor original.
+    /// </remarks>
     public static ProductRequestDto Copy(
         this ProductRequestDto original,
         string? Id = null,

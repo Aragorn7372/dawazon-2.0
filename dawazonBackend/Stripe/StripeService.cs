@@ -7,8 +7,11 @@ using Stripe.Checkout;
 namespace dawazonBackend.Stripe;
 
 /// <summary>
-/// Servicio para gestionar la integración con la pasarela de pagos Stripe.
+/// Implementación del servicio de pagos con Stripe.
 /// </summary>
+/// <remarks>
+/// Gestiona la integración con la API de Stripe para crear sesiones de checkout.
+/// </remarks>
 public class StripeService : IStripeService
     {
         private readonly string _serverUrl;
@@ -27,6 +30,17 @@ public class StripeService : IStripeService
         }
 
         /// <inheritdoc/>
+        /// <summary>
+        /// Crea una sesión de checkout de Stripe.
+        /// </summary>
+        /// <remarks>
+        /// <list type="number">
+        ///     <item>Convierte las líneas del carrito a SessionLineItemOptions</item>
+        ///     <item>Configura URLs de éxito y cancelación</item>
+        ///     <li>Crea la sesión con Stripe API</item>
+        ///     <li>Retorna la URL de pago</item>
+        /// </list>
+        /// </remarks>
         public async Task<Result<string, DomainError>> CreateCheckoutSessionAsync(Cart.Models.Cart cart)
         {
             try

@@ -2,6 +2,17 @@ using dawazonBackend.Users.Dto;
 
 namespace dawazonTest.Users.Dto;
 
+/// <summary>
+/// Suite de pruebas unitarias para el DTO de inicio de sesión.
+/// </summary>
+/// <remarks>
+/// Tests que verifican el comportamiento del <see cref="LoginDto"/>:
+/// <list type="bullet">
+///     <item>Creación de instancias con propiedades requeridas</li>
+///     <item>Validación de username/email</li>
+///     <item>Comportamiento de igualdad entre instancias</li>
+/// </list>
+/// </remarks>
 [TestFixture]
 [Description("Test para validación de LoginDto")]
 public class LoginDtoTest

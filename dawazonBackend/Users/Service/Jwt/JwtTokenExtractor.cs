@@ -1,19 +1,46 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace dawazonBackend.Users.Service.Jwt;
 
+/// <summary>
+/// Implementación de <see cref="IJwtTokenExtractor"/> para extraer información de tokens JWT.
+/// </summary>
+/// <remarks>
+/// Proporciona métodos para extraer diferentes partes de información de un token JWT
+/// sin necesidad de validar la firma.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item><see cref="ILogger{JwtTokenExtractor}"/>: Para logging de operaciones</item>
+/// </list>
+///
+/// <para><b>Nota:</b> Esta clase NO valida la firma del token. Para validación completa,
+/// usar <see cref="IJwtService.ValidateToken"/>.</para>
+/// </remarks>
 public class JwtTokenExtractor : IJwtTokenExtractor
 {
      private readonly ILogger<JwtTokenExtractor> _logger;
 
+    /// <summary>
+    /// Constructor del extractor de tokens JWT.
+    /// </summary>
+    /// <param name="logger">Logger para registrar operaciones.</param>
     public JwtTokenExtractor(ILogger<JwtTokenExtractor> logger)
     {
         _logger = logger;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Extrae el ID del usuario del token JWT.
+    /// </summary>
+    /// <param name="token">Token JWT del cual extraer el ID.</param>
+    /// <returns>ID del usuario como long, o null si no se puede extraer.</returns>
+    /// <remarks>
+    /// Busca en los claims: ClaimTypes.NameIdentifier, JwtRegisteredClaimNames.Sub, o "nameid".
+    /// </remarks>
     public long? ExtractUserId(string token)
     {
         try
@@ -40,7 +67,15 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Extrae el rol del usuario del token JWT.
+    /// </summary>
+    /// <param name="token">Token JWT del cual extraer el rol.</param>
+    /// <returns>Nombre del rol, o null si no se puede extraer.</returns>
+    /// <remarks>
+    /// Busca en los claims: ClaimTypes.Role o "role".
+    /// </remarks>
     public string? ExtractRole(string token)
     {
         try
@@ -61,14 +96,24 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Determina si el token pertenece a un administrador.
+    /// </summary>
+    /// <param name="token">Token JWT a verificar.</param>
+    /// <returns>true si el rol es "admin" (case-insensitive).</returns>
     public bool IsAdmin(string token)
     {
         var role = ExtractRole(token);
         return role?.Equals("admin", StringComparison.OrdinalIgnoreCase) ?? false;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Extrae toda la información relevante del usuario del token.
+    /// </summary>
+    /// <param name="token">Token JWT del cual extraer la información.</param>
+    /// <returns>Tupla con UserId, IsAdmin y Role.</returns>
     public (long? UserId, bool IsAdmin, string? Role) ExtractUserInfo(string token)
     {
         var userId = ExtractUserId(token);
@@ -78,7 +123,15 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         return (userId, isAdmin, role);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Extrae todos los claims del token JWT.
+    /// </summary>
+    /// <param name="token">Token JWT del cual extraer los claims.</param>
+    /// <returns>ClaimsPrincipal con todos los claims, o null si falla.</returns>
+    /// <remarks>
+    /// Si el token no puede ser parseado, intenta decodificar el payload manualmente.
+    /// </remarks>
     public ClaimsPrincipal? ExtractClaims(string token)
     {
         try
@@ -130,6 +183,11 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         }
     }
 
+    /// <summary>
+    /// Normaliza los tipos de claim a tipos estándar de .NET.
+    /// </summary>
+    /// <param name="type">Tipo de claim original.</param>
+    /// <returns>Tipo de claim normalizado.</returns>
     private static string NormalizeClaimType(string type)
     {
         var lower = type.ToLowerInvariant();
@@ -143,7 +201,12 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         };
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Extrae el email del token JWT.
+    /// </summary>
+    /// <param name="token">Token JWT del cual extraer el email.</param>
+    /// <returns>Email del usuario, o null si no se puede extraer.</returns>
     public string? ExtractEmail(string token)
     {
         try
@@ -164,7 +227,12 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    /// <summary>
+    /// Valida el formato básico del token JWT sin verificar la firma.
+    /// </summary>
+    /// <param name="token">Token a validar.</param>
+    /// <returns>true si el formato es válido.</returns>
     public bool IsValidTokenFormat(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
@@ -195,6 +263,11 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         }
     }
 
+    /// <summary>
+    /// Decodifica una cadena en formato Base64URL.
+    /// </summary>
+    /// <param name="input">Cadena codificada en Base64URL.</param>
+    /// <returns>Cadena decodificada.</returns>
     private static string Base64UrlDecode(string input)
     {
         var base64 = input.Replace('-', '+').Replace('_', '/');
@@ -209,6 +282,11 @@ public class JwtTokenExtractor : IJwtTokenExtractor
         return Encoding.UTF8.GetString(bytes);
     }
 
+    /// <summary>
+    /// Lee y parsea un token JWT.
+    /// </summary>
+    /// <param name="token">Token JWT a parsear.</param>
+    /// <returns>JwtSecurityToken o null si falla.</returns>
     private JwtSecurityToken? ReadToken(string token)
     {
         if (string.IsNullOrWhiteSpace(token))

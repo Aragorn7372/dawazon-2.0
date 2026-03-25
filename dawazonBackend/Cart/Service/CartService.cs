@@ -20,6 +20,36 @@ namespace dawazonBackend.Cart.Service
 /// <summary>
 /// Implementación del servicio de gestión de carritos de compra, ventas y pagos con Stripe.
 /// </summary>
+/// <remarks>
+/// Esta clase implementa la interfaz <see cref="ICartService"/> y encapsula toda la lógica
+/// de negocio relacionada con el módulo de carrito.
+///
+/// <para><b>Dependencias inyectadas:</b></para>
+/// <list type="bullet">
+///     <item><see cref="IProductRepository"/> - Acceso a productos y stock</item>
+///     <item><see cref="ICartRepository"/> - Acceso a datos del carrito</item>
+///     <item>UserManager&lt;User&gt; - Gestión de usuarios</item>
+///     <item><see cref="IStripeService"/> - Procesamiento de pagos</item>
+///     <item><see cref="IEmailService"/> - Envío de correos</item>
+///     <item>ILogger&lt;CartService&gt; - Logging</item>
+/// </list>
+/// 
+/// <para><b>Patrones aplicados:</b></para>
+/// <list type="bullet">
+///     <item>Result Pattern: Retorna Result&lt;T, Error&gt; para manejo funcional de errores</item>
+///     <item>Unit of Work: Coordina múltiples operaciones de repositorio</item>
+///     <item>Dependency Injection: Dependencias inyectadas en el constructor</item>
+/// </list>
+/// 
+/// <para><b>Flujo principal:</b></para>
+/// <code>
+/// 1. Usuario añade productos → AddProductAsync
+/// 2. Usuario modifica cantidad → UpdateStockWithValidationAsync
+/// 3. Usuario inicia checkout → CheckoutAsync (valida stock, resta, crea sesión Stripe)
+/// 4. Pago exitoso → SaveAsync (marca Purchased, envía email)
+/// 5. Checkout timeout → CleanupExpiredCheckoutsAsync (restaurar stock)
+/// </code>
+/// </remarks>
 public class CartService : ICartService
 {
     private readonly IProductRepository _productRepository;
@@ -30,8 +60,14 @@ public class CartService : ICartService
     private readonly IEmailService _mailService;
 
     /// <summary>
-    /// Inicializa una nueva instancia de <see cref="CartService"/>.
+    /// Inicializa una nueva instancia del servicio de carrito.
     /// </summary>
+    /// <param name="productRepository">Repositorio de productos.</param>
+    /// <param name="cartRepository">Repositorio de carritos.</param>
+    /// <param name="userManager">Gestor de usuarios de ASP.NET Identity.</param>
+    /// <param name="stripeService">Servicio de pagos de Stripe.</param>
+    /// <param name="mailService">Servicio de envío de emails.</param>
+    /// <param name="logger">Logger para auditoría.</param>
     public CartService(
         IProductRepository productRepository,
         ICartRepository cartRepository,
@@ -50,6 +86,13 @@ public class CartService : ICartService
         }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Obtiene todas las líneas de venta filtradas por permisos.
+    /// </summary>
+    /// <remarks>
+    /// Delega al repositorio y envuelve el resultado en un PageResponseDto.
+    /// Calcula el total de páginas para la paginación.
+    /// </remarks>
     public async Task<PageResponseDto<SaleLineDto>> FindAllSalesAsLinesAsync(long? managerId, bool isAdmin, FilterDto filter)
         {
             _logger.LogInformation($"Buscando ventas - Manager: {managerId}, isAdmin: {isAdmin}");
@@ -74,12 +117,25 @@ public class CartService : ICartService
         }
         
     /// <inheritdoc/>
+    /// <summary>
+    /// Calcula las ganancias totales del sistema.
+    /// </summary>
+    /// <remarks>
+    /// Delega al repositorio. Solo considera carritos comprados.
+    /// </remarks>
     public async Task<double> CalculateTotalEarningsAsync(long? managerId, bool isAdmin)
         {
             return await _cartRepository.CalculateTotalEarningsAsync(managerId, isAdmin);
         }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Busca carritos con filtros y paginación.
+    /// </summary>
+    /// <remarks>
+    /// Aplica filtro por userId si se proporciona, filtra por purchased,
+    /// y convierte los modelos a DTOs.
+    /// </remarks>
     public async Task<PageResponseDto<CartResponseDto>> FindAllAsync(long? userId, bool purchased, FilterCartDto filter)
         {
             // Deconstruimos la tupla devuelta por el repositorio
@@ -108,6 +164,17 @@ public class CartService : ICartService
         }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Añade un producto al carrito con cantidad 1.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Busca el producto en el repositorio</item>
+    ///     <item>Crea una nueva CartLine con cantidad 1 y precio actual</item>
+    ///     <item>Añade la línea al carrito (o actualiza cantidad si ya existe)</item>
+    ///     <item>Recalcula los totales del carrito</item>
+    /// </list>
+    /// </remarks>
     public async Task<Result<CartResponseDto, DomainError>> AddProductAsync(string cartId, string productId)
         {
             _logger.LogInformation($"Añadiendo producto {productId} a {cartId}");
@@ -243,6 +310,21 @@ public class CartService : ICartService
         }
 
     /// <inheritdoc/>
+    /// <summary>
+    /// Procesa el checkout del carrito, iniciando el pago con Stripe.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Marca checkout como en progreso</item>
+    ///     <item>Carga datos del cliente desde el usuario</item>
+    ///     <item>Valida y resta stock con control de concurrencia (3 intentos)</item>
+    ///     <item>Crea sesión de checkout en Stripe</item>
+    ///     <item>Retorna URL de Stripe para completar pago</item>
+    /// </list>
+    /// 
+    /// <para><b>Control de concurrencia:</b></b>
+    /// Si el stock cambia entre la validación y la sustracción, reintenta hasta 3 veces.
+    /// </remarks>
     public async Task<Result<string, DomainError>> CheckoutAsync(string id)
         {
             var entity = await _cartRepository.FindCartByIdAsync(id);
@@ -449,7 +531,23 @@ public class CartService : ICartService
         return null;
     }
 
-    private async Task<Result<Models.Cart, DomainError>> RecalculateCartTotalsAsync(string cartId)
+        /// <summary>
+        /// Recalcula los valores TotalItems y Total de un carrito.
+        /// </summary>
+        /// <remarks>
+        /// Método auxiliar privado que:
+        /// <list type="bullet">
+        ///     <item>Obtiene el carrito por ID</item>
+        ///     <item>Suma las cantidades de líneas para TotalItems</item>
+        ///     <li>Suma TotalPrice de cada línea para Total</item>
+        ///     <li>Guarda solo los valores escalares (optimización)</item>
+        /// </list>
+        /// 
+        /// <para><b>Nota:</b></b>
+        /// Usa UpdateCartScalarsAsync en lugar de UpdateCartAsync para evitar
+        /// el bug donde Clear()+AddRange() borraba las líneas en EF Core.
+        /// </remarks>
+        private async Task<Result<Models.Cart, DomainError>> RecalculateCartTotalsAsync(string cartId)
         {
             var cart = await _cartRepository.FindCartByIdAsync(cartId);
             if (cart == null) return Result.Failure<Models.Cart, DomainError>(
@@ -465,6 +563,15 @@ public class CartService : ICartService
             return cart;
         }
 
+        /// <summary>
+        /// Crea un nuevo carrito vacío para un usuario.
+        /// </summary>
+        /// <param name="userId">ID del usuario.</param>
+        /// <returns>Result con el nuevo carrito creado o error.</returns>
+        /// <remarks>
+        /// Copia los datos del cliente desde el usuario. El nuevo carrito
+        /// se crea con Purchased=false, Total=0, TotalItems=0.
+        /// </remarks>
         private async Task<Result<Models.Cart, DomainError>> CreateNewCartAsync(long userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());

@@ -4,18 +4,37 @@ using Newtonsoft.Json;
 
 namespace dawazonBackend.Users.Dto;
 
+/// <summary>
+/// DTO para solicitudes de actualización de perfil de usuario.
+/// </summary>
+/// <remarks>
+/// Se utiliza en las solicitudes PUT/PATCH del perfil de usuario.
+/// Limpia automáticamente el teléfono de prefijos y caracteres especiales.
+/// </remarks>
 public class UserRequestDto
 {
+    /// <summary>
+    /// Nombre completo del usuario.
+    /// </summary>
     [Required]
     [MinLength(1, ErrorMessage = "El nombre es obligatorio")]
     public string Nombre { get; set; } = default!;
 
+    /// <summary>
+    /// Correo electrónico del usuario.
+    /// </summary>
     [Required]
     [EmailAddress]
     public string Email { get; set; } = default!;
 
     private string? _telefono;
 
+    /// <summary>
+    /// Teléfono del usuario (se limpia automáticamente).
+    /// </summary>
+    /// <remarks>
+    /// El setter elimina: espacios, guiones, paréntesis, prefijos (+34, 0034, 34).
+    /// </remarks>
     [RegularExpression(@"^(\d{9})?$", ErrorMessage = "El teléfono debe tener 9 dígitos o estar vacío")]
     public string? Telefono
     {
@@ -46,12 +65,28 @@ public class UserRequestDto
     }
 
     // Campos de dirección (opcionales)
+    
+    /// <summary>
+    /// Calle de la dirección.
+    /// </summary>
     [Required]
     public string Calle { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Ciudad de residencia.
+    /// </summary>
     [Required]
     public string Ciudad { get; set; }=string.Empty;
+    
+    /// <summary>
+    /// Código postal.
+    /// </summary>
     [Required]
     public string CodigoPostal { get; set; }=string.Empty;
+    
+    /// <summary>
+    /// Provincia o región.
+    /// </summary>
     [Required]
     public string Provincia { get; set; }=string.Empty;
 }

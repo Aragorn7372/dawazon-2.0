@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# CONFIGURACIÓN
+# CONFIGURACION
 BaseDir="$(cd "$(dirname "$0")" && pwd)"
 Env="Local"
 ReportsDir="$BaseDir/reports"
@@ -47,15 +47,15 @@ do
 
   if [ "$ExitCode" -ne 0 ]; then
     echo "Fallos en $Carpeta"
-    Estado="FALLÓ"
+    Estado="FALLO"
     FailCount=$((FailCount+1))
   else
     echo "$Carpeta OK"
-    Estado="PASÓ"
+    Estado="PASO"
   fi
 
   Resumen="$Resumen
-<div class=\"card $( [ "$Estado" = "PASÓ" ] && echo "pass" || echo "fail" )\">
+<div class=\"card $( [ "$Estado" = "PASO" ] && echo "pass" || echo "fail" )\">
 <h2>$Carpeta</h2>
 <p>Estado: <strong>$Estado</strong></p>
 <p><a href='report-$Carpeta.html' target='_blank'>Ver Reporte</a></p>

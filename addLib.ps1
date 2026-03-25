@@ -41,7 +41,7 @@ $packages = @(
     @{ Name="Microsoft.EntityFrameworkCore.Relational"; Version="10.0.2" },
     @{ Name="Microsoft.Extensions.Caching.StackExchangeRedis"; Version="10.0.2" },
     @{ Name="Microsoft.IdentityModel.Tokens"; Version="8.15.0" },
-    @{ Name="MimeKit"; Version="4.14.0" },
+    @{ Name="MimeKit"; Version="4.15.1" },
     @{ Name="Npgsql.EntityFrameworkCore.PostgreSQL"; Version="10.0.0" },
     @{ Name="Serilog"; Version="4.3.1-dev-02395" },
     @{ Name="Serilog.AspNetCore"; Version="10.0.0" },

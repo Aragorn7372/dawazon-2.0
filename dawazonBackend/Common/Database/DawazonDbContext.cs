@@ -8,15 +8,38 @@ using Microsoft.EntityFrameworkCore;
 namespace dawazonBackend.Common.Database;
 
 /// <summary>
-/// Contexto de base de datos para la aplicación ProductApi.
-/// Define las tablas, relaciones y datos iniciales (seeding).
+/// DbContext principal para la aplicación Dawazon.
 /// </summary>
+/// <remarks>
+/// Hereda de IdentityDbContext para integrar autenticación de ASP.NET Core.
+/// Configura las entidades del dominio, relaciones, y datos iniciales (seeding).
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Hereda de IdentityDbContext para gestión de usuarios y roles</item>
+///     <item>Entidades: Products, Categories, Carts</item>
+///     <item>Owned Types: Client y Address</item>
+///     <item>Seed data para desarrollo y testing</item>
+/// </list>
+/// </remarks>
 public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
     : IdentityDbContext<User, IdentityRole<long>, long>(options)
 {
     /// <summary>
-    /// Configura el modelo de datos, indices y datos iniciales.
+    /// Configura el modelo de datos: relaciones, índices, conversiones y datos iniciales.
     /// </summary>
+    /// <remarks>
+    /// <para><b>Configuraciones realizadas:</b></para>
+    /// <list type="number">
+    ///     <item>User.Client y User.Client.Address: Ownership anidado</item>
+    ///     <item>User.ProductsFavs: Conversión JSON</item>
+    ///     <item>Product.Images: Conversión JSON</item>
+    ///     <item>Product.Comments: Tabla separada ProductComments</item>
+    ///     <item>Product.Version: Token de concurrencia (optimistic locking)</item>
+    ///     <item>Cart.Client y Cart.Client.Address: Ownership anidado</item>
+    ///     <item>Cart.CartLines: Tabla separada con clave compuesta</item>
+    /// </list>
+    /// </remarks>
     /// <param name="modelBuilder">Constructor de modelos de EF Core.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -92,15 +115,35 @@ public class DawazonDbContext(DbContextOptions<DawazonDbContext> options)
     }
     
     
+    /// <summary>
+    /// DbSet para la tabla de Productos.
+    /// </summary>
     public DbSet<Product> Products { get; set; } = null!;
+    
+    /// <summary>
+    /// DbSet para la tabla de Categorías.
+    /// </summary>
     public DbSet<Category> Categorias { get; set; } = null!;
 
+    /// <summary>
+    /// DbSet para la tabla de Carritos de compra.
+    /// </summary>
     public DbSet<Cart.Models.Cart> Carts { get; set; } = null!;
     
         
     /// <summary>
-    /// Método privado para sembrar datos de prueba en la base de datos.
+    /// Sembrado de datos iniciales para pruebas y desarrollo.
     /// </summary>
+    /// <remarks>
+    /// <para><b>Datos sembrados:</b></para>
+    /// <list type="bullet">
+    ///     <item>3 Categorías: Figuras, Comics, Ropa</item>
+    ///     <item>13 Productos de ejemplo</item>
+    ///     <item>2 Carritos: uno comprado (CART00000001) y uno activo (CART00000002)</item>
+    ///     <item>Clientes y direcciones asociados</item>
+    ///     <item>Líneas de ejemplo</item>
+    /// </list>
+    /// </remarks>
     /// <param name="modelBuilder">Constructor de modelos.</param>
     private static void SeedData(ModelBuilder modelBuilder)
     {
