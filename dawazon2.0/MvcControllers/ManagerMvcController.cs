@@ -10,9 +10,23 @@ using Serilog;
 namespace dawazon2._0.MvcControllers;
 
 /// <summary>
-/// Controlador MVC para las funcionalidades del panel de manager.
-/// Solo accesible por usuarios con rol Manager.
+/// Controlador MVC para el panel de manager (vendedor).
 /// </summary>
+/// <remarks>
+/// Permite gestionar ventas de productos propios. Solo accesible para MANAGER.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>ICartService: Gestión de ventas</item>
+/// </list>
+/// 
+/// <para><b>Rutas:</b></para>
+/// <list type="bullet">
+///     <item>GET /manager/ventas - Lista de ventas</item>
+///     <item>GET /manager/ventas/{id}/editar/{productId} - Editar estado</item>
+///     <item>POST /manager/ventas/{id}/cancelar/{productId} - Cancelar venta</item>
+/// </list>
+/// </remarks>
 [Route("manager")]
 [Authorize(Roles = UserRoles.MANAGER)]
 public class ManagerMvcController(ICartService cartService) : Controller

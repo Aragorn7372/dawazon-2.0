@@ -7,15 +7,47 @@ using Serilog;
 namespace dawazon2._0.Infraestructures;
 
 /// <summary>
-/// Extensiones de configuración de autenticación y autorización JWT + Cookie.
+/// Configuración de autenticación híbrida JWT + Cookie.
 /// </summary>
+/// <remarks>
+/// Implementa autenticación dual para API (JWT) y MVC (Cookie).
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IConfiguration: Configuración (Jwt:Key, Issuer, Audience)</item>
+/// </list>
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>JWT para rutas /api/*</item>
+///     <item>Cookie para rutas MVC</li>
+///     <item>Expiración de cookie: 8 horas</li>
+/// </list>
+/// 
+/// <para><b>Configuración JWT:</b></para>
+/// <list type="bullet">
+///     <item>Validación de firma con clave simétrica</item>
+///     <item>Validación de issuer y audience</item>
+///     <item>Validación de lifetime</item>
+/// </list>
+/// </remarks>
 public static class AuthenticationConfig
 {
     private const string PolicyScheme = "PolicyScheme";
 
     /// <summary>
-    /// Configura autenticación JWT (para /api/*) y Cookie (para rutas MVC).
+    /// Configura autenticación JWT (API) y Cookie (MVC).
     /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>JWT Bearer para /api/*</item>
+    ///     <item>Identity Cookie para el resto</item>
+    ///     <item>Cookie: 8 horas con sliding expiration</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="services">Colección de servicios.</param>
+    /// <param name="configuration">Configuración de la app.</param>
+    /// <returns>IServiceCollection.</returns>
     public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         Log.Information("🔐 Configurando autenticación JWT...");

@@ -11,6 +11,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace dawazon2._0.RestControllers;
 
+/// <summary>
+/// Controlador API REST para la gestión del carrito y ventas.
+/// </summary>
+/// <remarks>
+/// Proporciona endpoints para operaciones del carrito de compras.
+/// 
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>ICartService: Lógica de negocio del carrito</item>
+///     <item>ILogger: Logging</item>
+/// </list>
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Gestión de productos en carrito</item>
+///     <item>Listado de ventas/compras</li>
+///     <item>Cancelación de ventas</item>
+/// </list>
+/// </remarks>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -18,12 +37,20 @@ public class CartController (
     ICartService service, 
     ILogger<CartController> logger) : ControllerBase
 {
-
+    /// <summary>
+    /// Obtiene todas las líneas de venta (para Admin).
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Requiere rol ADMIN</item>
+    ///     <item>Retorna todas las ventas del sistema</item>
+    /// </list>
+    /// </remarks>
+    /// <response code="200">Lista de líneas de venta.</response>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<SaleLineDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = UserRoles.ADMIN)]
-
     public async Task<IActionResult> GetSaleLinesAsync(
         [FromQuery] string sortBy = "id",
         [FromQuery] int page = 0,
@@ -36,6 +63,16 @@ public class CartController (
         
     }
     
+    /// <summary>
+    /// Obtiene los carritos comprados del usuario actual.
+    /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Requiere rol USER</item>
+    ///     <item>Retorna carritos completados</item>
+    /// </list>
+    /// </remarks>
+    /// <response code="200">Lista de carritos comprados.</response>
     [HttpGet("purchased")]
     [ProducesResponseType(typeof(IEnumerable<CartResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

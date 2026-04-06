@@ -8,9 +8,42 @@ using QuestPDF.Infrastructure;
 namespace dawazon2._0.Pdf;
 
 /// <summary>
-/// Implementación de <see cref="IOrderPdfService"/> usando QuestPDF.
-/// Construye un documento PDF estructurado con el resumen del pedido.
+/// Implementación del servicio de generación de PDFs de pedidos.
 /// </summary>
+/// <remarks>
+/// Usa la librería QuestPDF para generar documentos PDF estructurados.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>QuestPDF: Generación de PDFs</item>
+///     <item>CartOrderDetailViewModel: Datos del pedido</item>
+/// </list>
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Formato: A4</item>
+///     <item>Idioma: es-ES</item>
+///     <item>Licencia: Community (gratuita)</item>
+/// </list>
+/// 
+/// <para><b>Contenido del PDF:</b></para>
+/// <list type="bullet">
+///     <item>Encabezado: Dawazon - Resumen de pedido, ID, fecha</item>
+///     <item>Tabla de productos: nombre, cantidad, precio, subtotal, estado</item>
+///     <item>Dirección de envío</item>
+///     <item>Resumen económico: artículos, envío, total</item>
+///     <item>Footer: fecha de generación</item>
+/// </list>
+/// 
+/// <para><b>Colores:</b></para>
+/// <list type="bullet">
+///     <item>AccentRed: #b12704</item>
+///     <item>LightGrey: #f3f3f3</item>
+///     <item>BorderGrey: #dddddd</item>
+///     <item>TextGrey: #555555</item>
+///     <item>TextDark: #222222</item>
+/// </list>
+/// </remarks>
 public class OrderPdfService : IOrderPdfService
 {
     private static readonly string AccentRed  = "#b12704";
@@ -21,11 +54,15 @@ public class OrderPdfService : IOrderPdfService
 
     static OrderPdfService()
     {
-        // licencia de verga
         QuestPDF.Settings.License = LicenseType.Community;
     }
 
     /// <inheritdoc />
+    /// <summary>
+    /// Genera el PDF del pedido.
+    /// </summary>
+    /// <param name="order">ViewModel con los datos del pedido.</param>
+    /// <returns>Bytes del PDF generado.</returns>
     public Task<byte[]> GenerateOrderPdfAsync(CartOrderDetailViewModel order)
     {
         var culture = new CultureInfo("es-ES");

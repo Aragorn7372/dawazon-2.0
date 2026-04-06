@@ -12,12 +12,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace dawazon2._0.RestControllers;
 
 /// <summary>
-/// Proporciona endpoints API para la gestión de productos Producto Pop.
+/// Controlador API REST para la gestión de productos.
 /// </summary>
 /// <remarks>
-/// Este controlador maneja todas las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
-/// para los productos Producto, incluyendo la gestión de imágenes asociadas.
-/// Soporta operaciones con archivos mediante multipart/form-data para las imágenes de los productos.
+/// Maneja todas las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para productos.
+/// Soporta operaciones con archivos mediante multipart/form-data para imágenes.
+/// 
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IProductService: Lógica de negocio de productos</item>
+/// </list>
+/// 
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>CRUD completo de productos</item>
+///     <item>Gestión de imágenes (multipart/form-data)</item>
+///     <item>Paginación y filtros</item>
+///     <item>Autorización: Solo Managers pueden crear/editar</item>
+/// </list>
 /// </remarks>
 [ApiController]
 [Route("api/[controller]")]
@@ -25,16 +37,21 @@ namespace dawazon2._0.RestControllers;
 public class ProductsController(IProductService service) : ControllerBase
 {
     /// <summary>
-    /// Obtiene todos los productos Producto disponibles.
+    /// Obtiene todos los productos con paginación y filtros.
     /// </summary>
-    /// <returns>
-    /// Una colección de objetos <see cref="ProductResponseDto"/> que representan todos los productos Producto.
-    /// </returns>
-    /// <response code="200">Devuelve la lista completa de productos Producto.</response>
-    /// <response code="500">Si ocurre un error interno del servidor.</response>
-    /// <example>
-    /// GET /api/Productos
-    /// </example>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Recibe filtros: nombre, categoría, sortBy, page, size, direction</item>
+    ///     <item>Retorna PageResponseDto con lista de productos</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="nombre">Filtro opcional por nombre.</param>
+    /// <param name="categoria">Filtro opcional por categoría.</param>
+    /// <param name="sortBy">Campo de ordenación (default: id).</param>
+    /// <param name="page">Número de página (default: 0).</param>
+    /// <param name="size">Tamaño de página (default: 10).</param>
+    /// <param name="direction">Dirección de ordenación (default: asc).</param>
+    /// <response code="200">Lista de productos.</response>
     [HttpGet]
     [ProducesResponseType(typeof(PageResponseDto<ProductResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -51,18 +68,17 @@ public class ProductsController(IProductService service) : ControllerBase
     }
     
     /// <summary>
-    /// Obtiene un producto  específico por su identificador único.
+    /// Obtiene un producto específico por su ID.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto.</param>
-    /// <returns>
-    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  solicitado.
-    /// </returns>
-    /// <response code="200">Devuelve el producto  encontrado.</response>
-    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
-    /// <response code="500">Si ocurre un error interno del servidor.</response>
-    /// <example>
-    /// GET /api/Productos/123
-    /// </example>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Busca el producto por ID</item>
+    ///     <item>Retorna 404 si no existe</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="id">ID del producto.</param>
+    /// <response code="200">Producto encontrado.</response>
+    /// <response code="404">Producto no encontrado.</response>
     [HttpGet("{id:long}")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -79,29 +95,20 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Crea un nuevo producto  con imagen opcional.
+    /// Crea un nuevo producto con imagen opcional.
     /// </summary>
-    /// <param name="request">datos de producto</param>
-    /// <param name="file">Archivo de imagen opcional del producto. Formatos aceptados: JPG, PNG, GIF.</param>
-    /// <returns>
-    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  creado.
-    /// </returns>
-    /// <response code="201">El producto  se creó correctamente. Devuelve la ubicación del recurso en el header Location.</response>
-    /// <response code="400">Si los datos de entrada son inválidos, no cumplen las reglas de validación, o hay un error al procesar la imagen.</response>
-    /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
-    /// Este endpoint acepta datos en formato multipart/form-data para soportar la carga de archivos.
-    /// El archivo de imagen es opcional, pero si se proporciona, debe cumplir con las restricciones de tamaño y formato.
+    /// <list type="number">
+    ///     <item>Requiere rol MANAGER</item>
+    ///     <item>Acepta multipart/form-data</item>
+    ///     <item>Asigna CreatorId desde el token JWT</item>
+    /// </list>
     /// </remarks>
-    /// <example>
-    /// POST /api/Productos
-    /// Content-Type: multipart/form-data
-    /// 
-    /// nombre=Producto Pop Batman
-    /// price=29.99
-    /// categoria=DC Comics
-    /// file=[binary_image_data]
-    /// </example>
+    /// <param name="request">Datos del producto.</param>
+    /// <param name="file">Archivos de imagen (opcional).</param>
+    /// <response code="201">Producto creado.</response>
+    /// <response code="400">Datos inválidos.</response>
+    /// <response code="409">Conflicto (categoría no existe).</response>
     [HttpPost]
     [Consumes("multipart/form-data")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status201Created)]
@@ -130,32 +137,21 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Actualiza un producto  existente, incluyendo opcionalmente su imagen.
+    /// Actualiza un producto existente, incluyendo opcionalmente sus imágenes.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto  a actualizar.</param>
-    /// <param name="files">Archivo de imagen opcional para reemplazar la imagen actual. Formatos aceptados: JPG, PNG, GIF.</param>
-    /// <param name="request">datos de producto</param>
-    /// <returns>
-    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  actualizado.
-    /// </returns>
-    /// <response code="200">El producto  se actualizó correctamente.</response>
-    /// <response code="400">Si los datos de entrada son inválidos o hay un error al procesar la imagen.</response>
-    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
-    /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
-    /// Este endpoint acepta datos en formato multipart/form-data para soportar la actualización de archivos.
-    /// Si se proporciona un nuevo archivo de imagen, reemplazará la imagen anterior del producto.
-    /// Si no se proporciona archivo, se mantendrá la imagen existente.
+    /// <list type="number">
+    ///     <item>Requiere rol MANAGER</item>
+    ///     <item>Solo el creador puede editar</item>
+    ///     <item>Acepta multipart/form-data</item>
+    /// </list>
     /// </remarks>
-    /// <example>
-    /// PUT /api/Productos/123
-    /// Content-Type: multipart/form-data
-    /// 
-    /// nombre=Producto Pop Batman Actualizado
-    /// price=34.99
-    /// categoria=DC Comics
-    /// file=[binary_image_data]
-    /// </example>
+    /// <param name="id">ID del producto a actualizar.</param>
+    /// <param name="request">Datos del producto.</param>
+    /// <param name="files">Archivos de imagen (opcional).</param>
+    /// <response code="200">Producto actualizado.</response>
+    /// <response code="403">Forbidden (no eres el creador).</response>
+    /// <response code="404">Producto no encontrado.</response>
     [HttpPut("{id}")]
     [Consumes("multipart/form-data")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
@@ -202,22 +198,19 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     /// <summary>
-    /// Elimina un producto  existente del sistema.
+    /// Elimina un producto existente del sistema.
     /// </summary>
-    /// <param name="id">El identificador numérico único del producto  a eliminar.</param>
-    /// <returns>
-    /// Un objeto <see cref="ProductResponseDto"/> que representa el producto  eliminado.
-    /// </returns>
-    /// <response code="200">El producto  se eliminó correctamente.</response>
-    /// <response code="404">Si no se encuentra el producto  con el ID especificado.</response>
-    /// <response code="500">Si ocurre un error interno del servidor.</response>
     /// <remarks>
-    /// ADVERTENCIA: Esta operación es irreversible y también eliminará la imagen asociada al producto si existe.
-    /// Asegúrese de que el producto no tenga referencias pendientes en otros módulos del sistema antes de eliminarlo.
+    /// <list type="number">
+    ///     <item>Admin puede eliminar cualquier producto</item>
+    ///     <item>Manager solo puede eliminar sus propios productos</item>
+    ///     <item>Elimina también las imágenes asociadas</item>
+    /// </list>
     /// </remarks>
-    /// <example>
-    /// DELETE /api/Productos/123
-    /// </example>
+    /// <param name="id">ID del producto a eliminar.</param>
+    /// <response code="200">Producto eliminado.</response>
+    /// <response code="403">Forbidden.</response>
+    /// <response code="404">Producto no encontrado.</response>
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

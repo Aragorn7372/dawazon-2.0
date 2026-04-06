@@ -10,11 +10,31 @@ using dawazonBackend.Users.Service.Favs;
 
 namespace dawazon2._0.Infraestructures;
 
+/// <summary>
+/// Registro de servicios de negocio.
+/// </summary>
+/// <remarks>
+/// Registra todos los servicios de negocio en el contenedor DI.
+///
+/// <para><b>Servicios registrados:</b></para>
+/// <list type="bullet">
+///     <item>IAuthService - Autenticación</item>
+///     <item>IJwtService / JwtTokenExtractor - JWT</item>
+///     <item>IProductService - Productos</item>
+///     <item>IUserService - Usuarios</item>
+///     <item>ICartService - Carrito/Ventas</item>
+///     <item>IStripeService - Pagos</item>
+///     <item>IFavService - Favoritos</item>
+///     <item>IOrderPdfService - PDFs</item>
+/// </list>
+/// </remarks>
 public static class ServicesConfig
 {
     /// <summary>
-    /// Registra todos los servicios de negocio en el contenedor de dependencias.
+    /// Registra todos los servicios de negocio.
     /// </summary>
+    /// <param name="services">Colección de servicios.</param>
+    /// <returns>IServiceCollection.</returns>
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         Log.Information("⚙️ Registrando servicios...");

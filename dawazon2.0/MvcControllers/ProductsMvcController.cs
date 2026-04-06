@@ -15,8 +15,26 @@ namespace dawazon2._0.MvcControllers;
 
 /// <summary>
 /// Controlador MVC para la gestión de productos con vistas Razor.
-/// Equivalente MVC del <see cref="RestControllers.ProductsController"/> REST.
 /// </summary>
+/// <remarks>
+/// Equivalente MVC del REST controller. Proporciona vistas HTML para productos.
+/// 
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IProductService: Lógica de negocio</item>
+///     <item>UserManager: Gestión de usuarios</item>
+///     <item>ICartService: Carrito y favoritos</item>
+/// </list>
+/// 
+/// <para><b>Rutas:</b></para>
+/// <list type="bullet">
+///     <item>GET / - Lista de productos</item>
+///     <item>GET /{id} - Detalle de producto</item>
+///     <item>GET /crear - Formulario creación (Manager)</item>
+///     <item>GET /editar/{id} - Formulario edición</item>
+///     <item>POST /eliminar/{id} - Eliminar producto</item>
+/// </list>
+/// </remarks>
 [Route("")]
 [Route("productos")]
 public class ProductsMvcController(IProductService service, UserManager<User> userManager, ICartService cartService) : Controller

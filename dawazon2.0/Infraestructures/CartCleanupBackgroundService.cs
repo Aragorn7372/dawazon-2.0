@@ -3,11 +3,18 @@ using dawazonBackend.Cart.Service;
 namespace dawazon2._0.Infraestructures;
 
 /// <summary>
-/// Servicio en segundo plano que limpia periódicamente los carritos
-/// cuyo proceso de checkout lleva más de 5 minutos sin completarse.
-/// Equivalente C# del CartCleanupScheduler de Spring (@Scheduled).
-/// Se ejecuta cada 2 minutos.
+/// Servicio en segundo plano para limpieza de carritos expirados.
 /// </summary>
+/// <remarks>
+/// Limpia periódicamente los carritos cuyo checkout lleva más de 5 minutos sin completarse.
+///
+/// <para><b>Características:</b></para>
+/// <list type="bullet">
+///     <item>Intervalo: cada 2 minutos</item>
+///     <item>Expiración: 5 minutos</item>
+///     <item>Usa IServiceScopeFactory para servicios scoped</item>
+/// </list>
+/// </remarks>
 public class CartCleanupBackgroundService(
     IServiceScopeFactory scopeFactory,
     ILogger<CartCleanupBackgroundService> logger) : BackgroundService
@@ -18,6 +25,10 @@ public class CartCleanupBackgroundService(
     /// <summary>Tiempo máximo desde el inicio del checkout antes de considerar el carrito expirado.</summary>
     private const int ExpirationMinutes = 5;
 
+    /// <summary>
+    /// Ejecuta la limpieza de carritos expirados.
+    /// </summary>
+    /// <param name="stoppingToken">Token de cancelación.</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("CartCleanupBackgroundService iniciado (intervalo: {Interval} min, expiración: {Exp} min).",

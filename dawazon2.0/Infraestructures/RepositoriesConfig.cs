@@ -7,19 +7,27 @@ using Serilog;
 
 namespace dawazon2._0.Infraestructures;
 
+/// <summary>
+/// Registro de repositorios.
+/// </summary>
+/// <remarks>
+/// Registra los repositorios de acceso a datos en el contenedor DI.
+///
+/// <para><b>Repositorios registrados:</b></para>
+/// <list type="bullet">
+///     <item>ICategoriaRepository - Categorías</item>
+///     <item>IProductRepository - Productos</item>
+///     <item>UserManager - Usuarios</item>
+///     <item>ICartRepository - Carrito/Ventas</item>
+/// </list>
+/// </remarks>
 public static class RepositoriesConfig
 {
     /// <summary>
-    /// Registra todos los repositorios en el contenedor de dependencias.
-    /// 
-    /// <para>
-    /// El repositorio de pedidos se elige según configuration["Pedidos:RepositoryType"]:
-    /// <list type="bullet">
-    ///   <item><b>MongoDbNative:</b> Usa PedidosNativeRepository (driver nativo, funcional)</item>
-    ///   <item><b>MongoDbEfCore:</b> Usa PedidosEfCoreRepository (Entity Framework Core, tiene bug EF-272)</item>
-    /// </list>
-    /// </para>
+    /// Registra los repositorios.
     /// </summary>
+    /// <param name="services">Colección de servicios.</param>
+    /// <returns>IServiceCollection.</returns>
     public static IServiceCollection AddRepositories(
         this IServiceCollection services)
     {

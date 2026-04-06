@@ -14,8 +14,27 @@ namespace dawazon2._0.MvcControllers;
 
 /// <summary>
 /// Controlador MVC para la gestión del perfil del usuario y favoritos.
-/// Solo accesible por usuarios con rol User.
 /// </summary>
+/// <remarks>
+/// Maneja perfil, edición, eliminación de cuenta y favoritos. Solo accesible para USER.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IUserService: Gestión de usuarios</item>
+///     <item>IFavService: Gestión de favoritos</item>
+///     <item>UserManager/SignInManager: Autenticación</item>
+/// </list>
+/// 
+/// <para><b>Rutas:</b></para>
+/// <list type="bullet">
+///     <item>GET /perfil - Ver perfil</item>
+///     <item>GET /perfil/editar - Editar perfil</item>
+///     <item>POST /perfil/eliminar - Eliminar cuenta</item>
+///     <item>GET /perfil/favoritos - Lista de favoritos</item>
+///     <item>POST /perfil/favoritos/add/{id} - Añadir fav</item>
+///     <item>POST /perfil/favoritos/remove/{id} - Quitar fav</item>
+/// </list>
+/// </remarks>
 [Route("perfil")]
 [Authorize(Roles = UserRoles.USER)]
 public class UserMvcController(

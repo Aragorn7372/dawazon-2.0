@@ -2,13 +2,41 @@
 
 namespace dawazon2._0.Infraestructures;
 
+/// <summary>
+/// Configuración de políticas CORS.
+/// </summary>
+/// <remarks>
+/// Define políticas CORS según el entorno de ejecución.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IConfiguration: Configuración de la aplicación</item>
+/// </list>
+/// 
+/// <para><b>Políticas:</b></para>
+/// <list type="bullet">
+///     <item>Desarrollo (AllowAll): localhost:5000, 5001, 7000, 7001 con credenciales</item>
+///     <item>Producción (ProductionPolicy): Orígenes configurados en Cors:AllowedOrigins</item>
+/// </list>
+/// 
+/// <para><b>Nota:</b></para>
+/// SignalR (Blazor) requiere AllowCredentials(), incompatible con AllowAnyOrigin().
+/// </remarks>
 public static class CorsConfig
 {
     /// <summary>
     /// Configura la política CORS según el entorno.
-    /// Desarrollo: AllowAll (permite todo)
-    /// Producción: Solo orígenes configurados en Cors:AllowedOrigins
     /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    ///     <item>Desarrollo: política "AllowAll" con orígenes localhost</item>
+    ///     <item>Producción: política "ProductionPolicy" con orígenes configurables</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="services">Colección de servicios.</param>
+    /// <param name="configuration">Configuración de la app.</param>
+    /// <param name="isDevelopment">Indica si es entorno de desarrollo.</param>
+    /// <returns>IServiceCollection.</returns>
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
     {
         Log.Information("Configurando CORS para {Environment}...", isDevelopment ? "DESARROLLO" : "PRODUCCIÓN");

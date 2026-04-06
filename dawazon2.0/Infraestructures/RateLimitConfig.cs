@@ -2,11 +2,33 @@
 
 namespace dawazon2._0.Infraestructures;
 
+/// <summary>
+/// Configuración de Rate Limiting.
+/// </summary>
+/// <remarks>
+/// Protege la API de ataques de fuerza bruta y abuso.
+///
+/// <para><b>Reglas:</b></para>
+/// <list type="bullet">
+///     <item>General: 100 req/15s</item>
+///     <item>Auth: 10 req/min</item>
+///     <item>Escritura POST: 20 req/min</item>
+///     <item>GraphQL: 200 req/min</item>
+/// </list>
+/// 
+/// <para><b>Configuración:</b></para>
+/// <list type="bullet">
+///     <item>EnableEndpointRateLimiting: true</item>
+///     <item>HttpStatusCode: 429</item>
+/// </list>
+/// </remarks>
 public static class RateLimitConfig
 {
     /// <summary>
-    /// Configura Rate Limiting con reglas por defecto.
+    /// Configura las políticas de rate limiting.
     /// </summary>
+    /// <param name="services">Colección de servicios.</param>
+    /// <returns>IServiceCollection.</returns>
     public static IServiceCollection AddRateLimitingPolicy(this IServiceCollection services)
     {
         services.AddMemoryCache();
@@ -57,6 +79,8 @@ public static class RateLimitConfig
     /// <summary>
     /// Aplica el middleware de Rate Limiting.
     /// </summary>
+    /// <param name="app">Constructor de la aplicación.</param>
+    /// <returns>IApplicationBuilder.</returns>
     public static IApplicationBuilder UseRateLimiting(this IApplicationBuilder app)
     {
         app.UseIpRateLimiting();

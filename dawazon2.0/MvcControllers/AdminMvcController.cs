@@ -13,9 +13,26 @@ using Microsoft.AspNetCore.Identity;
 namespace dawazon2._0.MvcControllers;
 
 /// <summary>
-/// Controlador MVC para las funcionalidades del panel de administración.
-/// Solo accesible por usuarios con rol Admin.
+/// Controlador MVC para el panel de administración.
 /// </summary>
+/// <remarks>
+/// Proporciona vistas para gestionar usuarios y ventas. Solo accesible para ADMIN.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>IUserService: Gestión de usuarios</item>
+///     <item>ICartService: Gestión de ventas</item>
+///     <item>UserManager: Datos de usuario</item>
+/// </list>
+/// 
+/// <para><b>Rutas:</b></para>
+/// <list type="bullet">
+///     <item>GET /admin/usuarios - Lista de usuarios</item>
+///     <item>GET /admin/usuarios/{id} - Detalle de usuario</item>
+///     <item>GET /admin/ventas - Lista de ventas</item>
+///     <item>GET /admin/estadisticas - Estadísticas</item>
+/// </list>
+/// </remarks>
 [Route("admin")]
 [Authorize(Roles = UserRoles.ADMIN)]
 public class AdminMvcController(IUserService userService, ICartService cartService, UserManager<User> userManager) : Controller

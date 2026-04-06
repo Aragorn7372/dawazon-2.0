@@ -4,8 +4,32 @@ using Microsoft.AspNetCore.Identity;
 
 namespace dawazon2._0.Infraestructures;
 
+/// <summary>
+/// Siembra de datos iniciales de Identity.
+/// </summary>
+/// <remarks>
+/// Crea roles y usuarios por defecto si no existen.
+///
+/// <para><b>Roles creados:</b></para>
+/// <list type="bullet">
+///     <item>Admin</item>
+///     <item>User</item>
+///     <item>Manager</item>
+/// </list>
+/// 
+/// <para><b>Usuarios por defecto:</b></para>
+/// <list type="bullet">
+///     <item>admin@admin.com / Admin123! (rol Admin)</item>
+///     <item>user@user.com / User123! (rol User)</item>
+///     <item>manager@manager.com / Manager123! (rol Manager)</item>
+/// </list>
+/// </remarks>
 public static class IdentitySeeder
 {
+    /// <summary>
+    /// Siembra roles y usuarios iniciales.
+    /// </summary>
+    /// <param name="app">Aplicación web.</param>
     public static async Task SeedIdentityAsync(this WebApplication app)
     {
         using (var scope = app.Services.CreateScope())

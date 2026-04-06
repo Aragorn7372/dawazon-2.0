@@ -15,8 +15,26 @@ namespace dawazon2._0.MvcControllers;
 
 /// <summary>
 /// Controlador MVC para la sección "Mis Pedidos" del usuario.
-/// Muestra los carritos ya comprados (Purchased = true) del usuario autenticado.
 /// </summary>
+/// <remarks>
+/// Maneja el carrito de compras, checkout con Stripe, y descarga de PDFs.
+///
+/// <para><b>Dependencias:</b></para>
+/// <list type="bullet">
+///     <item>ICartService: Lógica del carrito</item>
+///     <item>UserManager: Datos del usuario</item>
+///     <item>IOrderPdfService: Generación de PDFs</item>
+/// </list>
+/// 
+/// <para><b>Rutas:</b></para>
+/// <list type="bullet">
+///     <item>GET /pedidos - Lista de pedidos</item>
+///     <item>GET /pedidos/carrito - Carrito activo</item>
+///     <item>GET /pedidos/{id} - Detalle de pedido</item>
+///     <item>GET /pedidos/checkout - Checkout (Stripe)</item>
+///     <item>GET /pedidos/{id}/pdf - Descargar PDF</item>
+/// </list>
+/// </remarks>
 [Route("pedidos")]
 [Authorize(Roles = UserRoles.USER)]
 public class CartMvcController(
